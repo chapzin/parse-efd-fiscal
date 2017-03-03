@@ -41,7 +41,7 @@ type RegC170 struct {
 	VlBcCofins float64	`gorm:"type:decimal(19,2)"`
 	AliqCofins01 float64	`gorm:"type:decimal(8,4)"`
 	QuantBcCofins float64	`gorm:"type:decimal(19,3)"`
-	AliqCofins02 string	`gorm:"type:decimal(8,4)"`
+	AliqCofins02 float64	`gorm:"type:decimal(8,4)"`
 	VlCofins float64	`gorm:"type:decimal(19,2)"`
 	CodCta string
 	EntradaSaida string  	`gorm:"type:varchar(1)"`// Se for entrada 0, se for saida 1

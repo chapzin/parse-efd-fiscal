@@ -3,32 +3,31 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"model/Bloco0"
+	"./model/Bloco0"
 	"os"
 	"strings"
-	"model/BlocoC"
-	"model/BlocoH"
+	"./model/BlocoC"
+	"./model/BlocoH"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/sirupsen/logrus"
-	"Util"
 	"github.com/jinzhu/gorm"
-	"flag"
+	"time"
+	"./limpaSped"
+
+	"strconv"
 )
 var db, err = gorm.Open("mysql","root@/auditoria2?charset=utf8")
 
 var count0000, count0190, count0200, countC100, countC170 int
 var literalLines []string
-var reg0220slice []Bloco0.Reg0220
-var regC100slice []BlocoC.RegC100
-var regC170slice []BlocoC.RegC170
-var regH010slice []BlocoH.RegH010
 var regC100 BlocoC.RegC100
 var reg0000 Bloco0.Reg0000
 
+
+
+
 func main() {
-
-
-
+	// TODO -- Criar leitura de uma pasta todos arquivos txt e processar os speds
 	file, err := os.Open("./sped.txt")
 	checkErr(err)
 	defer file.Close()
@@ -39,23 +38,26 @@ func main() {
 		literalLines = append(literalLines, scanner.Text())
 	}
 
-
-
-
 	// busca linha
 	for _, line := range literalLines {
+		//line = strings.Replace(line,",",".",-1)
 		ln := strings.Split(line, "|")
 		// quando importado mesmo arquivo ele remove os dados
 		if ln[1]== "0000" {
-			util.LimpaSped("0000",ln[4],ln[5],ln[7])
-			util.LimpaSped("0190",ln[4],ln[5],ln[7])
-			util.LimpaSped("0200",ln[4],ln[5],ln[7])
+
+			limpaSped.LimpaSped("0000",ln[4],ln[5],ln[7])
+			limpaSped.LimpaSped("0190",ln[4],ln[5],ln[7])
+			limpaSped.LimpaSped("0200",ln[4],ln[5],ln[7])
+			//CodFin :=
+			fmt.Println(ln[3])
+
 		}
 		trataLinha(ln[1], line)
 
 	}
 
 	fmt.Println("Total de registro 0000: ",count0000)
+	fmt.Println("Total de registro 0150: ",count0000)
 	fmt.Println("Total de registro 0190: ",count0190)
 	fmt.Println("Total de registro 0200: ",count0200)
 	fmt.Println("Total de registro de entrada: ", countC100)
@@ -63,10 +65,26 @@ func main() {
 
 }
 
+func convInt (string string) int {
+	inteiro, err := strconv.Atoi(string)
+	if err != nil {
+		return 0
+	}
+	return inteiro
+}
+
+func convFloat (string string) float64 {
+	float, err := strconv.ParseFloat(string,64)
+	if err != nil {
+		return 0
+	}
+	return float
+}
+
 func checkErr(err error) {
 	if err != nil {
 	logrus.Warn(err)
-	bufio.NewReader(os.Stdin).ReadBytes('\n')
+	//bufio.NewReader(os.Stdin).ReadBytes('\n')
 	}
 }
 
@@ -82,12 +100,15 @@ func trataLinha(ln1 string, linha string) {
 	switch ln1 {
 	case "0000":
 		ln := strings.Split(linha, "|")
+		const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+		DtIni, _ := time.Parse(longForm, dataSpedMysql(ln[4]))
+		DtFin, _ := time.Parse(longForm, dataSpedMysql(ln[5]))
 		reg0000 = Bloco0.Reg0000{
 			Reg:		ln[1],
 			CodVer:		ln[2],
-			CodFin:		ln[3],
-			DtIni:		dataSpedMysql(ln[4]),
-			DtFin:		dataSpedMysql(ln[5]),
+			CodFin:		convInt(ln[3]),
+			DtIni:		DtIni,
+			DtFin:		DtFin,
 			Nome:		ln[6],
 			Cnpj:		ln[7],
 			Cpf:		ln[8],
@@ -97,11 +118,11 @@ func trataLinha(ln1 string, linha string) {
 			Im:		ln[12],
 			Suframa:	ln[13],
 			IndPerfil:	ln[14],
-			IndAtiv:	ln[15],
+			IndAtiv:	convInt(ln[15]),
 		}
-
+		db.NewRecord(reg0000)
+		db.Create(&reg0000)
 		count0000++
-
 	case "0001":
 		fmt.Println(linha)
 	case "0005":
@@ -111,7 +132,25 @@ func trataLinha(ln1 string, linha string) {
 	case "0100":
 		fmt.Println(linha)
 	case "0150":
-		fmt.Println(linha)
+		ln := strings.Split(linha, "|")
+		reg0150 := Bloco0.Reg0150{
+			Reg : ln[1],
+			CodPart : ln[2],
+			Nome : ln[3],
+			CodPais : ln[4],
+			Cnpj : ln[5],
+			Cpf : ln[6],
+			Ie : ln[7],
+			CodMun : ln[8],
+			Suframa : ln[9],
+			Endereco : ln[10],
+			Num : ln[11],
+			Compl : ln[12],
+			Bairro : ln[13],
+		}
+		db.NewRecord(reg0150)
+		db.Create(&reg0150)
+
 	case "0190":
 		ln := strings.Split(linha, "|")
 
@@ -123,13 +162,9 @@ func trataLinha(ln1 string, linha string) {
 			DtFin:	reg0000.DtFin,
 			Cnpj:	reg0000.Cnpj,
 		}
-		//_, err = db.Exec("INSERT INTO reg_0190 (REG,UNID,DESCR,DT_INI,DT_FIN,CNPJ) VALUES (?,?,?,?,?,?)", reg0190.Reg, reg0190.Unid, reg0190.Descr, reg0190.DtIni, reg0190.DtFin, reg0190.Cnpj)
-		checkErr(err)
+		db.NewRecord(reg0190)
+		db.Create(&reg0190)
 		count0190++
-
-		// Listando em json
-		// reg190Json, _ := json.Marshal(reg0190)
-
 	case "0200":
 		ln := strings.Split(linha, "|")
 		reg0200 := Bloco0.Reg0200{
@@ -144,13 +179,13 @@ func trataLinha(ln1 string, linha string) {
 			ExIpi:      ln[9],
 			CodGen:     ln[10],
 			CodLst:     ln[11],
-			AliqIcms:   ln[12],
+			AliqIcms:   convFloat(ln[12]),
 			DtIni: reg0000.DtIni,
 			DtFin: reg0000.DtFin,
 			Cnpj: reg0000.Cnpj,
 		}
-		//_, err := db.Exec("INSERT INTO reg_0200 (REG,COD_ITEM,DESCR_ITEM,COD_BARRA,COD_ANT_ITEM,UNID_INV,TIPO_ITEM,COD_NCM,EX_IPI,COD_GEN,COD_LST,ALIQ_ICMS,DT_INI,DT_FIN,CNPJ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",reg0200.Reg,reg0200.CodItem,reg0200.DescrItem,reg0200.CodBarra,reg0200.CodAntItem,reg0200.UnidInv,reg0200.TipoItem,reg0200.CodNcm,reg0200.ExIpi,reg0200.CodGen,reg0200.CodLst,reg0200.AliqIcms,reg0200.DtIni,reg0200.DtFin,reg0200.Cnpj)
-		checkErr(err)
+		db.NewRecord(reg0200)
+		db.Create(&reg0200)
 		count0200++
 	case "0205":
 		fmt.Println(linha)
@@ -163,9 +198,14 @@ func trataLinha(ln1 string, linha string) {
 		reg0220 := Bloco0.Reg0220{
 			Reg: ln[1],
 			UnidConv: ln[2],
-			FatConv: ln[3],
+			FatConv: convFloat(ln[3]),
+			DtIni: reg0000.DtIni,
+			DtFin: reg0000.DtFin,
+			Cnpj: reg0000.Cnpj,
 		}
-		reg0220slice = append(reg0220slice, reg0220)
+		db.NewRecord(reg0220)
+		db.Create(&reg0220)
+
 	case "0300":
 		fmt.Println(linha)
 	case "0305":
@@ -186,6 +226,12 @@ func trataLinha(ln1 string, linha string) {
 		fmt.Println(linha)
 	case "C100":
 		ln := strings.Split(linha,"|")
+		const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+		DtDoc, err := time.Parse(longForm, dataSpedMysql(ln[10]))
+		checkErr(err)
+		DtES, err2 := time.Parse(longForm, dataSpedMysql(ln[11]))
+		checkErr(err2)
+		fmt.Println("Quantidade registros C100:",len(ln))
 		regC100 =BlocoC.RegC100{
 			Reg : ln[1],
 			IndOper : ln[2],
@@ -196,29 +242,34 @@ func trataLinha(ln1 string, linha string) {
 			Ser : ln[7],
 			NumDoc : ln[8],
 			ChvNfe : ln[9],
-			DtDoc : ln[10],
-			DtES : ln[11],
-			VlDoc : ln[12],
+			DtDoc : DtDoc,
+			DtES : DtES,
+			VlDoc : convFloat(ln[12]),
 			IndPgto : ln[13],
-			VlDesc : ln[14],
-			VlAbatNt : ln[15],
-			VlMerc : ln[16],
+			VlDesc : convFloat(ln[14]),
+			VlAbatNt : convFloat(ln[15]),
+			VlMerc : convFloat(ln[16]),
 			IndFrt : ln[17],
-			VlFrt : ln[18],
-			VlSeg : ln[19],
-			VlOutDa : ln[20],
-			VlBcIcms : ln[21],
-			VlIcms : ln[22],
-			VlBcIcmsSt : ln[23],
-			VlIcmsSt : ln[24],
-			VlIpi : ln[25],
-			VlPis : ln[26],
-			VlCofins : ln[27],
-			VlPisSt : ln[28],
-			VlCofinsSt : ln[29],
+			VlFrt : convFloat(ln[18]),
+			VlSeg : convFloat(ln[19]),
+			VlOutDa : convFloat(ln[20]),
+			VlBcIcms : convFloat(ln[21]),
+			VlIcms : convFloat(ln[22]),
+			VlBcIcmsSt : convFloat(ln[23]),
+			VlIcmsSt : convFloat(ln[24]),
+			VlIpi : convFloat(ln[25]),
+			VlPis : convFloat(ln[26]),
+			VlCofins : convFloat(ln[27]),
+			VlPisSt : convFloat(ln[28]),
+			VlCofinsSt : convFloat(ln[29]),
+			DtIni: reg0000.DtIni,
+			DtFin: reg0000.DtFin,
+			Cnpj: reg0000.Cnpj,
 		}
-		regC100slice = append(regC100slice, regC100)
 		countC100++
+		db.NewRecord(regC100)
+		db.Create(regC100)
+
 	case "C101":
 		fmt.Println(linha)
 	case "C105":
@@ -251,50 +302,54 @@ func trataLinha(ln1 string, linha string) {
 		fmt.Println(linha)
 	case "C170":
 		ln := strings.Split(linha, "|")
+		fmt.Println("Quantidade registros C170:",len(ln))
 		regC170 := BlocoC.RegC170{
 			Reg: ln[1],
 			NumItem: ln[2],
 			CodItem : ln[3],
 			DescrCompl : ln[4],
-			Qtd : ln[5],
+			Qtd : convFloat(ln[5]),
 			Unid : ln[6],
-			VlItem : ln[7],
-			VlDesc : ln[8],
+			VlItem : convFloat(ln[7]),
+			VlDesc : convFloat(ln[8]),
 			IndMov : ln[9],
 			CstIcms : ln[10],
 			Cfop : ln[11],
 			CodNat : ln[12],
-			VlBcIcms : ln[13],
-			AliqIcms : ln[14],
-			VlIcms : ln[15],
-			VlBcIcmsSt : ln[16],
-			AliqSt : ln[17],
-			VlIcmsSt : ln[18],
+			VlBcIcms : convFloat(ln[13]),
+			AliqIcms : convFloat(ln[14]),
+			VlIcms : convFloat(ln[15]),
+			VlBcIcmsSt : convFloat(ln[16]),
+			AliqSt : convFloat(ln[17]),
+			VlIcmsSt : convFloat(ln[18]),
 			IndApur : ln[19],
 			CstIpi : ln[20],
 			CodEnq : ln[21],
-			VlBcIpi : ln[22],
-			AliqIpi : ln[23],
-			VlIpi : ln[24],
+			VlBcIpi : convFloat(ln[22]),
+			AliqIpi : convFloat(ln[23]),
+			VlIpi : convFloat(ln[24]),
 			CstPis : ln[25],
-			VlBcPis : ln[26],
-			AliqPis01 : ln[27],
-			QuantBcPis : ln[28],
-			AliqPis02 : ln[29],
-			VlPis : ln[30],
+			VlBcPis : convFloat(ln[26]),
+			AliqPis01 : convFloat(ln[27]),
+			QuantBcPis : convFloat(ln[28]),
+			AliqPis02 : convFloat(ln[29]),
+			VlPis : convFloat(ln[30]),
 			CstCofins : ln[31],
-			VlBcCofins : ln[32],
-			AliqCofins01 : ln[33],
-			QuantBcCofins : ln[34],
-			AliqCofins02 : ln[35],
-			VlCofins : ln[36],
+			VlBcCofins : convFloat(ln[32]),
+			AliqCofins01 : convFloat(ln[33]),
+			QuantBcCofins : convFloat(ln[34]),
+			AliqCofins02 : convFloat(ln[35]),
+			VlCofins : convFloat(ln[36]),
 			CodCta : ln[37],
 			EntradaSaida: regC100.IndOper,
 			NumDoc: regC100.NumDoc,
+			DtIni: reg0000.DtIni,
+			DtFin: reg0000.DtFin,
+			Cnpj: reg0000.Cnpj,
 
 		}
-		regC170slice = append(regC170slice, regC170)
-		fmt.Println(linha)
+		db.NewRecord(regC170)
+		db.Create(regC170)
 		countC170++
 	case "C171":
 		fmt.Println(linha)
@@ -536,16 +591,20 @@ func trataLinha(ln1 string, linha string) {
 			Reg : ln[1],
 			CodItem : ln[2],
 			Unid : ln[3],
-			Qtd : ln[4],
-			VlUnit : ln[5],
-			VlItem : ln[6],
+			Qtd : convFloat(ln[4]),
+			VlUnit : convFloat(ln[5]),
+			VlItem : convFloat(ln[6]),
 			IndProp : ln[7],
 			CodPart : ln[8],
 			TxtCompl : ln[9],
 			CodCta : ln[10],
-			VlItemIr : ln[11],
+			VlItemIr : convFloat(ln[11]),
+			DtIni: reg0000.DtIni,
+			DtFin: reg0000.DtFin,
+			Cnpj: reg0000.Cnpj,
 		}
-		regH010slice = append(regH010slice, regH010)
+		db.NewRecord(regH010)
+		db.Create(regH010)
 		fmt.Println(linha)
 	case "H020":
 		fmt.Println(linha)

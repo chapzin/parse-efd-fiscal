@@ -1,7 +1,7 @@
 package main
 
 import (
-	"createMigration"
+	"./createMigration"
 	"flag"
 	"fmt"
 )
