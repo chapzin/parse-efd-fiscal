@@ -55,3 +55,5 @@ type RegC170 struct {
 func (RegC170) TableName() string {
 	return "reg_c170"
 }
+
+

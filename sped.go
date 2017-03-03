@@ -12,6 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"Util"
 	"github.com/jinzhu/gorm"
+	"flag"
 )
 var db, err = gorm.Open("mysql","root@/auditoria2?charset=utf8")
 
@@ -25,6 +26,9 @@ var regC100 BlocoC.RegC100
 var reg0000 Bloco0.Reg0000
 
 func main() {
+
+
+
 	file, err := os.Open("./sped.txt")
 	checkErr(err)
 	defer file.Close()
@@ -78,7 +82,6 @@ func trataLinha(ln1 string, linha string) {
 	switch ln1 {
 	case "0000":
 		ln := strings.Split(linha, "|")
-
 		reg0000 = Bloco0.Reg0000{
 			Reg:		ln[1],
 			CodVer:		ln[2],
@@ -96,8 +99,7 @@ func trataLinha(ln1 string, linha string) {
 			IndPerfil:	ln[14],
 			IndAtiv:	ln[15],
 		}
-		//_, err = db.Exec("INSERT INTO reg_0000 (REG,COD_VER,COD_FIN,DT_INI,DT_FIN,NOME,CNPJ,CPF,UF,IE,COD_MUN,IM,SUFRAMA,IND_PERFIL,IND_ATIV) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",reg0000.Reg,reg0000.CodVer,reg0000.CodFin,reg0000.DtIni,reg0000.DtFin,reg0000.Nome,reg0000.Cnpj,reg0000.Cpf,reg0000.Uf,reg0000.Ie,reg0000.CodMun,reg0000.Im,reg0000.Suframa,reg0000.IndPerfil,reg0000.IndAtiv)
-		checkErr(err)
+
 		count0000++
 
 	case "0001":
