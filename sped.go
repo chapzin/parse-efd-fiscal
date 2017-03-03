@@ -40,7 +40,7 @@ func main() {
 
 	// busca linha
 	for _, line := range literalLines {
-		//line = strings.Replace(line,",",".",-1)
+		line = strings.Replace(line,",",".",-1)
 		ln := strings.Split(line, "|")
 		// quando importado mesmo arquivo ele remove os dados
 		if ln[1]== "0000" {
@@ -89,26 +89,37 @@ func checkErr(err error) {
 }
 
 func dataSpedMysql(dtsped string) string  {
-	dia := dtsped[0:2]
-	mes := dtsped[2:4]
-	ano := dtsped[4:8]
-	dtmysql := ano+ "-"+ mes + "-" + dia
-	return dtmysql
+	if dtsped != "" {
+		dia := dtsped[0:2]
+		mes := dtsped[2:4]
+		ano := dtsped[4:8]
+		dtmysql := ano+ "-"+ mes + "-" + dia
+		return dtmysql
+	}
+	return ""
+}
+
+func convertData(string string) time.Time {
+	const longForm = "2006-01-02"
+	DtIni, err := time.Parse(longForm, dataSpedMysql(string))
+	if err !=nil {
+		DtIni, _ := time.Parse(longForm, dataSpedMysql("1960-01-01"))
+		return DtIni
+	}
+	return DtIni
+
 }
 
 func trataLinha(ln1 string, linha string) {
 	switch ln1 {
 	case "0000":
 		ln := strings.Split(linha, "|")
-		const longForm = "Jan 2, 2006 at 3:04pm (MST)"
-		DtIni, _ := time.Parse(longForm, dataSpedMysql(ln[4]))
-		DtFin, _ := time.Parse(longForm, dataSpedMysql(ln[5]))
 		reg0000 = Bloco0.Reg0000{
 			Reg:		ln[1],
 			CodVer:		ln[2],
 			CodFin:		convInt(ln[3]),
-			DtIni:		DtIni,
-			DtFin:		DtFin,
+			DtIni:		convertData(ln[4]),
+			DtFin:		convertData(ln[5]),
 			Nome:		ln[6],
 			Cnpj:		ln[7],
 			Cpf:		ln[8],
@@ -226,12 +237,6 @@ func trataLinha(ln1 string, linha string) {
 		fmt.Println(linha)
 	case "C100":
 		ln := strings.Split(linha,"|")
-		const longForm = "Jan 2, 2006 at 3:04pm (MST)"
-		DtDoc, err := time.Parse(longForm, dataSpedMysql(ln[10]))
-		checkErr(err)
-		DtES, err2 := time.Parse(longForm, dataSpedMysql(ln[11]))
-		checkErr(err2)
-		fmt.Println("Quantidade registros C100:",len(ln))
 		regC100 =BlocoC.RegC100{
 			Reg : ln[1],
 			IndOper : ln[2],
@@ -242,8 +247,8 @@ func trataLinha(ln1 string, linha string) {
 			Ser : ln[7],
 			NumDoc : ln[8],
 			ChvNfe : ln[9],
-			DtDoc : DtDoc,
-			DtES : DtES,
+			DtDoc : convertData(ln[10]),
+			DtES : convertData(ln[11]),
 			VlDoc : convFloat(ln[12]),
 			IndPgto : ln[13],
 			VlDesc : convFloat(ln[14]),
@@ -268,7 +273,7 @@ func trataLinha(ln1 string, linha string) {
 		}
 		countC100++
 		db.NewRecord(regC100)
-		db.Create(regC100)
+		db.Create(&regC100)
 
 	case "C101":
 		fmt.Println(linha)
@@ -349,7 +354,7 @@ func trataLinha(ln1 string, linha string) {
 
 		}
 		db.NewRecord(regC170)
-		db.Create(regC170)
+		db.Create(&regC170)
 		countC170++
 	case "C171":
 		fmt.Println(linha)
