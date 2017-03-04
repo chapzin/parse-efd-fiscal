@@ -6,20 +6,19 @@ import (
 	"strings"
 	"github.com/chapzin/parse-efd-fiscal/SpedError"
 	"github.com/chapzin/parse-efd-fiscal/SpedExec"
-//	_ "github.com/go-sql-driver/mysql"
-	_ "github.com/lib/pq"
+	_ "github.com/go-sql-driver/mysql"
+//	_ "github.com/lib/pq"
 	"github.com/jinzhu/gorm"
 
-	"github.com/chapzin/parse-efd-fiscal/SpedFlag"
 )
 
 var literalLines []string
 
 func main() {
 
-	if SpedFlag.SpedFlag() {
-		// db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
-		db, err := gorm.Open("postgres", "postgresql://chapzin@192.168.99.100:26257/auditoria?sslmode=disable")
+
+		 db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
+		//db, err := gorm.Open("postgres", "postgresql://chapzin@192.168.99.100:26257/auditoria?sslmode=disable")
 		defer db.Close()
 		SpedError.CheckErr(err)
 		// TODO -- Criar leitura de uma pasta todos arquivos txt e processar os speds
@@ -35,11 +34,10 @@ func main() {
 
 		// busca linha
 		for _, line := range literalLines {
-			line = strings.Replace(line,",",".",-1)
+			line = strings.Replace(line, ",", ".", -1)
 			ln := strings.Split(line, "|")
 			SpedExec.TrataLinha(ln[1], line, *db)
 
 		}
 	}
 
-}

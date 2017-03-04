@@ -5,31 +5,26 @@ import (
 	"flag"
 	"fmt"
 )
-
-func SpedFlag() bool{
+// TODO verificar como adicionar essa funcao no main
+func Schema(){
 
 	create := flag.Bool("create",false, "cria tabela")
 	drop := flag.Bool("drop", false, "Dropa Tabela")
 
 	flag.Parse()
 
-	if *drop  {
+	if *drop {
 		fmt.Println("Deletando Tabelas....")
 		createMigration.Drop()
-		return *drop
-	} else {
-		return *drop
+
 	}
 
 
 	if *create {
 		fmt.Println("Criando Tabelas....")
 		createMigration.Create()
-		return *create
-	} else {
-		return *create
-	}
 
+	}
 
 
 
