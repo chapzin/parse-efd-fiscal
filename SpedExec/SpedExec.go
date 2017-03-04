@@ -9,6 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
+	"github.com/chapzin/parse-efd-fiscal/SpedClean"
 )
 var regC100 BlocoC.RegC100
 var reg0000 Bloco0.Reg0000
@@ -33,6 +34,8 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			IndPerfil:	ln[14],
 			IndAtiv:	SpedConvert.ConvInt(ln[15]),
 		}
+		// Caso já exista informacoes da movimentacao dos produtos referente ao sped que está sendo importado os dados são deletados
+		SpedClean.CleanSpedItems(reg0000.Cnpj,reg0000.DtIni,reg0000.DtFin,db)
 		db.NewRecord(reg0000)
 		db.Create(&reg0000)
 

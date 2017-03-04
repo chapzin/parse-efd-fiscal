@@ -3,13 +3,13 @@ package Bloco0
 import (
 	"github.com/jinzhu/gorm"
 	"time"
-	"database/sql"
+
 )
 
 type Reg0200 struct {
 	gorm.Model
 	Reg string		`gorm:"type:varchar(4)"`
-	CodItem string		`gorm:"type:varchar(60)"`
+	CodItem string		`gorm:"type:varchar(60);unique_index"`
 	DescrItem string
 	CodBarra string
 	CodAntItem string	`gorm:"type:varchar(60)"`

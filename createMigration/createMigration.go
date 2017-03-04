@@ -12,14 +12,7 @@ import (
 
 
 
-func Create(){
-	//db, err := gorm.Open("postgres", "postgresql://chapzin@192.168.99.100:26257/auditoria?sslmode=disable")
-	db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
-	defer db.Close()
-	if err != nil {
-		panic(err.Error()+"Erro ao acessar banco de dados")
-
-	}
+func Create(db gorm.DB){
 
 	// Migrate the schema
 	db.AutoMigrate(&Bloco0.Reg0000{})
@@ -37,14 +30,8 @@ func Create(){
 
 }
 
-func Drop(){
-	db, err := gorm.Open("postgres", "postgresql://chapzin@192.168.99.100:26257/auditoria?sslmode=disable")
-	//db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
-	defer db.Close()
-	if err != nil {
-		panic(err.Error()+"Erro ao acessar banco de dados")
+func Drop(db gorm.DB){
 
-	}
 	// Drop the tables
 	db.DropTable(&Bloco0.Reg0000{})
 	db.DropTable(&Bloco0.Reg0150{})

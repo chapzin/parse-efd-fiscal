@@ -2,17 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33ba4120-49a1-4352-9af0-c765f369fe01" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/GOPATH__spedfiscal_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/GOPATH__spedfiscal_.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SpedClean/SpedClean.go" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SpedDB/Schema.go" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/SpedFlag/Schema.go" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SpedConvert/SpedConvert.go" afterPath="$PROJECT_DIR$/SpedConvert/SpedConvert.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SpedExec/SpedExec.go" afterPath="$PROJECT_DIR$/SpedExec/SpedExec.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/createMigration/createMigration.go" afterPath="$PROJECT_DIR$/createMigration/createMigration.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/Bloco0/Reg0200.go" afterPath="$PROJECT_DIR$/model/Bloco0/Reg0200.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/Bloco0/Reg0220.go" afterPath="$PROJECT_DIR$/model/Bloco0/Reg0220.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoC/RegC100.go" afterPath="$PROJECT_DIR$/model/BlocoC/RegC100.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoC/RegC170.go" afterPath="$PROJECT_DIR$/model/BlocoC/RegC170.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoC/RegC405.go" afterPath="$PROJECT_DIR$/model/BlocoC/RegC405.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoC/RegC420.go" afterPath="$PROJECT_DIR$/model/BlocoC/RegC420.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoC/RegC425.go" afterPath="$PROJECT_DIR$/model/BlocoC/RegC425.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoH/RegH010.go" afterPath="$PROJECT_DIR$/model/BlocoH/RegH010.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sped.go" afterPath="$PROJECT_DIR$/sped.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,33 +24,33 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SpedExec.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SpedExec/SpedExec.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6">
-              <caret line="94" column="36" lean-forward="true" selection-start-line="94" selection-start-column="36" selection-end-line="94" selection-end-column="36" />
-              <folding>
-                <element signature="e#18#315#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sped.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="sped.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sped.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+            <state relative-caret-position="215">
+              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SpedError.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Schema.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SpedDB/Schema.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
+              <folding>
+                <element signature="e#16#114#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpedError.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SpedError/SpedError.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+            <state relative-caret-position="136">
+              <caret line="8" column="59" lean-forward="true" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -96,11 +92,7 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/CriandoSchema.go" />
         <option value="$PROJECT_DIR$/SpedFlag/CriandoSchema.go" />
-        <option value="$PROJECT_DIR$/createMigration/createMigration.go" />
-        <option value="$PROJECT_DIR$/SpedFlag/Schema.go" />
-        <option value="$PROJECT_DIR$/SpedExec/SpedExec.go" />
         <option value="$PROJECT_DIR$/SpedConvert/SpedConvert.go" />
-        <option value="$PROJECT_DIR$/model/Bloco0/Reg0200.go" />
         <option value="$PROJECT_DIR$/model/BlocoH/RegH010.go" />
         <option value="$PROJECT_DIR$/model/BlocoC/RegC425.go" />
         <option value="$PROJECT_DIR$/model/BlocoC/RegC420.go" />
@@ -108,6 +100,12 @@
         <option value="$PROJECT_DIR$/model/BlocoC/RegC170.go" />
         <option value="$PROJECT_DIR$/model/BlocoC/RegC100.go" />
         <option value="$PROJECT_DIR$/model/Bloco0/Reg0220.go" />
+        <option value="$PROJECT_DIR$/model/Bloco0/Reg0200.go" />
+        <option value="$PROJECT_DIR$/SpedExec/SpedExec.go" />
+        <option value="$PROJECT_DIR$/SpedClean/SpedClean.go" />
+        <option value="$PROJECT_DIR$/createMigration/createMigration.go" />
+        <option value="$PROJECT_DIR$/SpedFlag/Schema.go" />
+        <option value="$PROJECT_DIR$/SpedDB/Schema.go" />
         <option value="$PROJECT_DIR$/sped.go" />
       </list>
     </option>
@@ -194,6 +192,48 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="SpedDB" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpedConvert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpedClean" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="model" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -215,10 +255,6 @@
               <option name="myItemId" value="model" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BlocoC" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -238,6 +274,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="createMigration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -252,12 +302,13 @@
     <property name="SearchEverywhereHistoryKey" value="trata&#9;null&#9;null" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="H:\ProjetosGo\spedfiscal\limpaSped" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="H:\ProjetosGo\src\github.com\chapzin\parse-efd-fiscal" />
       <recent name="H:\ProjetosGo\spedfiscal\SpedFlag" />
       <recent name="H:\ProjetosGo\spedfiscal" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\ProjetosGo\spedfiscal\limpaSped" />
     </key>
   </component>
   <component name="RunManager">
@@ -372,7 +423,8 @@
     <MESSAGE value="adicionado Schema" />
     <MESSAGE value="testando uso de sql.NullFloat64" />
     <MESSAGE value="testando uso de sql.NullFloat64 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="testando uso de sql.NullFloat64 2" />
+    <MESSAGE value="retornando para float64" />
+    <option name="LAST_COMMIT_MESSAGE" value="retornando para float64" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -383,9 +435,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-          <folding>
-            <element signature="e#18#315#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -407,10 +457,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SpedFlag/Schema.go">
+    <entry file="file://$PROJECT_DIR$/SpedDB/Schema.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="26" lean-forward="true" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+          <folding>
+            <element signature="e#16#114#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -418,6 +471,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="10" lean-forward="false" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+          <folding>
+            <element signature="e#25#278#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -436,20 +492,6 @@
             <caret line="7" column="44" lean-forward="false" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
           </first_editor>
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SpedFlag/Schema.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="52" lean-forward="false" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/createMigration/createMigration.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="8" lean-forward="false" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -487,14 +529,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/Bloco0/Reg0200.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="21" column="24" lean-forward="false" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/Bloco0/Reg0220.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -524,7 +558,7 @@
         <state relative-caret-position="34">
           <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
           <folding>
-            <element signature="e#16#60#0" expanded="true" />
+            <element signature="e#16#60#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -561,28 +595,64 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/SpedClean/SpedClean.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/SpedExec/SpedExec.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6">
-          <caret line="94" column="36" lean-forward="true" selection-start-line="94" selection-start-column="36" selection-end-line="94" selection-end-column="36" />
+        <state relative-caret-position="136">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/Bloco0/Reg0200.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="68" lean-forward="false" selection-start-line="11" selection-start-column="68" selection-end-line="11" selection-end-column="68" />
           <folding>
-            <element signature="e#18#315#0" expanded="true" />
+            <element signature="e#16#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/createMigration/createMigration.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding>
+            <element signature="e#25#278#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SpedError/SpedError.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="59" lean-forward="true" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SpedDB/Schema.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
+          <folding>
+            <element signature="e#16#114#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sped.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SpedError/SpedError.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        <state relative-caret-position="215">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
