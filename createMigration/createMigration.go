@@ -28,6 +28,10 @@ func Create(){
 	db.AutoMigrate(&Bloco0.Reg0220{})
 	db.AutoMigrate(&BlocoC.RegC100{})
 	db.AutoMigrate(&BlocoC.RegC170{})
+	db.AutoMigrate(&BlocoC.RegC400{})
+	db.AutoMigrate(&BlocoC.RegC405{})
+	db.AutoMigrate(&BlocoC.RegC420{})
+	db.AutoMigrate(&BlocoC.RegC425{})
 	db.AutoMigrate(&BlocoH.RegH010{})
 
 }
@@ -47,6 +51,10 @@ func Drop(){
 	db.DropTable(&Bloco0.Reg0220{})
 	db.DropTable(&BlocoC.RegC100{})
 	db.DropTable(&BlocoC.RegC170{})
+	db.DropTable(&BlocoC.RegC400{})
+	db.DropTable(&BlocoC.RegC405{})
+	db.DropTable(&BlocoC.RegC420{})
+	db.DropTable(&BlocoC.RegC425{})
 	db.DropTable(&BlocoH.RegH010{})
 
 }
