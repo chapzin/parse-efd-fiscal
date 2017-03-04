@@ -3,6 +3,7 @@ package SpedConvert
 import (
 	"strconv"
 	"time"
+	"database/sql"
 )
 
 func ConvInt (string string) int {
@@ -13,12 +14,12 @@ func ConvInt (string string) int {
 	return integer
 }
 
-func ConvFloat (string string) float64 {
+func ConvFloat (string string) sql.NullFloat64 {
 	float, err := strconv.ParseFloat(string,64)
 	if err != nil {
-		return 0
+		return nil
 	}
-	return float
+	return sql.NullFloat64(float)
 }
 
 func DataSpedMysql(dtsped string) string  {
