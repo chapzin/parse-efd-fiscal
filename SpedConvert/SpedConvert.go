@@ -17,7 +17,7 @@ func ConvInt (string string) int {
 func ConvFloat (string string) sql.NullFloat64 {
 	float, err := strconv.ParseFloat(string,64)
 	if err != nil {
-		return nil
+		panic(err.Error())
 	}
 	return sql.NullFloat64(float)
 }

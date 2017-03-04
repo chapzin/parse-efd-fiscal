@@ -4,13 +4,6 @@
     <list default="true" id="33ba4120-49a1-4352-9af0-c765f369fe01" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SpedConvert/SpedConvert.go" afterPath="$PROJECT_DIR$/SpedConvert/SpedConvert.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/Bloco0/Reg0200.go" afterPath="$PROJECT_DIR$/model/Bloco0/Reg0200.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/Bloco0/Reg0220.go" afterPath="$PROJECT_DIR$/model/Bloco0/Reg0220.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoC/RegC170.go" afterPath="$PROJECT_DIR$/model/BlocoC/RegC170.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoC/RegC405.go" afterPath="$PROJECT_DIR$/model/BlocoC/RegC405.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoC/RegC420.go" afterPath="$PROJECT_DIR$/model/BlocoC/RegC420.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoC/RegC425.go" afterPath="$PROJECT_DIR$/model/BlocoC/RegC425.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/BlocoH/RegH010.go" afterPath="$PROJECT_DIR$/model/BlocoH/RegH010.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,98 +21,18 @@
       <file leaf-file-name="SpedExec.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SpedExec/SpedExec.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
+            <state relative-caret-position="-17">
               <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RegC170.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/BlocoC/RegC170.go">
+      <file leaf-file-name="SpedConvert.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SpedConvert/SpedConvert.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="45" column="32" lean-forward="false" selection-start-line="45" selection-start-column="32" selection-end-line="45" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegC400.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/BlocoC/RegC400.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="21" column="1" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="21" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegC405.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/BlocoC/RegC405.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="16" column="29" lean-forward="false" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegC420.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/BlocoC/RegC420.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="12" column="34" lean-forward="false" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegC425.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/BlocoC/RegC425.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="16" column="32" lean-forward="false" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegH010.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/model/BlocoH/RegH010.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="20" column="32" lean-forward="false" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Reg0000.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/Bloco0/Reg0000.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Reg0150.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/Bloco0/Reg0150.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Reg0190.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/Bloco0/Reg0190.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="255">
+              <caret line="19" column="33" lean-forward="false" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -164,7 +77,6 @@
         <option value="$PROJECT_DIR$/createMigration/createMigration.go" />
         <option value="$PROJECT_DIR$/SpedFlag/Schema.go" />
         <option value="$PROJECT_DIR$/model/BlocoC/RegC100.go" />
-        <option value="$PROJECT_DIR$/SpedConvert/SpedConvert.go" />
         <option value="$PROJECT_DIR$/model/Bloco0/Reg0200.go" />
         <option value="$PROJECT_DIR$/model/Bloco0/Reg0220.go" />
         <option value="$PROJECT_DIR$/model/BlocoC/RegC170.go" />
@@ -172,6 +84,7 @@
         <option value="$PROJECT_DIR$/model/BlocoC/RegC420.go" />
         <option value="$PROJECT_DIR$/model/BlocoC/RegC425.go" />
         <option value="$PROJECT_DIR$/model/BlocoH/RegH010.go" />
+        <option value="$PROJECT_DIR$/SpedConvert/SpedConvert.go" />
       </list>
     </option>
   </component>
@@ -470,7 +383,8 @@
     <MESSAGE value="criado o flag como funçãov2" />
     <MESSAGE value="adicionado Schema" />
     <MESSAGE value="testando uso de sql.NullFloat64" />
-    <option name="LAST_COMMIT_MESSAGE" value="testando uso de sql.NullFloat64" />
+    <MESSAGE value="testando uso de sql.NullFloat64 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="testando uso de sql.NullFloat64 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -556,16 +470,8 @@
         <state relative-caret-position="221">
           <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding>
-            <element signature="e#14#235#0" expanded="true" />
+            <element signature="e#14#235#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SpedConvert/SpedConvert.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="16" column="17" lean-forward="false" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -619,14 +525,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SpedExec/SpedExec.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/BlocoC/RegC170.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
@@ -669,8 +567,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/BlocoH/RegH010.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="20" column="32" lean-forward="false" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
+        <state relative-caret-position="442">
+          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SpedExec/SpedExec.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-17">
+          <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SpedConvert/SpedConvert.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="19" column="33" lean-forward="false" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
           <folding />
         </state>
       </provider>
