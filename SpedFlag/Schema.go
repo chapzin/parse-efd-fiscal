@@ -18,7 +18,7 @@ func SpedFlag() bool{
 		createMigration.Drop()
 		return *drop
 	} else {
-		return true
+		return *drop
 	}
 
 
@@ -27,7 +27,7 @@ func SpedFlag() bool{
 		createMigration.Create()
 		return *create
 	} else {
-		return true
+		return *create
 	}
 
 
