@@ -4,16 +4,19 @@ import (
 	"bufio"
 	"os"
 	"strings"
-	"./SpedError"
-	"./SpedExec"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/chapzin/parse-efd-fiscal/SpedError"
+	"github.com/chapzin/parse-efd-fiscal/SpedExec"
+//	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 	"github.com/jinzhu/gorm"
+
 )
 
 var literalLines []string
 
 func main() {
-	 db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
+	// db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
+	db, err := gorm.Open("postgres", "postgresql://chapzin@192.168.99.100:26257/auditoria?sslmode=disable")
 	defer db.Close()
 	SpedError.CheckErr(err)
 	// TODO -- Criar leitura de uma pasta todos arquivos txt e processar os speds

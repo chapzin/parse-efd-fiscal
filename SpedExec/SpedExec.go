@@ -3,12 +3,12 @@ package SpedExec
 import (
 	"fmt"
 	"strings"
-	"../model/Bloco0"
-	"../model/BlocoC"
-	"../model/BlocoH"
-	"../SpedConvert"
+	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
+	"github.com/chapzin/parse-efd-fiscal/model/BlocoC"
+	"github.com/chapzin/parse-efd-fiscal/model/BlocoH"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 )
 var regC100 BlocoC.RegC100
 var reg0000 Bloco0.Reg0000

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./createMigration"
+	"github.com/chapzin/parse-efd-fiscal/createMigration"
 	"flag"
 	"fmt"
 )

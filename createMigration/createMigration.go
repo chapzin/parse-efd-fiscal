@@ -1,19 +1,20 @@
 package createMigration
 
 import (
-	_ "github.com/go-sql-driver/mysql"
+	//_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 	"github.com/jinzhu/gorm"
-	"../model/Bloco0"
-	"../model/BlocoC"
-	"../model/BlocoH"
+	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
+	"github.com/chapzin/parse-efd-fiscal/model/BlocoC"
+	"github.com/chapzin/parse-efd-fiscal/model/BlocoH"
 )
 
 
 
 
 func Create(){
-
-	db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
+	db, err := gorm.Open("postgres", "postgresql://chapzin@192.168.99.100:26257/auditoria?sslmode=disable")
+	//db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
 	defer db.Close()
 	if err != nil {
 		panic(err.Error()+"Erro ao acessar banco de dados")
@@ -37,7 +38,8 @@ func Create(){
 }
 
 func Drop(){
-	db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
+	db, err := gorm.Open("postgres", "postgresql://chapzin@192.168.99.100:26257/auditoria?sslmode=disable")
+	//db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
 	defer db.Close()
 	if err != nil {
 		panic(err.Error()+"Erro ao acessar banco de dados")
