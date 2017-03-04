@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="33ba4120-49a1-4352-9af0-c765f369fe01" name="Default" comment="corrigindo caminho dos packages">
+    <list default="true" id="33ba4120-49a1-4352-9af0-c765f369fe01" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CriandoSchema.go" afterPath="$PROJECT_DIR$/CriandoSchema.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SpedExec/SpedExec.go" afterPath="$PROJECT_DIR$/SpedExec/SpedExec.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/createMigration/createMigration.go" afterPath="$PROJECT_DIR$/createMigration/createMigration.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sped.go" afterPath="$PROJECT_DIR$/sped.go" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/CriandoSchema.go" afterPath="$PROJECT_DIR$/SpedFlag/Schema.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,6 +19,16 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="sped.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sped.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SpedError.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SpedError/SpedError.go">
           <provider selected="true" editor-type-id="text-editor">
@@ -33,12 +41,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CriandoSchema.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/CriandoSchema.go">
+      <file leaf-file-name="Schema.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SpedFlag/Schema.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="60" lean-forward="false" selection-start-line="3" selection-start-column="60" selection-end-line="3" selection-end-column="60" />
-              <folding />
+            <state relative-caret-position="340">
+              <caret line="20" column="27" lean-forward="false" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
+              <folding>
+                <element signature="e#18#98#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -75,10 +85,12 @@
         <option value="$PROJECT_DIR$/model/BlocoC/RegC405.go" />
         <option value="$PROJECT_DIR$/model/BlocoC/RegC420.go" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/sped.go" />
         <option value="$PROJECT_DIR$/CriandoSchema.go" />
         <option value="$PROJECT_DIR$/createMigration/createMigration.go" />
         <option value="$PROJECT_DIR$/SpedExec/SpedExec.go" />
+        <option value="$PROJECT_DIR$/SpedFlag/CriandoSchema.go" />
+        <option value="$PROJECT_DIR$/SpedFlag/Schema.go" />
+        <option value="$PROJECT_DIR$/sped.go" />
       </list>
     </option>
   </component>
@@ -123,6 +135,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="spedfiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spedfiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spedfiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpedFlag" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -210,11 +236,12 @@
     <property name="SearchEverywhereHistoryKey" value="trata&#9;null&#9;null" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="H:\ProjetosGo\spedfiscal" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="H:\ProjetosGo\spedfiscal\limpaSped" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="H:\ProjetosGo\spedfiscal\SpedFlag" />
+      <recent name="H:\ProjetosGo\spedfiscal" />
     </key>
   </component>
   <component name="RunManager">
@@ -319,11 +346,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CriandoSchema.go">
+    <entry file="file://$PROJECT_DIR$/SpedFlag/Schema.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="26" lean-forward="true" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
-          <folding />
+          <folding>
+            <element signature="e#18#98#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -435,14 +464,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sped.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="53" lean-forward="false" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/BlocoC/RegC100.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -481,10 +502,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CriandoSchema.go">
+    <entry file="file://$PROJECT_DIR$/SpedFlag/Schema.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="60" lean-forward="false" selection-start-line="3" selection-start-column="60" selection-end-line="3" selection-end-column="60" />
+        <state relative-caret-position="340">
+          <caret line="20" column="27" lean-forward="false" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
+          <folding>
+            <element signature="e#18#98#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sped.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>

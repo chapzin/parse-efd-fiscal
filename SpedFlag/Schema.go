@@ -1,4 +1,4 @@
-package main
+package SpedFlag
 
 import (
 	"github.com/chapzin/parse-efd-fiscal/createMigration"
@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func main() {
+func SpedFlag() bool{
 
 	create := flag.Bool("create",false, "cria tabela")
 	drop := flag.Bool("drop", false, "Dropa Tabela")
@@ -16,13 +16,21 @@ func main() {
 	if *drop  {
 		fmt.Println("Deletando Tabelas....")
 		createMigration.Drop()
+		return *drop
+	} else {
+		return true
 	}
 
 
 	if *create {
 		fmt.Println("Criando Tabelas....")
 		createMigration.Create()
+		return *create
+	} else {
+		return true
 	}
+
+
 
 
 }
