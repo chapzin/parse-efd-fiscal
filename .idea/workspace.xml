@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33ba4120-49a1-4352-9af0-c765f369fe01" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/model/BlocoC/RegC400.go" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/model/BlocoC/RegC405.go" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/model/BlocoC/RegC420.go" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/model/BlocoC/RegC425.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SpedExec/SpedExec.go" afterPath="$PROJECT_DIR$/SpedExec/SpedExec.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/createMigration/createMigration.go" afterPath="$PROJECT_DIR$/createMigration/createMigration.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sped.go" afterPath="$PROJECT_DIR$/sped.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -58,6 +52,7 @@
         <option value="$PROJECT_DIR$/model/BlocoC/RegC420.go" />
         <option value="$PROJECT_DIR$/createMigration/createMigration.go" />
         <option value="$PROJECT_DIR$/SpedExec/SpedExec.go" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -287,7 +282,8 @@
     <MESSAGE value="Inserindo no banco de dados e reconfigurando packages" />
     <MESSAGE value="corrigido problema funcao de conversor da data e corrigido inserir C100 e C170 no banco de dados" />
     <MESSAGE value="reestruturado todo package" />
-    <option name="LAST_COMMIT_MESSAGE" value="reestruturado todo package" />
+    <MESSAGE value="Adicionado cupons fiscais que sao os blocos C400, C405, C420 e C425" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adicionado cupons fiscais que sao os blocos C400, C405, C420 e C425" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -447,6 +443,17 @@
           <folding>
             <element signature="e#18#183#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="119">
+            <caret line="7" column="44" lean-forward="false" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
