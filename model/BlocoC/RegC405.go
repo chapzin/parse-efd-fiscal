@@ -3,7 +3,6 @@ package BlocoC
 import (
 	"time"
 	"github.com/jinzhu/gorm"
-	"database/sql"
 )
 
 type RegC405 struct {
@@ -13,8 +12,8 @@ type RegC405 struct {
 	Cro string		`gorm:"type:varchar(3)"`
 	Crz string		`gorm:"type:varchar(6)"`
 	NumCooFin string	`gorm:"type:varchar(9)"`
-	GtFin sql.NullFloat64		`gorm:"type:decimal(19,2)"`
-	VlBrt sql.NullFloat64		`gorm:"type:decimal(19,2)"`
+	GtFin float64		`gorm:"type:decimal(19,2)"`
+	VlBrt float64		`gorm:"type:decimal(19,2)"`
 	DtIni time.Time 	`gorm:"type:date"`
 	DtFin time.Time 	`gorm:"type:date"`
 	Cnpj string		`gorm:"type:varchar(14)"`

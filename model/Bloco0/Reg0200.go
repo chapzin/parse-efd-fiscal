@@ -19,7 +19,7 @@ type Reg0200 struct {
 	ExIpi string		`gorm:"type:varchar(3)"`
 	CodGen string		`gorm:"type:varchar(2)"`
 	CodLst string		`gorm:"type:varchar(5)"`
-	AliqIcms sql.NullFloat64	`gorm:"type:decimal(6,2)"`
+	AliqIcms float64	`gorm:"type:decimal(6,2)"`
 	DtIni time.Time 	`gorm:"type:date"`
 	DtFin time.Time 	`gorm:"type:date"`
 	Cnpj string		`gorm:"type:varchar(14)"`
