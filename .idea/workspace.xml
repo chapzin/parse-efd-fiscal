@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="33ba4120-49a1-4352-9af0-c765f369fe01" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SpedClean/SpedClean.go" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SpedDB/Schema.go" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SpedFlag/Schema.go" afterPath="" />
+    <list default="true" id="33ba4120-49a1-4352-9af0-c765f369fe01" name="Default" comment="adicionado flag -schema para criar ou recriar as tabelas">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SpedRead/SpedRead.go" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sped.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SpedExec/SpedExec.go" afterPath="$PROJECT_DIR$/SpedExec/SpedExec.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/createMigration/createMigration.go" afterPath="$PROJECT_DIR$/createMigration/createMigration.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/Bloco0/Reg0200.go" afterPath="$PROJECT_DIR$/model/Bloco0/Reg0200.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sped.go" afterPath="$PROJECT_DIR$/sped.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,9 +23,23 @@
       <file leaf-file-name="sped.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sped.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="527">
+              <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+              <folding>
+                <element signature="e#14#263#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpedRead.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SpedRead/SpedRead.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="629">
+              <caret line="37" column="35" lean-forward="false" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
+              <folding>
+                <element signature="e#18#194#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -50,7 +60,7 @@
         <entry file="file://$PROJECT_DIR$/SpedError/SpedError.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
-              <caret line="8" column="59" lean-forward="true" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="59" />
+              <caret line="8" column="59" lean-forward="false" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -106,6 +116,7 @@
         <option value="$PROJECT_DIR$/createMigration/createMigration.go" />
         <option value="$PROJECT_DIR$/SpedFlag/Schema.go" />
         <option value="$PROJECT_DIR$/SpedDB/Schema.go" />
+        <option value="$PROJECT_DIR$/SpedRead/SpedRead.go" />
         <option value="$PROJECT_DIR$/sped.go" />
       </list>
     </option>
@@ -117,9 +128,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
+    <option name="x" value="31" />
+    <option name="y" value="23" />
+    <option name="width" value="1932" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -151,6 +162,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parse-efd-fiscal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpedRead" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -362,10 +387,10 @@
     <option name="remove_strategy" value="false" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="31" y="23" width="1932" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25746268" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25694445" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -424,7 +449,8 @@
     <MESSAGE value="testando uso de sql.NullFloat64" />
     <MESSAGE value="testando uso de sql.NullFloat64 2" />
     <MESSAGE value="retornando para float64" />
-    <option name="LAST_COMMIT_MESSAGE" value="retornando para float64" />
+    <MESSAGE value="adicionado flag -schema para criar ou recriar as tabelas" />
+    <option name="LAST_COMMIT_MESSAGE" value="adicionado flag -schema para criar ou recriar as tabelas" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -472,7 +498,7 @@
         <state relative-caret-position="51">
           <caret line="3" column="10" lean-forward="false" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
           <folding>
-            <element signature="e#25#278#0" expanded="true" />
+            <element signature="e#25#278#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -616,7 +642,7 @@
         <state relative-caret-position="187">
           <caret line="11" column="68" lean-forward="false" selection-start-line="11" selection-start-column="68" selection-end-line="11" selection-end-column="68" />
           <folding>
-            <element signature="e#16#61#0" expanded="true" />
+            <element signature="e#16#61#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -626,7 +652,7 @@
         <state relative-caret-position="561">
           <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding>
-            <element signature="e#25#278#0" expanded="true" />
+            <element signature="e#25#278#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -634,7 +660,7 @@
     <entry file="file://$PROJECT_DIR$/SpedError/SpedError.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="8" column="59" lean-forward="true" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="59" />
+          <caret line="8" column="59" lean-forward="false" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="59" />
           <folding />
         </state>
       </provider>
@@ -649,11 +675,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/SpedRead/SpedRead.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="37" column="35" lean-forward="false" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
+          <folding>
+            <element signature="e#18#194#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sped.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="527">
+          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#263#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
