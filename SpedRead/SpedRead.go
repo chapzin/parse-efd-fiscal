@@ -8,7 +8,10 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/chapzin/parse-efd-fiscal/SpedExec"
 	"github.com/chapzin/parse-efd-fiscal/SpedError"
+	"time"
 )
+var id int
+var maxid = 100
 // Ler todos os arquivos de uma determinada pasta
 func RecursiveSpeds(path string,db gorm.DB){
 	filepath.Walk(path, func(sped string, f os.FileInfo, err error) error {
@@ -17,12 +20,27 @@ func RecursiveSpeds(path string,db gorm.DB){
 			if ext == ".txt"{
 				// Possivelmente uma goroutines começando aqui
 				r := SpedExec.Regs{}
+				id++
 				go ProcessaSped(sped,&r,db)
+				wait()
 				// Goroutines finalizando aqui
 			}
 		}
 		return nil
 	})
+}
+
+
+func wait (){
+	for {
+		if id >= maxid {
+			time.Sleep(1 * time.Second)
+		} else {
+			return
+		}
+	}
+
+
 }
 
 func ProcessaSped (sped string,r *SpedExec.Regs,db2 gorm.DB) {
@@ -36,6 +54,7 @@ func ProcessaSped (sped string,r *SpedExec.Regs,db2 gorm.DB) {
 	for scanner.Scan() {
 		ProcessRows(scanner.Text(),r,*db)
 	}
+	id--
 }
 
 func ProcessRows (line string,r *SpedExec.Regs ,db gorm.DB){

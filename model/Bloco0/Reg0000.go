@@ -11,8 +11,8 @@ type Reg0000 struct {
 	Reg string	`gorm:"type:varchar(4)"`
 	CodVer string	`gorm:"type:varchar(3)"`
 	CodFin int
-	DtIni time.Time	`gorm:"type:date;unique_index"`
-	DtFin time.Time	`gorm:"type:date;unique_index"`
+	DtIni time.Time	`gorm:"type:date"`
+	DtFin time.Time	`gorm:"type:date"`
 	Nome string	`gorm:"type:varchar(100)"`
 	Cnpj string	`gorm:"type:varchar(14)"`
 	Cpf string	`gorm:"type:varchar(11)"`
