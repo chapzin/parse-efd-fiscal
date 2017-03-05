@@ -26,6 +26,7 @@ func Create(db gorm.DB){
 	db.AutoMigrate(&BlocoC.RegC405{})
 	db.AutoMigrate(&BlocoC.RegC420{})
 	db.AutoMigrate(&BlocoC.RegC425{})
+	db.AutoMigrate(&BlocoH.RegH005{})
 	db.AutoMigrate(&BlocoH.RegH010{})
 
 }
@@ -44,6 +45,7 @@ func Drop(db gorm.DB){
 	db.DropTable(&BlocoC.RegC405{})
 	db.DropTable(&BlocoC.RegC420{})
 	db.DropTable(&BlocoC.RegC425{})
+	db.DropTable(&BlocoH.RegH005{})
 	db.DropTable(&BlocoH.RegH010{})
 
 }

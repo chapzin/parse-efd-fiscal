@@ -549,27 +549,38 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 	case "H001":
 		fmt.Println(linha)
 	case "H005":
-		fmt.Println(linha)
+		ln := strings.Split(linha, "|")
+		regH005 := BlocoH.RegH005{
+			Reg: 		ln[1],
+			DtInv: 		SpedConvert.ConvertData(ln[2]),
+			VlInv:		SpedConvert.ConvFloat(ln[3]),
+			MotInv:		ln[4],
+			DtIni:		r.Reg0000.DtIni,
+			DtFin:		r.Reg0000.DtFin,
+			Cnpj:		r.Reg0000.Cnpj,
+		}
+		db.NewRecord(regH005)
+		db.Create(&regH005)
 	case "H010":
 		ln := strings.Split(linha, "|")
 		regH010 := BlocoH.RegH010{
-			Reg : 		ln[1],
-			CodItem : 	ln[2],
-			Unid : 		ln[3],
-			Qtd : 		SpedConvert.ConvFloat(ln[4]),
-			VlUnit : 	SpedConvert.ConvFloat(ln[5]),
-			VlItem : 	SpedConvert.ConvFloat(ln[6]),
-			IndProp : 	ln[7],
-			CodPart : 	ln[8],
-			TxtCompl : 	ln[9],
-			CodCta : 	ln[10],
-			VlItemIr : 	SpedConvert.ConvFloat(ln[11]),
+			Reg: 		ln[1],
+			CodItem: 	ln[2],
+			Unid: 		ln[3],
+			Qtd: 		SpedConvert.ConvFloat(ln[4]),
+			VlUnit: 	SpedConvert.ConvFloat(ln[5]),
+			VlItem: 	SpedConvert.ConvFloat(ln[6]),
+			IndProp: 	ln[7],
+			CodPart: 	ln[8],
+			TxtCompl: 	ln[9],
+			CodCta: 	ln[10],
+			VlItemIr:	SpedConvert.ConvFloat(ln[11]),
 			DtIni: 		r.Reg0000.DtIni,
-			DtFin: 		r.Reg0000.DtFin,
-			Cnpj: 		r.Reg0000.Cnpj,
+			DtFin:		r.Reg0000.DtFin,
+			Cnpj:		r.Reg0000.Cnpj,
 		}
 		db.NewRecord(regH010)
-		db.Create(regH010)
+		db.Create(&regH010)
 
 	case "H020":
 		fmt.Println(linha)

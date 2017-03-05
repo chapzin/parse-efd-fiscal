@@ -11,7 +11,7 @@ import (
 	"time"
 )
 var id int
-var maxid = 100
+var maxid = 24
 // Ler todos os arquivos de uma determinada pasta
 func RecursiveSpeds(path string,db gorm.DB){
 	filepath.Walk(path, func(sped string, f os.FileInfo, err error) error {

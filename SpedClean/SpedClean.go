@@ -15,6 +15,7 @@ func CleanSpedItems (cnpj string,dtIni time.Time,dtFin time.Time, db gorm.DB){
 	db.Exec("DELETE FROM reg_c405 where cnpj =? and dt_ini =? and dt_fin =?",cnpj,dtIni,dtFin)
 	db.Exec("DELETE FROM reg_c420 where cnpj =? and dt_ini =? and dt_fin =?",cnpj,dtIni,dtFin)
 	db.Exec("DELETE FROM reg_c425 where cnpj =? and dt_ini =? and dt_fin =?",cnpj,dtIni,dtFin)
+	db.Exec("DELETE FROM reg_h005 where cnpj =? and dt_ini =? and dt_fin =?",cnpj,dtIni,dtFin)
 	db.Exec("DELETE FROM reg_h010 where cnpj =? and dt_ini =? and dt_fin =?",cnpj,dtIni,dtFin)
 	//bufio.NewReader(os.Stdin).ReadBytes('\n')
 
