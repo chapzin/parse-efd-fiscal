@@ -11,13 +11,17 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 	"github.com/chapzin/parse-efd-fiscal/SpedClean"
 )
-var regC100 BlocoC.RegC100
-var reg0000 Bloco0.Reg0000
-func TrataLinha(ln1 string, linha string, db gorm.DB) {
+
+type Regs struct {
+	RegC100 BlocoC.RegC100
+	Reg0000 Bloco0.Reg0000
+}
+
+func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 	switch ln1 {
 	case "0000":
 		ln := strings.Split(linha, "|")
-		reg0000 = Bloco0.Reg0000{
+		r.Reg0000 = Bloco0.Reg0000{
 			Reg:		ln[1],
 			CodVer:		ln[2],
 			CodFin:		SpedConvert.ConvInt(ln[3]),
@@ -35,9 +39,9 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			IndAtiv:	SpedConvert.ConvInt(ln[15]),
 		}
 		// Caso já exista informacoes da movimentacao dos produtos referente ao sped que está sendo importado os dados são deletados
-		SpedClean.CleanSpedItems(reg0000.Cnpj,reg0000.DtIni,reg0000.DtFin,db)
-		db.NewRecord(reg0000)
-		db.Create(&reg0000)
+		SpedClean.CleanSpedItems(r.Reg0000.Cnpj,r.Reg0000.DtIni,r.Reg0000.DtFin,db)
+		db.NewRecord(r.Reg0000)
+		db.Create(&r.Reg0000)
 
 	case "0001":
 		fmt.Println(linha)
@@ -74,9 +78,9 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			Reg:	ln[1],
 			Unid:	ln[2],
 			Descr:	ln[3],
-			DtIni:	reg0000.DtIni,
-			DtFin:	reg0000.DtFin,
-			Cnpj:	reg0000.Cnpj,
+			DtIni:	r.Reg0000.DtIni,
+			DtFin:	r.Reg0000.DtFin,
+			Cnpj:	r.Reg0000.Cnpj,
 		}
 		db.NewRecord(reg0190)
 		db.Create(&reg0190)
@@ -96,9 +100,9 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			CodGen:     ln[10],
 			CodLst:     ln[11],
 			AliqIcms:   SpedConvert.ConvFloat(ln[12]),
-			DtIni: reg0000.DtIni,
-			DtFin: reg0000.DtFin,
-			Cnpj: reg0000.Cnpj,
+			DtIni: r.Reg0000.DtIni,
+			DtFin: r.Reg0000.DtFin,
+			Cnpj: r.Reg0000.Cnpj,
 		}
 		db.NewRecord(reg0200)
 		db.Create(&reg0200)
@@ -114,9 +118,9 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			Reg: 		ln[1],
 			UnidConv: 	ln[2],
 			FatConv: 	SpedConvert.ConvFloat(ln[3]),
-			DtIni: 		reg0000.DtIni,
-			DtFin: 		reg0000.DtFin,
-			Cnpj: 		reg0000.Cnpj,
+			DtIni: 		r.Reg0000.DtIni,
+			DtFin: 		r.Reg0000.DtFin,
+			Cnpj: 		r.Reg0000.Cnpj,
 		}
 		db.NewRecord(reg0220)
 		db.Create(&reg0220)
@@ -141,7 +145,7 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 		fmt.Println(linha)
 	case "C100":
 		ln := strings.Split(linha,"|")
-		regC100 =BlocoC.RegC100{
+		r.RegC100 =BlocoC.RegC100{
 			Reg : 		ln[1],
 			IndOper : 	ln[2],
 			IndEmit :	ln[3],
@@ -171,13 +175,13 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			VlCofins : 	SpedConvert.ConvFloat(ln[27]),
 			VlPisSt : 	SpedConvert.ConvFloat(ln[28]),
 			VlCofinsSt : 	SpedConvert.ConvFloat(ln[29]),
-			DtIni: 		reg0000.DtIni,
-			DtFin: 		reg0000.DtFin,
-			Cnpj: 		reg0000.Cnpj,
+			DtIni: 		r.Reg0000.DtIni,
+			DtFin: 		r.Reg0000.DtFin,
+			Cnpj: 		r.Reg0000.Cnpj,
 		}
 
-		db.NewRecord(regC100)
-		db.Create(&regC100)
+		db.NewRecord(r.RegC100)
+		db.Create(&r.RegC100)
 
 	case "C101":
 		fmt.Println(linha)
@@ -249,11 +253,11 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			AliqCofins02 : 	SpedConvert.ConvFloat(ln[35]),
 			VlCofins : 	SpedConvert.ConvFloat(ln[36]),
 			CodCta : 	ln[37],
-			EntradaSaida: 	regC100.IndOper,
-			NumDoc: 	regC100.NumDoc,
-			DtIni: 		reg0000.DtIni,
-			DtFin: 		reg0000.DtFin,
-			Cnpj: 		reg0000.Cnpj,
+			EntradaSaida: 	r.RegC100.IndOper,
+			NumDoc: 	r.RegC100.NumDoc,
+			DtIni: 		r.Reg0000.DtIni,
+			DtFin: 		r.Reg0000.DtFin,
+			Cnpj: 		r.Reg0000.Cnpj,
 
 		}
 		db.NewRecord(regC170)
@@ -304,9 +308,9 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			EcfMod: ln[3],
 			EcfFab: ln[4],
 			EcfCx: ln[5],
-			DtIni: 		reg0000.DtIni,
-			DtFin: 		reg0000.DtFin,
-			Cnpj: 		reg0000.Cnpj,
+			DtIni: 		r.Reg0000.DtIni,
+			DtFin: 		r.Reg0000.DtFin,
+			Cnpj: 		r.Reg0000.Cnpj,
 		}
 		db.NewRecord(regC400)
 		db.Create(&regC400)
@@ -320,9 +324,9 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			NumCooFin: ln[5],
 			GtFin: SpedConvert.ConvFloat(ln[6]),
 			VlBrt: SpedConvert.ConvFloat(ln[7]),
-			DtIni: 		reg0000.DtIni,
-			DtFin: 		reg0000.DtFin,
-			Cnpj: 		reg0000.Cnpj,
+			DtIni: 		r.Reg0000.DtIni,
+			DtFin: 		r.Reg0000.DtFin,
+			Cnpj: 		r.Reg0000.Cnpj,
 
 		}
 		db.NewRecord(regC405)
@@ -337,9 +341,9 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			VlrAcumTot: SpedConvert.ConvFloat(ln[3]),
 			NrTot: ln[4],
 			DescrNrTot: ln[5],
-			DtIni: 		reg0000.DtIni,
-			DtFin: 		reg0000.DtFin,
-			Cnpj: 		reg0000.Cnpj,
+			DtIni: 		r.Reg0000.DtIni,
+			DtFin: 		r.Reg0000.DtFin,
+			Cnpj: 		r.Reg0000.Cnpj,
 		}
 		db.NewRecord(regC420)
 		db.Create(&regC420)
@@ -353,9 +357,9 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			VlItem: SpedConvert.ConvFloat(ln[5]),
 			VlPis: SpedConvert.ConvFloat(ln[6]),
 			VlCofins: SpedConvert.ConvFloat(ln[7]),
-			DtIni: 		reg0000.DtIni,
-			DtFin: 		reg0000.DtFin,
-			Cnpj: 		reg0000.Cnpj,
+			DtIni: 		r.Reg0000.DtIni,
+			DtFin: 		r.Reg0000.DtFin,
+			Cnpj: 		r.Reg0000.Cnpj,
 
 		}
 		db.NewRecord(regC425)
@@ -560,9 +564,9 @@ func TrataLinha(ln1 string, linha string, db gorm.DB) {
 			TxtCompl : 	ln[9],
 			CodCta : 	ln[10],
 			VlItemIr : 	SpedConvert.ConvFloat(ln[11]),
-			DtIni: 		reg0000.DtIni,
-			DtFin: 		reg0000.DtFin,
-			Cnpj: 		reg0000.Cnpj,
+			DtIni: 		r.Reg0000.DtIni,
+			DtFin: 		r.Reg0000.DtFin,
+			Cnpj: 		r.Reg0000.Cnpj,
 		}
 		db.NewRecord(regH010)
 		db.Create(regH010)

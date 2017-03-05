@@ -3,12 +3,14 @@ package main
 import (
 	"github.com/chapzin/parse-efd-fiscal/SpedError"
 	_ "github.com/go-sql-driver/mysql"
-//	_ "github.com/lib/pq"
+	//_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/jinzhu/gorm"
 
 	"flag"
 	"github.com/chapzin/parse-efd-fiscal/SpedDB"
 	"github.com/chapzin/parse-efd-fiscal/SpedRead"
+
+	"fmt"
 )
 
 
@@ -22,13 +24,16 @@ func main() {
 		// Recria o Schema do banco de dados
 		SpedDB.Schema(*db)
 	}
-	defer db.Close()
+	//defer db.Close()
 	SpedError.CheckErr(err)
 
 	// Lendo todos arquivos da pasta speds
-	filesSpeds :=SpedRead.RecursiveSpeds("./speds")
+	SpedRead.RecursiveSpeds("./speds",*db)
 	// Pega cada arquivo e ler linha a linha e envia para o banco de dados
-	SpedRead.AddAllSpeds(filesSpeds,*db)
+	//SpedRead.AddAllSpeds(filesSpeds,*db)
+	fmt.Println("Final main")
+	var msg string
+	fmt.Scanln(&msg)
 
 
 }
