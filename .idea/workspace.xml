@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="33ba4120-49a1-4352-9af0-c765f369fe01" name="Default" comment="adicionado wait para quantidade de go routines simultanes. Vlw crgimenes">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/layout/GUIA PRÁTICO DA EFD - Versão 2.0.20.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/23130141334079000760550010000060781002141849-procNFe.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/model/BlocoH/RegH005.go" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/xmlTest.go" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/speds/41334079000255-069045038-20120101-20120131-0-1AD1DD27C2BBC1A9E620D8E007AD71311F14D4F6-SPED-EFD.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/speds/41334079000255-069045038-20120201-20120229-0-64A6F66C27A6413159EF1DC72CB6A8034A5D2922-SPED-EFD.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/speds/41334079000255-069045038-20120301-20120331-0-5B114AED87337E935FDC2B3A7E146C734DC18D81-SPED-EFD.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/speds/41334079000255-069045038-20120401-20120430-0-3BFAE82F1C268641553A71EB96FB535F295B3BA2-SPED-EFD.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/speds/41334079000255-069045038-20120501-20120531-0-5D4DD78B4FC94D41CF951CC06A0F31B0E6A22F9A-SPED-EFD.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/speds/41334079000255-069045038-20120601-20120630-0-4E3225A62B6B123C3E06AE4E9A5686E613FCEB29-SPED-EFD.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/speds/41334079000255-069045038-20120701-20120731-0-146666CC80F6AC5904D9D253C5BF871BA8E74430-SPED-EFD.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/speds/41334079000255-069045038-20120801-20120831-0-195CE19F635666AC34597356D1EFCDE8694024F9-SPED-EFD.txt" afterPath="" />
+    <list default="true" id="33ba4120-49a1-4352-9af0-c765f369fe01" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/23130141334079000760550010000060781002141849-procNFe.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/xmlTest.go" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SpedClean/SpedClean.go" afterPath="$PROJECT_DIR$/SpedClean/SpedClean.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SpedExec/SpedExec.go" afterPath="$PROJECT_DIR$/SpedExec/SpedExec.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SpedRead/SpedRead.go" afterPath="$PROJECT_DIR$/SpedRead/SpedRead.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/createMigration/createMigration.go" afterPath="$PROJECT_DIR$/createMigration/createMigration.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -48,7 +33,7 @@
       <file leaf-file-name="SpedRead.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SpedRead/SpedRead.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="68">
               <caret line="13" column="14" lean-forward="false" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
               <folding>
                 <element signature="e#18#202#0" expanded="true" />
@@ -60,7 +45,7 @@
       <file leaf-file-name="SpedClean.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SpedClean/SpedClean.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
+            <state relative-caret-position="204">
               <caret line="16" column="44" lean-forward="false" selection-start-line="16" selection-start-column="44" selection-end-line="16" selection-end-column="44" />
               <folding>
                 <element signature="e#19#64#0" expanded="true" />
@@ -70,13 +55,11 @@
         </entry>
       </file>
       <file leaf-file-name="xmlTest.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/xmlTest.go">
+        <entry file="file://$PROJECT_DIR$/testes/xmlTest.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-              <folding>
-                <element signature="e#14#89#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="119">
+              <caret line="7" column="16" lean-forward="false" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -134,14 +117,14 @@
         <option value="$PROJECT_DIR$/sped.go" />
         <option value="$PROJECT_DIR$/speds/41334079000255-069045038-20120101-20120131-0-1AD1DD27C2BBC1A9E620D8E007AD71311F14D4F6-SPED-EFD.txt" />
         <option value="$PROJECT_DIR$/model/Bloco0/Reg0000.go" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/model/BlocoH/RegH005.go" />
         <option value="$PROJECT_DIR$/SpedExec/SpedExec.go" />
         <option value="$PROJECT_DIR$/SpedRead/SpedRead.go" />
         <option value="$PROJECT_DIR$/createMigration/createMigration.go" />
         <option value="$PROJECT_DIR$/SpedClean/SpedClean.go" />
-        <option value="$PROJECT_DIR$/xmlTest.go" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/xmlTest.go" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -152,10 +135,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="-1688" />
+    <option name="y" value="19" />
+    <option name="width" value="1696" />
+    <option name="height" value="1026" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -175,7 +158,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -198,13 +180,14 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="speds" />
+              <option name="myItemId" value="testes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -216,19 +199,20 @@
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="SearchEverywhereHistoryKey" value="trata&#9;null&#9;null" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
-    <property name="add_unversioned_files" value="$PROJECT_DIR$/.gitignore" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/testes/xmlTest.go&#10;H:/ProjetosGo/src/github.com/chapzin/parse-efd-fiscal/.gitignore" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="H:\ProjetosGo\src\github.com\chapzin\parse-efd-fiscal" />
-      <recent name="H:\ProjetosGo\spedfiscal\SpedFlag" />
-      <recent name="H:\ProjetosGo\spedfiscal" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="H:\ProjetosGo\src\github.com\chapzin\parse-efd-fiscal" />
       <recent name="H:\ProjetosGo\src\github.com\chapzin\parse-efd-fiscal\layout" />
       <recent name="H:\ProjetosGo\src\github.com\chapzin\parse-efd-fiscal\speds" />
       <recent name="H:\ProjetosGo\spedfiscal\limpaSped" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="H:\ProjetosGo\src\github.com\chapzin\parse-efd-fiscal\testes" />
+      <recent name="H:\ProjetosGo\src\github.com\chapzin\parse-efd-fiscal" />
+      <recent name="H:\ProjetosGo\spedfiscal\SpedFlag" />
+      <recent name="H:\ProjetosGo\spedfiscal" />
     </key>
   </component>
   <component name="RunManager">
@@ -291,17 +275,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-1688" y="19" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12313433" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14242055" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34042552" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -357,7 +341,8 @@
     <MESSAGE value="Feita a funcao para ler uma determinada pasta e ler linha a linha dos arquivos e adicionar no banco de dados" />
     <MESSAGE value="aplicado goroutines e criado conexao para cada um. Vlw crgimenes" />
     <MESSAGE value="adicionado wait para quantidade de go routines simultanes. Vlw crgimenes" />
-    <option name="LAST_COMMIT_MESSAGE" value="adicionado wait para quantidade de go routines simultanes. Vlw crgimenes" />
+    <MESSAGE value="Adicionado o bloco H005, corrigido o insert do H010 e atualizado readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adicionado o bloco H005, corrigido o insert do H010 e atualizado readme" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -611,13 +596,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/speds/41334079000760-065695089-20151201-20151231-1-E8B01CA9525F0BC4E5B8A0CE313B8E0A282ECA7C-SPED-EFD.txt" />
     <entry file="file://$PROJECT_DIR$/speds/41334079000255-069045038-20161201-20161231-0-A7A5C37CE836307A7A17CD3444B72F00AB4433E1-SPED-EFD.txt" />
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/BlocoH/RegH005.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="406">
@@ -655,7 +633,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SpedRead/SpedRead.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="68">
           <caret line="13" column="14" lean-forward="false" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
           <folding>
             <element signature="e#18#202#0" expanded="true" />
@@ -665,7 +643,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SpedClean/SpedClean.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
+        <state relative-caret-position="204">
           <caret line="16" column="44" lean-forward="false" selection-start-line="16" selection-start-column="44" selection-end-line="16" selection-end-column="44" />
           <folding>
             <element signature="e#19#64#0" expanded="true" />
@@ -673,7 +651,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/23130141334079000760550010000060781002141849-procNFe.xml">
+    <entry file="file://$PROJECT_DIR$/testes/23130141334079000760550010000060781002141849-procNFe.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="0" column="913" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="913" />
@@ -686,19 +664,24 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="255">
             <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xmlTest.go">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <element signature="e#14#89#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="17">
+          <caret line="1" column="8" lean-forward="false" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testes/xmlTest.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="16" lean-forward="false" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
