@@ -69,15 +69,11 @@ func (x Reg0190Xml) GetDescr() string {
 }
 
 func (x Reg0190Xml) GetDtIni() time.Time {
-	const longForm = "2006-01-02"
-	dtini, _ := time.Parse(longForm, SpedConvert.DataSpedMysql("1960-01-01"))
-	return dtini
+	return SpedConvert.ConvertDataNull()
 }
 
 func (x Reg0190Xml) GetDtFin() time.Time {
-	const longForm = "2006-01-02"
-	dtini, _ := time.Parse(longForm, SpedConvert.DataSpedMysql("1960-01-01"))
-	return dtini
+	return SpedConvert.ConvertDataNull()
 }
 
 func (x Reg0190Xml) GetCnpj() string {
