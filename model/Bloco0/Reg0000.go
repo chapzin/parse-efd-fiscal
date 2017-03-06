@@ -28,3 +28,4 @@ type Reg0000 struct {
 func (Reg0000) TableName() string {
 	return "reg_0000"
 }
+
