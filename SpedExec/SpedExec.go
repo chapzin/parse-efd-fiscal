@@ -17,14 +17,14 @@ type Regs struct {
 	Reg0200 Bloco0.Reg0200
 }
 
-func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
+func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 	switch ln1 {
 	case "0000":
 		ln := strings.Split(linha, "|")
 		reg0000Sped := Bloco0.Reg0000Sped{ln}
 		r.Reg0000 = Bloco0.CreateReg0000(reg0000Sped)
 		// Caso já exista informacoes da movimentacao dos produtos referente ao sped que está sendo importado os dados são deletados
-		SpedClean.CleanSpedItems(r.Reg0000.Cnpj,r.Reg0000.DtIni,r.Reg0000.DtFin,db)
+		SpedClean.CleanSpedItems(r.Reg0000.Cnpj, r.Reg0000.DtIni, r.Reg0000.DtFin, db)
 		db.NewRecord(r.Reg0000)
 		db.Create(&r.Reg0000)
 	case "0001":
@@ -37,19 +37,19 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "0150":
 		ln := strings.Split(linha, "|")
-		reg0150sped := Bloco0.Reg0150Sped{ln,r.Reg0000}
+		reg0150sped := Bloco0.Reg0150Sped{ln, r.Reg0000}
 		reg0150 := Bloco0.CreateReg0150(reg0150sped)
 		db.NewRecord(reg0150)
 		db.Create(&reg0150)
 	case "0190":
 		ln := strings.Split(linha, "|")
-		reg0190sped := Bloco0.Reg0190Sped{ln,r.Reg0000}
+		reg0190sped := Bloco0.Reg0190Sped{ln, r.Reg0000}
 		reg0190 := Bloco0.CreateReg0190(reg0190sped)
 		db.NewRecord(reg0190)
 		db.Create(&reg0190)
 	case "0200":
 		ln := strings.Split(linha, "|")
-		reg0200Sped := Bloco0.Reg0200Sped{ln,r.Reg0000}
+		reg0200Sped := Bloco0.Reg0200Sped{ln, r.Reg0000}
 		r.Reg0200 = Bloco0.CreateReg0200(reg0200Sped)
 		db.NewRecord(r.Reg0200)
 		db.Create(&r.Reg0200)
@@ -60,8 +60,8 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 	case "0210":
 		fmt.Println(linha)
 	case "0220":
-		ln := strings.Split(linha,"|")
-		reg0220sped := Bloco0.Reg0220Sped{ln,r.Reg0000,r.Reg0200}
+		ln := strings.Split(linha, "|")
+		reg0220sped := Bloco0.Reg0220Sped{ln, r.Reg0000, r.Reg0200}
 		reg0220 := Bloco0.CreateReg0220(reg0220sped)
 		db.NewRecord(reg0220)
 		db.Create(&reg0220)
@@ -84,8 +84,8 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 	case "C001":
 		fmt.Println(linha)
 	case "C100":
-		ln := strings.Split(linha,"|")
-		regC100sped := BlocoC.RegC100Sped{ln,r.Reg0000}
+		ln := strings.Split(linha, "|")
+		regC100sped := BlocoC.RegC100Sped{ln, r.Reg0000}
 		r.RegC100 = BlocoC.CreateRegC100(regC100sped)
 		db.NewRecord(r.RegC100)
 		db.Create(&r.RegC100)
@@ -121,8 +121,8 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "C170":
 		ln := strings.Split(linha, "|")
-		regC100sped := BlocoC.RegC170Sped{ln,r.Reg0000,r.RegC100}
-		regC170 :=BlocoC.CreateRegC170(regC100sped)
+		regC100sped := BlocoC.RegC170Sped{ln, r.Reg0000, r.RegC100}
+		regC170 := BlocoC.CreateRegC170(regC100sped)
 		db.NewRecord(regC170)
 		db.Create(&regC170)
 	case "C171":
@@ -165,13 +165,13 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "C400":
 		ln := strings.Split(linha, "|")
-		regC400sped := BlocoC.RegC400Sped{ln,r.Reg0000}
+		regC400sped := BlocoC.RegC400Sped{ln, r.Reg0000}
 		regC400 := BlocoC.CreateRegC400(regC400sped)
 		db.NewRecord(regC400)
 		db.Create(&regC400)
 	case "C405":
 		ln := strings.Split(linha, "|")
-		regC405sped :=BlocoC.RegC405Sped{ln,r.Reg0000}
+		regC405sped := BlocoC.RegC405Sped{ln, r.Reg0000}
 		regC405 := BlocoC.CreateRegC405(regC405sped)
 		db.NewRecord(regC405)
 		db.Create(&regC405)
@@ -179,13 +179,13 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "C420":
 		ln := strings.Split(linha, "|")
-		regC420sped := BlocoC.RegC420Sped{ln,r.Reg0000}
+		regC420sped := BlocoC.RegC420Sped{ln, r.Reg0000}
 		regC420 := BlocoC.CreateRegC420(regC420sped)
 		db.NewRecord(regC420)
 		db.Create(&regC420)
 	case "C425":
 		ln := strings.Split(linha, "|")
-		regC425sped := BlocoC.RegC425Sped{ln,r.Reg0000}
+		regC425sped := BlocoC.RegC425Sped{ln, r.Reg0000}
 		regC425 := BlocoC.CreateRegC425(regC425sped)
 		db.NewRecord(regC425)
 		db.Create(&regC425)
@@ -375,13 +375,13 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "H005":
 		ln := strings.Split(linha, "|")
-		regH005Sped := BlocoH.RegH005Sped{ln,r.Reg0000}
+		regH005Sped := BlocoH.RegH005Sped{ln, r.Reg0000}
 		regH005 := BlocoH.CreateRegH005(regH005Sped)
 		db.NewRecord(regH005)
 		db.Create(&regH005)
 	case "H010":
 		ln := strings.Split(linha, "|")
-		regH010Sped :=BlocoH.RegH010Sped{ln,r.Reg0000}
+		regH010Sped := BlocoH.RegH010Sped{ln, r.Reg0000}
 		regH010 := BlocoH.CreateRegH010(regH010Sped)
 		db.NewRecord(regH010)
 		db.Create(&regH010)
@@ -495,4 +495,3 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 
 	}
 }
-

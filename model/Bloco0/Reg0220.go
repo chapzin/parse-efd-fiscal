@@ -6,7 +6,6 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 )
 
-
 type iReg0220 interface {
 	GetReg() string
 	GetUnidConv() string
@@ -17,26 +16,24 @@ type iReg0220 interface {
 	GetCnpj() string
 }
 
-
 type Reg0220 struct {
 	gorm.Model
-	Reg string		`gorm:"type:varchar(4)"`
-	UnidConv string		`gorm:"type:varchar(6)"`
-	FatConv float64		`gorm:"type:decimal(12,6)"`
-	CodItem string		`gorm:"type:varchar(60)"`
-	DtIni time.Time 	`gorm:"type:date"`
-	DtFin time.Time 	`gorm:"type:date"`
-	Cnpj string		`gorm:"type:varchar(14)"`
+	Reg      string                `gorm:"type:varchar(4)"`
+	UnidConv string                `gorm:"type:varchar(6)"`
+	FatConv  float64                `gorm:"type:decimal(12,6)"`
+	CodItem  string                `gorm:"type:varchar(60)"`
+	DtIni    time.Time        `gorm:"type:date"`
+	DtFin    time.Time        `gorm:"type:date"`
+	Cnpj     string                `gorm:"type:varchar(14)"`
 }
 
 func (Reg0220) TableName() string {
 	return "reg_0220"
 }
 
-
 // Implementando Interface do Sped Reg0220
 type Reg0220Sped struct {
-	Ln []string
+	Ln      []string
 	Reg0000 Reg0000
 	Reg0200 Reg0200
 }
@@ -46,7 +43,7 @@ func (s Reg0220Sped) GetReg() string {
 }
 
 func (s Reg0220Sped) GetUnidConv() string {
-	return  s.Ln[2]
+	return s.Ln[2]
 }
 
 func (s Reg0220Sped) GetFatConv() float64 {
@@ -58,33 +55,26 @@ func (s Reg0220Sped) GetCodItem() string {
 }
 
 func (s Reg0220Sped) GetDtIni() time.Time {
-	return  s.Reg0000.DtIni
+	return s.Reg0000.DtIni
 }
 
-func (s Reg0220Sped) GetDtFin() time.Time  {
+func (s Reg0220Sped) GetDtFin() time.Time {
 	return s.Reg0000.DtFin
 }
 
-func (s Reg0220Sped) GetCnpj() string  {
+func (s Reg0220Sped) GetCnpj() string {
 	return s.Reg0000.Cnpj
 }
 
-
-func CreateReg0220 ( read iReg0220) Reg0220 {
+func CreateReg0220(read iReg0220) Reg0220 {
 	reg0220 := Reg0220{
-		Reg:		read.GetReg(),
-		UnidConv:	read.GetUnidConv(),
-		FatConv:	read.GetFatConv(),
-		CodItem:	read.GetCodItem(),
-		DtIni:		read.GetDtIni(),
-		DtFin:		read.GetDtFin(),
-		Cnpj:		read.GetCnpj(),
+		Reg:      read.GetReg(),
+		UnidConv: read.GetUnidConv(),
+		FatConv:  read.GetFatConv(),
+		CodItem:  read.GetCodItem(),
+		DtIni:    read.GetDtIni(),
+		DtFin:    read.GetDtFin(),
+		Cnpj:     read.GetCnpj(),
 	}
 	return reg0220
 }
-
-
-
-
-
-

@@ -10,18 +10,19 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/SpedError"
 	"time"
 )
+
 var id int
 var maxid = 24
 // Ler todos os arquivos de uma determinada pasta
-func RecursiveSpeds(path string,db gorm.DB){
+func RecursiveSpeds(path string) {
 	filepath.Walk(path, func(sped string, f os.FileInfo, err error) error {
 		if f.IsDir() == false {
 			ext := filepath.Ext(sped)
-			if ext == ".txt"{
+			if ext == ".txt" {
 				// Possivelmente uma goroutines começando aqui
 				r := SpedExec.Regs{}
 				id++
-				go ProcessaSped(sped,&r,db)
+				go ProcessaSped(sped, &r)
 				wait()
 				// Goroutines finalizando aqui
 			}
@@ -30,8 +31,7 @@ func RecursiveSpeds(path string,db gorm.DB){
 	})
 }
 
-
-func wait (){
+func wait() {
 	for {
 		if id >= maxid {
 			time.Sleep(1 * time.Second)
@@ -40,33 +40,29 @@ func wait (){
 		}
 	}
 
-
 }
 
-func ProcessaSped (sped string,r *SpedExec.Regs,db2 gorm.DB) {
+func ProcessaSped(sped string, r *SpedExec.Regs) {
 
-	db, err := gorm.Open("mysql","root@/auditoria2?charset=utf8")
+	db, err := gorm.Open("mysql", "root@/auditoria2?charset=utf8")
 	file, err := os.Open(sped)
 	SpedError.CheckErr(err)
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
 	// guarda cada linha em indice diferente do slice
 	for scanner.Scan() {
-		ProcessRows(scanner.Text(),r,*db)
+		ProcessRows(scanner.Text(), r, *db)
 	}
 	id--
 }
 
-func ProcessRows (line string,r *SpedExec.Regs ,db gorm.DB){
-		if line == "" {
-			return
-		}
-		if line[:1] == "|"{
-			line = strings.Replace(line, ",", ".", -1)
-			ln := strings.Split(line, "|")
-			SpedExec.TrataLinha(ln[1], line,r, db)
-		}
+func ProcessRows(line string, r *SpedExec.Regs, db gorm.DB) {
+	if line == "" {
+		return
+	}
+	if line[:1] == "|" {
+		line = strings.Replace(line, ",", ".", -1)
+		ln := strings.Split(line, "|")
+		SpedExec.TrataLinha(ln[1], line, r, db)
+	}
 }
-
-
-
