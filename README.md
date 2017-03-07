@@ -1,4 +1,4 @@
-# EFD Fiscal em Go para banco de dados mysql,postgrees,sqlite,mssql
+# EFD Fiscal em Go para banco de dados relacional
 Projeto voltado para fazer o mapeamento e parse do sped fiscal para dentro do banco de dados
 
 #O que é o Sped Fiscal?
