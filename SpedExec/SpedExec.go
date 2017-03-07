@@ -8,7 +8,6 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/model/BlocoH"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 	"github.com/chapzin/parse-efd-fiscal/SpedClean"
 )
 
@@ -376,38 +375,16 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "H005":
 		ln := strings.Split(linha, "|")
-		regH005 := BlocoH.RegH005{
-			Reg: 		ln[1],
-			DtInv: 		SpedConvert.ConvertData(ln[2]),
-			VlInv:		SpedConvert.ConvFloat(ln[3]),
-			MotInv:		ln[4],
-			DtIni:		r.Reg0000.DtIni,
-			DtFin:		r.Reg0000.DtFin,
-			Cnpj:		r.Reg0000.Cnpj,
-		}
+		regH005Sped := BlocoH.RegH005Sped{ln,r.Reg0000}
+		regH005 := BlocoH.CreateRegH005(regH005Sped)
 		db.NewRecord(regH005)
 		db.Create(&regH005)
 	case "H010":
 		ln := strings.Split(linha, "|")
-		regH010 := BlocoH.RegH010{
-			Reg: 		ln[1],
-			CodItem: 	ln[2],
-			Unid: 		ln[3],
-			Qtd: 		SpedConvert.ConvFloat(ln[4]),
-			VlUnit: 	SpedConvert.ConvFloat(ln[5]),
-			VlItem: 	SpedConvert.ConvFloat(ln[6]),
-			IndProp: 	ln[7],
-			CodPart: 	ln[8],
-			TxtCompl: 	ln[9],
-			CodCta: 	ln[10],
-			VlItemIr:	SpedConvert.ConvFloat(ln[11]),
-			DtIni: 		r.Reg0000.DtIni,
-			DtFin:		r.Reg0000.DtFin,
-			Cnpj:		r.Reg0000.Cnpj,
-		}
+		regH010Sped :=BlocoH.RegH010Sped{ln,r.Reg0000}
+		regH010 := BlocoH.CreateRegH010(regH010Sped)
 		db.NewRecord(regH010)
 		db.Create(&regH010)
-
 	case "H020":
 		fmt.Println(linha)
 	case "H990":
