@@ -28,7 +28,6 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		SpedClean.CleanSpedItems(r.Reg0000.Cnpj,r.Reg0000.DtIni,r.Reg0000.DtFin,db)
 		db.NewRecord(r.Reg0000)
 		db.Create(&r.Reg0000)
-
 	case "0001":
 		fmt.Println(linha)
 	case "0005":
@@ -43,14 +42,12 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		reg0150 := Bloco0.CreateReg0150(reg0150sped)
 		db.NewRecord(reg0150)
 		db.Create(&reg0150)
-
 	case "0190":
 		ln := strings.Split(linha, "|")
 		reg0190sped := Bloco0.Reg0190Sped{ln,r.Reg0000}
 		reg0190 := Bloco0.CreateReg0190(reg0190sped)
 		db.NewRecord(reg0190)
 		db.Create(&reg0190)
-
 	case "0200":
 		ln := strings.Split(linha, "|")
 		reg0200Sped := Bloco0.Reg0200Sped{ln,r.Reg0000}
@@ -69,7 +66,6 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		reg0220 := Bloco0.CreateReg0220(reg0220sped)
 		db.NewRecord(reg0220)
 		db.Create(&reg0220)
-
 	case "0300":
 		fmt.Println(linha)
 	case "0305":
@@ -90,44 +86,10 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "C100":
 		ln := strings.Split(linha,"|")
-		r.RegC100 =BlocoC.RegC100{
-			Reg : 		ln[1],
-			IndOper : 	ln[2],
-			IndEmit :	ln[3],
-			CodPart : 	ln[4],
-			CodMod : 	ln[5],
-			CodSit : 	ln[6],
-			Ser : 		ln[7],
-			NumDoc : 	ln[8],
-			ChvNfe :	ln[9],
-			DtDoc : 	SpedConvert.ConvertData(ln[10]),
-			DtES : 		SpedConvert.ConvertData(ln[11]),
-			VlDoc : 	SpedConvert.ConvFloat(ln[12]),
-			IndPgto : 	ln[13],
-			VlDesc : 	SpedConvert.ConvFloat(ln[14]),
-			VlAbatNt : 	SpedConvert.ConvFloat(ln[15]),
-			VlMerc : 	SpedConvert.ConvFloat(ln[16]),
-			IndFrt : 	ln[17],
-			VlFrt : 	SpedConvert.ConvFloat(ln[18]),
-			VlSeg : 	SpedConvert.ConvFloat(ln[19]),
-			VlOutDa : 	SpedConvert.ConvFloat(ln[20]),
-			VlBcIcms : 	SpedConvert.ConvFloat(ln[21]),
-			VlIcms : 	SpedConvert.ConvFloat(ln[22]),
-			VlBcIcmsSt : 	SpedConvert.ConvFloat(ln[23]),
-			VlIcmsSt : 	SpedConvert.ConvFloat(ln[24]),
-			VlIpi : 	SpedConvert.ConvFloat(ln[25]),
-			VlPis : 	SpedConvert.ConvFloat(ln[26]),
-			VlCofins : 	SpedConvert.ConvFloat(ln[27]),
-			VlPisSt : 	SpedConvert.ConvFloat(ln[28]),
-			VlCofinsSt : 	SpedConvert.ConvFloat(ln[29]),
-			DtIni: 		r.Reg0000.DtIni,
-			DtFin: 		r.Reg0000.DtFin,
-			Cnpj: 		r.Reg0000.Cnpj,
-		}
-
+		regC100sped := BlocoC.RegC100Sped{ln,r.Reg0000}
+		r.RegC100 = BlocoC.CreateRegC100(regC100sped)
 		db.NewRecord(r.RegC100)
 		db.Create(&r.RegC100)
-
 	case "C101":
 		fmt.Println(linha)
 	case "C105":

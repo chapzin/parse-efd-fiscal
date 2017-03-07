@@ -11,7 +11,7 @@ import (
 type Reg0190 struct {
 	gorm.Model
 	Reg string	`gorm:"type:varchar(4)"`
-	Unid string	`gorm:"type:varchar(6);unique_index"`
+	Unid string	`gorm:"type:varchar(6)"`
 	Descr string
 	DtIni time.Time `gorm:"type:date"`
 	DtFin time.Time `gorm:"type:date"`

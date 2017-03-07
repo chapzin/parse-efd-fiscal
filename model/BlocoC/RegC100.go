@@ -3,6 +3,8 @@ package BlocoC
 import (
 	"github.com/jinzhu/gorm"
 	"time"
+	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
+	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 )
 
 type RegC100 struct {
@@ -43,4 +45,56 @@ type RegC100 struct {
 
 func (RegC100) TableName() string {
 	return "reg_c100"
+}
+
+// Implementando Interface do Sped RegC100
+type RegC100Sped struct {
+	Ln []string
+	Reg0000 Bloco0.Reg0000
+}
+
+type iRegC100 interface {
+	GetRegC100() RegC100
+}
+
+func (s RegC100Sped) GetRegC100() RegC100 {
+	regC100 := RegC100{
+		Reg: 		s.Ln[1],
+		IndOper: 	s.Ln[2],
+		IndEmit: 	s.Ln[3],
+		CodPart: 	s.Ln[4],
+		CodMod: 	s.Ln[5],
+		CodSit: 	s.Ln[6],
+		Ser: 		s.Ln[7],
+		NumDoc: 	s.Ln[8],
+		ChvNfe: 	s.Ln[9],
+		DtDoc: 		SpedConvert.ConvertData(s.Ln[10]),
+		DtES: 		SpedConvert.ConvertData(s.Ln[11]),
+		VlDoc: 		SpedConvert.ConvFloat(s.Ln[12]),
+		IndPgto: 	s.Ln[13],
+		VlDesc: 	SpedConvert.ConvFloat(s.Ln[14]),
+		VlAbatNt: 	SpedConvert.ConvFloat(s.Ln[15]),
+		VlMerc: 	SpedConvert.ConvFloat(s.Ln[16]),
+		IndFrt: 	s.Ln[17],
+		VlFrt: 		SpedConvert.ConvFloat(s.Ln[18]),
+		VlSeg: 		SpedConvert.ConvFloat(s.Ln[19]),
+		VlOutDa: 	SpedConvert.ConvFloat(s.Ln[20]),
+		VlBcIcms: 	SpedConvert.ConvFloat(s.Ln[21]),
+		VlIcms:		SpedConvert.ConvFloat(s.Ln[22]),
+		VlBcIcmsSt: 	SpedConvert.ConvFloat(s.Ln[23]),
+		VlIcmsSt: 	SpedConvert.ConvFloat(s.Ln[24]),
+		VlIpi: 		SpedConvert.ConvFloat(s.Ln[25]),
+		VlPis: 		SpedConvert.ConvFloat(s.Ln[26]),
+		VlCofins: 	SpedConvert.ConvFloat(s.Ln[27]),
+		VlPisSt: 	SpedConvert.ConvFloat(s.Ln[29]),
+		VlCofinsSt: 	SpedConvert.ConvFloat(s.Ln[30]),
+		DtIni: 		s.Reg0000.DtIni,
+		DtFin: 		s.Reg0000.DtFin,
+		Cnpj: 		s.Reg0000.Cnpj,
+	}
+	return regC100
+}
+
+func CreateRegC100 (read iRegC100) RegC100 {
+	return read.GetRegC100()
 }
