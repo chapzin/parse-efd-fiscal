@@ -3,12 +3,13 @@ package Bloco0
 import(
 	"github.com/jinzhu/gorm"
 	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
+	"time"
 )
 
 type Reg0150 struct {
 	gorm.Model
 	Reg string		`gorm:"type:varchar(4)"`
-	CodPart string		`gorm:"type:varchar(60);unique_index"`
+	CodPart string		`gorm:"type:varchar(60);"`
 	Nome string		`gorm:"type:varchar(100)"`
 	CodPais string		`gorm:"type:varchar(5)"`
 	Cnpj string		`gorm:"type:varchar(15)"`
@@ -20,6 +21,9 @@ type Reg0150 struct {
 	Num string		`gorm:"type:varchar(10)"`
 	Compl string		`gorm:"type:varchar(60)"`
 	Bairro string		`gorm:"type:varchar(60)"`
+	DtIni time.Time 	`gorm:"type:date"`
+	DtFin time.Time 	`gorm:"type:date"`
+	CnpjSped string		`gorm:"type:varchar(14)"`
 
 }
 
@@ -29,6 +33,7 @@ func (Reg0150) TableName() string {
 
 type Reg0150Sped struct {
 	Ln []string
+	Reg0000 Reg0000
 }
 
 func (s Reg0150Sped) GetReg() string {
@@ -83,6 +88,19 @@ func (s Reg0150Sped) GetBairro() string {
 	return s.Ln[13]
 }
 
+func (s Reg0150Sped) GetDtIni() time.Time {
+	return s.Reg0000.DtIni
+}
+
+func (s Reg0150Sped) GetDtFin() time.Time {
+	return s.Reg0000.DtFin
+}
+
+func (s Reg0150Sped) GetCnpjSped() string  {
+	return s.Reg0000.Cnpj
+}
+
+
 type iReg0150 interface {
 	GetReg() string
 	GetCodPart() string
@@ -97,6 +115,9 @@ type iReg0150 interface {
 	GetNum() string
 	GetCompl() string
 	GetBairro() string
+	GetDtIni() time.Time
+	GetDtFin() time.Time
+	GetCnpjSped() string
 }
 
 type Reg0150Xml struct {
@@ -171,6 +192,19 @@ func (x Reg0150Xml) GetBairro() string  {
 	return bairro
 }
 
+func (x Reg0150Xml) GetDtIni() time.Time {
+	return SpedConvert.ConvertDataNull()
+}
+
+func (x Reg0150Xml) GetDtFin() time.Time {
+	return SpedConvert.ConvertDataNull()
+}
+
+func (x Reg0150Xml) GetCnpjSped() string {
+	return ""
+}
+
+
 func CreateReg0150 (read iReg0150) Reg0150 {
 	reg0150 := Reg0150{
 		Reg:		read.GetReg(),
@@ -186,6 +220,9 @@ func CreateReg0150 (read iReg0150) Reg0150 {
 		Num:		read.GetNum(),
 		Compl:		read.GetCompl(),
 		Bairro:		read.GetBairro(),
+		DtIni:		read.GetDtIni(),
+		DtFin:		read.GetDtFin(),
+		CnpjSped:	read.GetCnpjSped(),
 	}
 	return  reg0150
 }
