@@ -21,23 +21,8 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 	switch ln1 {
 	case "0000":
 		ln := strings.Split(linha, "|")
-		r.Reg0000 = Bloco0.Reg0000{
-			Reg:		ln[1],
-			CodVer:		ln[2],
-			CodFin:		SpedConvert.ConvInt(ln[3]),
-			DtIni:		SpedConvert.ConvertData(ln[4]),
-			DtFin:		SpedConvert.ConvertData(ln[5]),
-			Nome:		ln[6],
-			Cnpj:		ln[7],
-			Cpf:		ln[8],
-			Uf:		ln[9],
-			Ie:		ln[10],
-			CodMun:		ln[11],
-			Im:		ln[12],
-			Suframa:	ln[13],
-			IndPerfil:	ln[14],
-			IndAtiv:	SpedConvert.ConvInt(ln[15]),
-		}
+		reg0000Sped := Bloco0.Reg0000Sped{ln}
+		r.Reg0000 = Bloco0.CreateReg0000(reg0000Sped)
 		// Caso já exista informacoes da movimentacao dos produtos referente ao sped que está sendo importado os dados são deletados
 		SpedClean.CleanSpedItems(r.Reg0000.Cnpj,r.Reg0000.DtIni,r.Reg0000.DtFin,db)
 		db.NewRecord(r.Reg0000)
@@ -53,35 +38,15 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "0150":
 		ln := strings.Split(linha, "|")
-		reg0150 := Bloco0.Reg0150{
-			Reg : ln[1],
-			CodPart : ln[2],
-			Nome : ln[3],
-			CodPais : ln[4],
-			Cnpj : ln[5],
-			Cpf : ln[6],
-			Ie : ln[7],
-			CodMun : ln[8],
-			Suframa : ln[9],
-			Endereco : ln[10],
-			Num : ln[11],
-			Compl : ln[12],
-			Bairro : ln[13],
-		}
+		reg0150sped := Bloco0.Reg0150Sped{ln,r.Reg0000}
+		reg0150 := Bloco0.CreateReg0150(reg0150sped)
 		db.NewRecord(reg0150)
 		db.Create(&reg0150)
 
 	case "0190":
 		ln := strings.Split(linha, "|")
-
-		reg0190 := Bloco0.Reg0190{
-			Reg:	ln[1],
-			Unid:	ln[2],
-			Descr:	ln[3],
-			DtIni:	r.Reg0000.DtIni,
-			DtFin:	r.Reg0000.DtFin,
-			Cnpj:	r.Reg0000.Cnpj,
-		}
+		reg0190sped := Bloco0.Reg0190Sped{ln,r.Reg0000}
+		reg0190 := Bloco0.CreateReg0190(reg0190sped)
 		db.NewRecord(reg0190)
 		db.Create(&reg0190)
 
@@ -114,14 +79,8 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "0220":
 		ln := strings.Split(linha,"|")
-		reg0220 := Bloco0.Reg0220{
-			Reg: 		ln[1],
-			UnidConv: 	ln[2],
-			FatConv: 	SpedConvert.ConvFloat(ln[3]),
-			DtIni: 		r.Reg0000.DtIni,
-			DtFin: 		r.Reg0000.DtFin,
-			Cnpj: 		r.Reg0000.Cnpj,
-		}
+		reg0220sped := Bloco0.Reg0220Sped{ln,r.Reg0000}
+		reg0220 := Bloco0.CreateReg0220(reg0220sped)
 		db.NewRecord(reg0220)
 		db.Create(&reg0220)
 
