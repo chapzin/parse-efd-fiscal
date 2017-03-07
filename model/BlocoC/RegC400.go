@@ -3,6 +3,7 @@ package BlocoC
 import (
 	"time"
 	"github.com/jinzhu/gorm"
+	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
 )
 
 type RegC400 struct {
@@ -19,4 +20,32 @@ type RegC400 struct {
 
 func (RegC400) TableName() string {
 	return "reg_c400"
+}
+
+// Implementando Interfaces do Sped RegC400
+type RegC400Sped struct {
+	Ln []string
+	Reg0000 Bloco0.Reg0000
+}
+
+type iRegC400 interface {
+	GetRegC400() RegC400
+}
+
+func (s RegC400Sped) GetRegC400() RegC400 {
+	regC400 := RegC400{
+		Reg: s.Ln[1],
+		CodMod: s.Ln[2],
+		EcfMod: s.Ln[3],
+		EcfFab: s.Ln[4],
+		EcfCx: s.Ln[5],
+		DtIni: s.Reg0000.DtIni,
+		DtFin: s.Reg0000.DtFin,
+		Cnpj: s.Reg0000.Cnpj,
+	}
+	return regC400
+}
+
+func CreateRegC400(read iRegC400) RegC400{
+	return read.GetRegC400()
 }

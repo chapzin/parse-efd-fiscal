@@ -166,66 +166,28 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "C400":
 		ln := strings.Split(linha, "|")
-		regC400 := BlocoC.RegC400{
-			Reg: ln[1],
-			CodMod: ln[2],
-			EcfMod: ln[3],
-			EcfFab: ln[4],
-			EcfCx: ln[5],
-			DtIni: 		r.Reg0000.DtIni,
-			DtFin: 		r.Reg0000.DtFin,
-			Cnpj: 		r.Reg0000.Cnpj,
-		}
+		regC400sped := BlocoC.RegC400Sped{ln,r.Reg0000}
+		regC400 := BlocoC.CreateRegC400(regC400sped)
 		db.NewRecord(regC400)
 		db.Create(&regC400)
 	case "C405":
 		ln := strings.Split(linha, "|")
-		regC405 := BlocoC.RegC405{
-			Reg: ln[1],
-			DtDoc: SpedConvert.ConvertData(ln[2]),
-			Cro: ln[3],
-			Crz: ln[4],
-			NumCooFin: ln[5],
-			GtFin: SpedConvert.ConvFloat(ln[6]),
-			VlBrt: SpedConvert.ConvFloat(ln[7]),
-			DtIni: 		r.Reg0000.DtIni,
-			DtFin: 		r.Reg0000.DtFin,
-			Cnpj: 		r.Reg0000.Cnpj,
-
-		}
+		regC405sped :=BlocoC.RegC405Sped{ln,r.Reg0000}
+		regC405 := BlocoC.CreateRegC405(regC405sped)
 		db.NewRecord(regC405)
 		db.Create(&regC405)
 	case "C410":
 		fmt.Println(linha)
 	case "C420":
 		ln := strings.Split(linha, "|")
-		regC420 := BlocoC.RegC420{
-			Reg: ln[1],
-			CodTotPar: ln[2],
-			VlrAcumTot: SpedConvert.ConvFloat(ln[3]),
-			NrTot: ln[4],
-			DescrNrTot: ln[5],
-			DtIni: 		r.Reg0000.DtIni,
-			DtFin: 		r.Reg0000.DtFin,
-			Cnpj: 		r.Reg0000.Cnpj,
-		}
+		regC420sped := BlocoC.RegC420Sped{ln,r.Reg0000}
+		regC420 := BlocoC.CreateRegC420(regC420sped)
 		db.NewRecord(regC420)
 		db.Create(&regC420)
 	case "C425":
 		ln := strings.Split(linha, "|")
-		regC425 := BlocoC.RegC425{
-			Reg: ln[1],
-			CodItem: ln[2],
-			Qtd: SpedConvert.ConvFloat(ln[3]),
-			Unid: ln[4],
-			VlItem: SpedConvert.ConvFloat(ln[5]),
-			VlPis: SpedConvert.ConvFloat(ln[6]),
-			VlCofins: SpedConvert.ConvFloat(ln[7]),
-			DtIni: 		r.Reg0000.DtIni,
-			DtFin: 		r.Reg0000.DtFin,
-			Cnpj: 		r.Reg0000.Cnpj,
-
-		}
+		regC425sped := BlocoC.RegC425Sped{ln,r.Reg0000}
+		regC425 := BlocoC.CreateRegC425(regC425sped)
 		db.NewRecord(regC425)
 		db.Create(&regC425)
 	case "C460":

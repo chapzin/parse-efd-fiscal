@@ -3,6 +3,8 @@ package BlocoC
 import (
 	"time"
 	"github.com/jinzhu/gorm"
+	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
+	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 )
 
 type RegC405 struct {
@@ -21,4 +23,34 @@ type RegC405 struct {
 
 func (RegC405) TableName() string {
 	return "reg_c405"
+}
+
+// Implementando Interface do Sped RegC405
+type RegC405Sped struct {
+	Ln []string
+	Reg0000 Bloco0.Reg0000
+}
+
+type iRegC405 interface {
+	GetRegC405() RegC405
+}
+
+func (s RegC405Sped) GetRegC405() RegC405 {
+	regC405 := RegC405{
+		Reg: s.Ln[1],
+		DtDoc: SpedConvert.ConvertData(s.Ln[2]),
+		Cro: s.Ln[3],
+		Crz: s.Ln[4],
+		NumCooFin: s.Ln[5],
+		GtFin: SpedConvert.ConvFloat(s.Ln[6]),
+		VlBrt: SpedConvert.ConvFloat(s.Ln[7]),
+		DtIni: s.Reg0000.DtIni,
+		DtFin: s.Reg0000.DtFin,
+		Cnpj: s.Reg0000.Cnpj,
+	}
+	return regC405
+}
+
+func CreateRegC405 (read iRegC405) RegC405{
+	return read.GetRegC405()
 }
