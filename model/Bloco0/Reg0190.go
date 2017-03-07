@@ -22,85 +22,49 @@ func (Reg0190) TableName() string {
 	return "reg_0190"
 }
 
+
+type iReg0190 interface {
+	GetReg0190() Reg0190
+
+}
+
 // Implementando Interface do Sped Reg0190
 type Reg0190Sped struct {
 	Ln []string
 	Reg0000 Reg0000
 }
 
-func (s Reg0190Sped) GetReg() string {
-	return s.Ln[1]
-}
-
-func (s Reg0190Sped) GetUnid() string {
-	return s.Ln[2]
-}
-
-func (s Reg0190Sped) GetDescr() string {
-	return  s.Ln[3]
-}
-
-func (s Reg0190Sped) GetDtIni() time.Time {
-	return s.Reg0000.DtIni
-}
-
-func (s Reg0190Sped) GetDtFin() time.Time {
-	return s.Reg0000.DtFin
-}
-
-func (s Reg0190Sped) GetCnpj() string  {
-	return s.Reg0000.Cnpj
+func (x Reg0190Xml) GetReg0190() Reg0190 {
+	reg0190 := Reg0190{
+		Reg:		s.Ln[1],
+		Unid:		s.Ln[2],
+		Descr:		s.Ln[3],
+		DtIni:		s.Reg0000.DtIni,
+		DtFin:		s.Reg0000.DtFin,
+		Cnpj:		s.Reg0000.Cnpj,
+	}
+	return reg0190
 }
 
 type Reg0190Xml struct {
 	Data string
 }
 
-func (x Reg0190Xml ) GetReg() string {
-	return "0190"
-}
 
-func (x Reg0190Xml) GetUnid() string  {
-	return x.Data
-}
-
-func (x Reg0190Xml) GetDescr() string {
-	return "Importado Xml"
-}
-
-func (x Reg0190Xml) GetDtIni() time.Time {
-	return SpedConvert.ConvertDataNull()
-}
-
-func (x Reg0190Xml) GetDtFin() time.Time {
-	return SpedConvert.ConvertDataNull()
-}
-
-func (x Reg0190Xml) GetCnpj() string {
-	return ""
-}
-
-
-type iReg0190 interface {
-	GetReg() string
-	GetUnid() string
-	GetDescr() string
-	GetDtIni() time.Time
-	GetDtFin() time.Time
-	GetCnpj() string
-
+func (x Reg0190Xml) GetReg0190() Reg0190 {
+	reg0190 := Reg0190{
+		Reg:		"0190",
+		Unid:		x.Data,
+		Descr:		"Importado Xml",
+		DtIni:		SpedConvert.ConvertDataNull(),
+		DtFin:		SpedConvert.ConvertDataNull(),
+		Cnpj:		"",
+	}
+	return reg0190
 }
 
 func CreateReg0190 (read iReg0190) Reg0190 {
-	reg0190 := Reg0190{
-		Reg:		read.GetReg(),
-		Unid:		read.GetUnid(),
-		Descr:		read.GetDescr(),
-		DtIni:		read.GetDtIni(),
-		DtFin:		read.GetDtFin(),
-		Cnpj:		read.GetCnpj(),
-	}
-	return reg0190
+	return read.GetReg0190()
 }
 
 
