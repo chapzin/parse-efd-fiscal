@@ -34,7 +34,7 @@ type Reg0190Sped struct {
 	Reg0000 Reg0000
 }
 
-func (x Reg0190Xml) GetReg0190() Reg0190 {
+func (s Reg0190Sped) GetReg0190() Reg0190 {
 	reg0190 := Reg0190{
 		Reg:		s.Ln[1],
 		Unid:		s.Ln[2],

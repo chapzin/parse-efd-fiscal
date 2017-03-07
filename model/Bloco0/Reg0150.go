@@ -50,7 +50,7 @@ func (s Reg0150Sped) GetReg0150() Reg0150 {
 		CodPais:	s.Ln[4],
 		Cnpj:		s.Ln[5],
 		Cpf:		s.Ln[6],
-		Ie:			s.Ln[7],
+		Ie:		s.Ln[7],
 		CodMun:		s.Ln[8],
 		Suframa:	s.Ln[9],
 		Endereco:	s.Ln[10],

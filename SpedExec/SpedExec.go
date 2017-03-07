@@ -53,23 +53,8 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 
 	case "0200":
 		ln := strings.Split(linha, "|")
-		r.Reg0200 = Bloco0.Reg0200{
-			Reg:        ln[1],
-			CodItem:    ln[2],
-			DescrItem:  ln[3],
-			CodBarra:   ln[4],
-			CodAntItem: ln[5],
-			UnidInv:    ln[6],
-			TipoItem:   ln[7],
-			CodNcm:     ln[8],
-			ExIpi:      ln[9],
-			CodGen:     ln[10],
-			CodLst:     ln[11],
-			AliqIcms:   SpedConvert.ConvFloat(ln[12]),
-			DtIni: r.Reg0000.DtIni,
-			DtFin: r.Reg0000.DtFin,
-			Cnpj: r.Reg0000.Cnpj,
-		}
+		reg0200Sped := Bloco0.Reg0200Sped{ln,r.Reg0000}
+		r.Reg0200 = Bloco0.CreateReg0200(reg0200Sped)
 		db.NewRecord(r.Reg0200)
 		db.Create(&r.Reg0200)
 	case "0205":

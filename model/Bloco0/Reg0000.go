@@ -35,32 +35,32 @@ type Reg0000Sped struct {
 	Ln []string
 }
 
-func CreateReg0000 (read iReg0000) Reg0000 {
-	return read.GetReg0000()
-}
-
 type iReg0000 interface {
 	GetReg0000() Reg0000
 }
 
 func (s Reg0000Sped) GetReg0000() Reg0000 {
 	reg0000 := Reg0000{
-			Reg:		s.Ln[1],
-			CodVer:		s.Ln[2],
-			CodFin:		SpedConvert.ConvInt(s.Ln[3]),
-			DtIni:		SpedConvert.ConvertData(s.Ln[4]),
-			DtFin:		SpedConvert.ConvertData(s.Ln[5]),
-			Nome:		s.Ln[6],
-			Cnpj:		s.Ln[7],
-			Cpf:		s.Ln[8],
-			Uf:			s.Ln[9],
-			Ie:			s.Ln[10],
-			CodMun:		s.Ln[11],
-			Im:			s.Ln[12],
-			Suframa:	s.Ln[13],
-			IndPerfil:	s.Ln[14],
-			IndAtiv:	SpedConvert.ConvInt(s.Ln[15]),
-		}
+		Reg:		s.Ln[1],
+		CodVer:		s.Ln[2],
+		CodFin:		SpedConvert.ConvInt(s.Ln[3]),
+		DtIni:		SpedConvert.ConvertData(s.Ln[4]),
+		DtFin:		SpedConvert.ConvertData(s.Ln[5]),
+		Nome:		s.Ln[6],
+		Cnpj:		s.Ln[7],
+		Cpf:		s.Ln[8],
+		Uf:			s.Ln[9],
+		Ie:			s.Ln[10],
+		CodMun:		s.Ln[11],
+		Im:			s.Ln[12],
+		Suframa:	s.Ln[13],
+		IndPerfil:	s.Ln[14],
+		IndAtiv:	SpedConvert.ConvInt(s.Ln[15]),
+	}
 
 	return reg0000
+}
+
+func CreateReg0000 (read iReg0000) Reg0000 {
+	return read.GetReg0000()
 }

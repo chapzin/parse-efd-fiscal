@@ -4,6 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"time"
 
+	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 )
 
 type Reg0200 struct {
@@ -27,4 +28,40 @@ type Reg0200 struct {
 
 func (Reg0200) TableName() string {
 	return "reg_0200"
+}
+
+// Implementando Inteface do Sped Reg0200
+type Reg0200Sped struct {
+	Ln []string
+	Reg0000 Reg0000
+}
+
+type iReg0200 interface {
+	GetReg0200() Reg0200
+}
+
+func (s Reg0200Sped) GetReg0200() Reg0200 {
+	reg0200 := Reg0200{
+		Reg: s.Ln[1],
+		CodItem: s.Ln[2],
+		DescrItem: s.Ln[3],
+		CodBarra: s.Ln[4],
+		CodAntItem: s.Ln[5],
+		UnidInv: s.Ln[6],
+		TipoItem: s.Ln[7],
+		CodNcm: s.Ln[8],
+		ExIpi: s.Ln[9],
+		CodGen: s.Ln[10],
+		CodLst: s.Ln[11],
+		AliqIcms: SpedConvert.ConvFloat(s.Ln[12]),
+		DtIni: s.Reg0000.DtIni,
+		DtFin: s.Reg0000.DtFin,
+		Cnpj: s.Reg0000.Cnpj,
+
+	}
+	return reg0200
+}
+
+func CreateReg0200 (read iReg0200) Reg0200 {
+	return read.GetReg0200()
 }
