@@ -11,6 +11,7 @@ type iReg0220 interface {
 	GetReg() string
 	GetUnidConv() string
 	GetFatConv() float64
+	GetCodItem() string
 	GetDtIni() time.Time
 	GetDtFin() time.Time
 	GetCnpj() string
@@ -22,6 +23,7 @@ type Reg0220 struct {
 	Reg string		`gorm:"type:varchar(4)"`
 	UnidConv string		`gorm:"type:varchar(6)"`
 	FatConv float64		`gorm:"type:decimal(12,6)"`
+	CodItem string		`gorm:"type:varchar(60)"`
 	DtIni time.Time 	`gorm:"type:date"`
 	DtFin time.Time 	`gorm:"type:date"`
 	Cnpj string		`gorm:"type:varchar(14)"`
@@ -36,6 +38,7 @@ func (Reg0220) TableName() string {
 type Reg0220Sped struct {
 	Ln []string
 	Reg0000 Reg0000
+	Reg0200 Reg0200
 }
 
 func (s Reg0220Sped) GetReg() string {
@@ -50,6 +53,10 @@ func (s Reg0220Sped) GetFatConv() float64 {
 	return SpedConvert.ConvFloat(s.Ln[3])
 }
 
+func (s Reg0220Sped) GetCodItem() string {
+	return s.Reg0200.CodItem
+}
+
 func (s Reg0220Sped) GetDtIni() time.Time {
 	return  s.Reg0000.DtIni
 }
@@ -62,11 +69,13 @@ func (s Reg0220Sped) GetCnpj() string  {
 	return s.Reg0000.Cnpj
 }
 
+
 func CreateReg0220 ( read iReg0220) Reg0220 {
 	reg0220 := Reg0220{
 		Reg:		read.GetReg(),
 		UnidConv:	read.GetUnidConv(),
 		FatConv:	read.GetFatConv(),
+		CodItem:	read.GetCodItem(),
 		DtIni:		read.GetDtIni(),
 		DtFin:		read.GetDtFin(),
 		Cnpj:		read.GetCnpj(),

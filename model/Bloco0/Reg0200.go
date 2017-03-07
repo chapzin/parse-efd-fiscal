@@ -9,7 +9,7 @@ import (
 type Reg0200 struct {
 	gorm.Model
 	Reg string		`gorm:"type:varchar(4)"`
-	CodItem string		`gorm:"type:varchar(60);unique_index"`
+	CodItem string		`gorm:"type:varchar(60)"`
 	DescrItem string
 	CodBarra string
 	CodAntItem string	`gorm:"type:varchar(60)"`
