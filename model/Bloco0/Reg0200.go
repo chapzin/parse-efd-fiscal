@@ -30,7 +30,7 @@ func (Reg0200) TableName() string {
 	return "reg_0200"
 }
 
-// Implementando Inteface do Sped Reg0200
+// Implementando Interface do Sped Reg0200
 type Reg0200Sped struct {
 	Ln []string
 	Reg0000 Reg0000

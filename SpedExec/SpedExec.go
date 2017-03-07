@@ -122,51 +122,8 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "C170":
 		ln := strings.Split(linha, "|")
-		regC170 := BlocoC.RegC170{
-			Reg: 		ln[1],
-			NumItem: 	ln[2],
-			CodItem : 	ln[3],
-			DescrCompl : 	ln[4],
-			Qtd : 		SpedConvert.ConvFloat(ln[5]),
-			Unid : 		ln[6],
-			VlItem : 	SpedConvert.ConvFloat(ln[7]),
-			VlDesc : 	SpedConvert.ConvFloat(ln[8]),
-			IndMov : 	ln[9],
-			CstIcms : 	ln[10],
-			Cfop : 		ln[11],
-			CodNat : 	ln[12],
-			VlBcIcms : 	SpedConvert.ConvFloat(ln[13]),
-			AliqIcms : 	SpedConvert.ConvFloat(ln[14]),
-			VlIcms : 	SpedConvert.ConvFloat(ln[15]),
-			VlBcIcmsSt : 	SpedConvert.ConvFloat(ln[16]),
-			AliqSt :	SpedConvert.ConvFloat(ln[17]),
-			VlIcmsSt : 	SpedConvert.ConvFloat(ln[18]),
-			IndApur : 	ln[19],
-			CstIpi : 	ln[20],
-			CodEnq : 	ln[21],
-			VlBcIpi : 	SpedConvert.ConvFloat(ln[22]),
-			AliqIpi : 	SpedConvert.ConvFloat(ln[23]),
-			VlIpi : 	SpedConvert.ConvFloat(ln[24]),
-			CstPis : 	ln[25],
-			VlBcPis : 	SpedConvert.ConvFloat(ln[26]),
-			AliqPis01 : 	SpedConvert.ConvFloat(ln[27]),
-			QuantBcPis : 	SpedConvert.ConvFloat(ln[28]),
-			AliqPis02 : 	SpedConvert.ConvFloat(ln[29]),
-			VlPis : 	SpedConvert.ConvFloat(ln[30]),
-			CstCofins : 	ln[31],
-			VlBcCofins : 	SpedConvert.ConvFloat(ln[32]),
-			AliqCofins01 : 	SpedConvert.ConvFloat(ln[33]),
-			QuantBcCofins : SpedConvert.ConvFloat(ln[34]),
-			AliqCofins02 : 	SpedConvert.ConvFloat(ln[35]),
-			VlCofins : 	SpedConvert.ConvFloat(ln[36]),
-			CodCta : 	ln[37],
-			EntradaSaida: 	r.RegC100.IndOper,
-			NumDoc: 	r.RegC100.NumDoc,
-			DtIni: 		r.Reg0000.DtIni,
-			DtFin: 		r.Reg0000.DtFin,
-			Cnpj: 		r.Reg0000.Cnpj,
-
-		}
+		regC100sped := BlocoC.RegC170Sped{ln,r.Reg0000,r.RegC100}
+		regC170 :=BlocoC.CreateRegC170(regC100sped)
 		db.NewRecord(regC170)
 		db.Create(&regC170)
 	case "C171":
