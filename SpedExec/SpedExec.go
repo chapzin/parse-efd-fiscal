@@ -38,21 +38,8 @@ func TrataLinha(ln1 string, linha string,r *Regs, db gorm.DB) {
 		fmt.Println(linha)
 	case "0150":
 		ln := strings.Split(linha, "|")
-		reg0150 := Bloco0.Reg0150{
-			Reg : ln[1],
-			CodPart : ln[2],
-			Nome : ln[3],
-			CodPais : ln[4],
-			Cnpj : ln[5],
-			Cpf : ln[6],
-			Ie : ln[7],
-			CodMun : ln[8],
-			Suframa : ln[9],
-			Endereco : ln[10],
-			Num : ln[11],
-			Compl : ln[12],
-			Bairro : ln[13],
-		}
+		reg0150sped := Bloco0.Reg0150Sped{ln}
+		reg0150 := Bloco0.CreateReg0150(reg0150sped)
 		db.NewRecord(reg0150)
 		db.Create(&reg0150)
 

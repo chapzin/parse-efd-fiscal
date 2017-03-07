@@ -49,3 +49,12 @@ func ConvertData(string string) time.Time {
 
 }
 
+func DataXml(dest []interface{},tag string) string{
+	var dest2 string
+	for _,v := range dest {
+		dests := v.(map[string]interface{})
+		dest2 = dests[tag].(string)
+	}
+	return dest2
+}
+
