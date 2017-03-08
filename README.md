@@ -10,8 +10,8 @@ Site Oficial do Sped: http://sped.rfb.gov.br
 
 #Funcionalidades que serão desenvolvidas no sistema:
 - Importar todos Speds e Xmls de um determinado CNPJ para um banco de dados relacional;
-- Fazer o processamento da movimentação desse CNPJ e apontar as diferenças dos estoques e criar um arquivo no layout do sped com a sugestão do estoque inicial e do estoque final para fica correto;
-- Fazer analise de acordo com os feitos pelo fiscos estaduais e apontar possiveis correções;
+- Fazer o processamento da movimentação desse CNPJ e apontar as diferenças dos estoques e criar um arquivo no layout do sped com a sugestão do estoque inicial e do estoque final para fica correto; (microservico)
+- Fazer analise de acordo com os feitos pelo fiscos estaduais e apontar possiveis correções; (microservico)
 - Fazer comunicação com o sistema Fix Auditoria (http://www.fixauditoria.com.br) e importar automaticamente todos os xmls e speds;
 - Enviar relatórios e arquivos dos novos inventários por email;
 

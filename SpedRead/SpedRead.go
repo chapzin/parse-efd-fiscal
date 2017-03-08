@@ -26,6 +26,10 @@ func RecursiveSpeds(path string) {
 				wait()
 				// Goroutines finalizando aqui
 			}
+
+			if ext == ".xml" {
+				// TODO tratar a inserção do xml aqui
+			}
 		}
 		return nil
 	})

@@ -3,6 +3,9 @@ package SpedConvert
 import (
 	"strconv"
 	"time"
+	"io/ioutil"
+	"github.com/chapzin/parse-efd-fiscal/SpedError"
+	"github.com/clbanning/mxj"
 )
 
 const longForm = "2006-01-02"
@@ -13,6 +16,22 @@ func ConvInt(string string) int {
 		return 0
 	}
 	return integer
+}
+
+
+
+func ConvXml(file string) func(pathTag string, tag string) string {
+	xmlFile, err := ioutil.ReadFile(file)
+	SpedError.CheckErr(err)
+	return func (pathTag string, tag string) string {
+		nfe, errOpenXml := mxj.NewMapXml(xmlFile)
+		SpedError.CheckErr(errOpenXml)
+		pathDest := nfe.PathsForKey(pathTag)
+		dest, err := nfe.ValuesForPath(pathDest[0])
+		SpedError.CheckErr(err)
+		mv := mxj.Map(dest[0].(map[string]interface{}))
+		return mv[tag].(string)
+	}
 }
 
 func ConvFloat(string string) float64 {
@@ -48,11 +67,4 @@ func ConvertData(string string) time.Time {
 
 }
 
-func DataXml(dest []interface{}, tag string) string {
-	var dest2 string
-	for _, v := range dest {
-		dests := v.(map[string]interface{})
-		dest2 = dests[tag].(string)
-	}
-	return dest2
-}
+

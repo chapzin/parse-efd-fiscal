@@ -62,30 +62,24 @@ func (s Reg0150Sped) GetReg0150() Reg0150 {
 }
 
 type Reg0150Xml struct {
-	// para usar o cliente e o endereco deve ser mapeado como abaixo
-	//nfe, _ := mxj.NewMapXml(xmlFile) << vindo de um ioutil.ReadFile
-	//	cliente, err := nfe.ValuesForKey("dest")
-	//endereco, err := nfe.ValuesForKey("enderDest")
-
-	Cliente  []interface{}
-	Endereco []interface{}
+	Reader func (pathTag string, tag string) string
 }
 
 func (x Reg0150Xml) GetReg0150() Reg0150 {
 	reg0150 := Reg0150{
 		Reg:      "0150",
-		CodPart:  SpedConvert.DataXml(x.Cliente, "CNPJ"),
-		Nome:     SpedConvert.DataXml(x.Cliente, "xNome"),
+		CodPart:   x.Reader("dest","CNPJ"),  //SpedConvert.DataXml(x.Cliente, "CNPJ"),
+		Nome:      x.Reader("dest","xNome"),
 		CodPais:  "1058", //Importante separar esse numero em uma constante em outro arquivo, talvez. Assim, vai ser constante geral para o projeto
-		Cnpj:     SpedConvert.DataXml(x.Cliente, "CNPJ"),
-		Cpf:      SpedConvert.DataXml(x.Cliente, "CNPJ"),
-		Ie:       SpedConvert.DataXml(x.Cliente, "IE"),
-		CodMun:   SpedConvert.DataXml(x.Endereco, "cMun"),
+		Cnpj:     x.Reader("dest","CNPJ"),
+		Cpf:      x.Reader("dest", "CNPJ"),
+		Ie:       x.Reader("dest", "IE"),
+		CodMun:   x.Reader("enderDest", "cMun"),
 		Suframa:  "",
-		Endereco: SpedConvert.DataXml(x.Endereco, "xLgr"),
-		Num:      SpedConvert.DataXml(x.Endereco, "nro"),
-		Compl:    SpedConvert.DataXml(x.Endereco, "xCpl"),
-		Bairro:   SpedConvert.DataXml(x.Endereco, "xBairro"),
+		Endereco: x.Reader("enderDest", "xLgr"),
+		Num:      x.Reader("enderDest", "nro"),
+		Compl:    x.Reader("enderDest", "xCpl"),
+		Bairro:   x.Reader("enderDest", "xBairro"),
 		DtIni:    SpedConvert.ConvertDataNull(),
 		DtFin:    SpedConvert.ConvertDataNull(),
 		CnpjSped: "",
