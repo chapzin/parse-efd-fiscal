@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"github.com/chapzin/parse-efd-fiscal/SpedError"
 	"github.com/clbanning/mxj"
-	"fmt"
 )
 
 const longForm = "2006-01-02"
@@ -25,16 +24,17 @@ func ConvXml(file string) func(pathTag string, tag string) string {
 	// TODO resolver problema de retorno nulo no mv[tag]
 		xmlFile, err := ioutil.ReadFile(file)
 		SpedError.CheckErr(err)
-		return func (pathTag string, tag string) string {
-				nfe, errOpenXml := mxj.NewMapXml(xmlFile)
-				SpedError.CheckErr(errOpenXml)
-				pathDest := nfe.PathsForKey(pathTag)
-				dest, err := nfe.ValuesForPath(pathDest[0])
-				SpedError.CheckErr(err)
-				mv := mxj.Map(dest[0].(map[string]interface{}))
-				return mv[tag].(string)
-			}
+	return func (pathTag string, tag string) string {
+		nfe, errOpenXml := mxj.NewMapXml(xmlFile)
+		SpedError.CheckErr(errOpenXml)
+		pathDest := nfe.PathsForKey(pathTag)
+		dest, err := nfe.ValuesForPath(pathDest[0])
+		SpedError.CheckErr(err)
+		mv := mxj.Map(dest[0].(map[string]interface{}))
+		if mv[tag] == nil {return ""}
+		return mv[tag].(string)
 	}
+}
 
 func ConvFloat(string string) float64 {
 	float, err := strconv.ParseFloat(string, 64)

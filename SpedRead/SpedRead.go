@@ -59,6 +59,8 @@ func InsertXml(xml string) {
 	reg0150 := Bloco0.CreateReg0150(reg0150Xml)
 	db.NewRecord(reg0150)
 	db.Create(&reg0150)
+	db.Close()
+	id--
 }
 
 func InsertSped(sped string, r *SpedExec.Regs) {
