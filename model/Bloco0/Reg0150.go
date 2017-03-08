@@ -82,7 +82,7 @@ func (x Reg0150Xml) GetReg0150() Reg0150 {
 		Bairro:   x.Reader("enderDest", "xBairro"),
 		DtIni:    SpedConvert.ConvertDataNull(),
 		DtFin:    SpedConvert.ConvertDataNull(),
-		CnpjSped: "",
+		CnpjSped: "Insert Xml",
 	}
 	return reg0150
 }
