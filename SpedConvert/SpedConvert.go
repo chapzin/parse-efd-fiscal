@@ -69,4 +69,11 @@ func ConvertData(string string) time.Time {
 
 }
 
+func ConvertDataXml(string string) time.Time {
+	DtIni, err := time.Parse(longForm, string)
+	if err != nil {
+		return ConvertDataNull()
+	}
+	return DtIni
 
+}

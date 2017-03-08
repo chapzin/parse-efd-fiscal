@@ -7,6 +7,7 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/model/BlocoC"
 	"github.com/chapzin/parse-efd-fiscal/model/BlocoH"
+	"github.com/chapzin/parse-efd-fiscal/model"
 )
 
 func Create(db gorm.DB) {
@@ -25,6 +26,10 @@ func Create(db gorm.DB) {
 	db.AutoMigrate(&BlocoC.RegC425{})
 	db.AutoMigrate(&BlocoH.RegH005{})
 	db.AutoMigrate(&BlocoH.RegH010{})
+	db.AutoMigrate(&model.Emitente{})
+	db.AutoMigrate(&model.Destinatario{})
+	db.AutoMigrate(&model.Item{})
+	db.AutoMigrate(&model.NotaFiscal{})
 
 }
 
@@ -44,5 +49,9 @@ func Drop(db gorm.DB) {
 	db.DropTable(&BlocoC.RegC425{})
 	db.DropTable(&BlocoH.RegH005{})
 	db.DropTable(&BlocoH.RegH010{})
+	db.DropTable(&model.Emitente{})
+	db.DropTable(&model.Destinatario{})
+	db.DropTable(&model.Item{})
+	db.DropTable(&model.NotaFiscal{})
 
 }
