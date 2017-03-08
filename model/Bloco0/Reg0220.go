@@ -6,21 +6,12 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 )
 
-type iReg0220 interface {
-	GetReg() string
-	GetUnidConv() string
-	GetFatConv() float64
-	GetCodItem() string
-	GetDtIni() time.Time
-	GetDtFin() time.Time
-	GetCnpj() string
-}
-
 type Reg0220 struct {
 	gorm.Model
 	Reg      string                `gorm:"type:varchar(4)"`
 	UnidConv string                `gorm:"type:varchar(6)"`
 	FatConv  float64                `gorm:"type:decimal(12,6)"`
+	UnidCod  string                        `gorm:"type:varchar(6)"`
 	CodItem  string                `gorm:"type:varchar(60)"`
 	DtIni    time.Time        `gorm:"type:date"`
 	DtFin    time.Time        `gorm:"type:date"`
@@ -38,43 +29,24 @@ type Reg0220Sped struct {
 	Reg0200 Reg0200
 }
 
-func (s Reg0220Sped) GetReg() string {
-	return s.Ln[1]
+func (s Reg0220Sped) GetReg0220() Reg0220 {
+	reg0220 := Reg0220{
+		Reg:      s.Ln[1],
+		UnidConv: s.Ln[2],
+		FatConv:  SpedConvert.ConvFloat(s.Ln[3]),
+		UnidCod:  s.Reg0200.UnidInv,
+		CodItem:  s.Reg0200.CodItem,
+		DtIni:    s.Reg0000.DtIni,
+		DtFin:    s.Reg0000.DtFin,
+		Cnpj:     s.Reg0000.Cnpj,
+	}
+	return reg0220
 }
 
-func (s Reg0220Sped) GetUnidConv() string {
-	return s.Ln[2]
-}
-
-func (s Reg0220Sped) GetFatConv() float64 {
-	return SpedConvert.ConvFloat(s.Ln[3])
-}
-
-func (s Reg0220Sped) GetCodItem() string {
-	return s.Reg0200.CodItem
-}
-
-func (s Reg0220Sped) GetDtIni() time.Time {
-	return s.Reg0000.DtIni
-}
-
-func (s Reg0220Sped) GetDtFin() time.Time {
-	return s.Reg0000.DtFin
-}
-
-func (s Reg0220Sped) GetCnpj() string {
-	return s.Reg0000.Cnpj
+type iReg0220 interface {
+	GetReg0220() Reg0220
 }
 
 func CreateReg0220(read iReg0220) Reg0220 {
-	reg0220 := Reg0220{
-		Reg:      read.GetReg(),
-		UnidConv: read.GetUnidConv(),
-		FatConv:  read.GetFatConv(),
-		CodItem:  read.GetCodItem(),
-		DtIni:    read.GetDtIni(),
-		DtFin:    read.GetDtFin(),
-		Cnpj:     read.GetCnpj(),
-	}
-	return reg0220
+	return read.GetReg0220()
 }
