@@ -68,6 +68,10 @@ func InsertXml(xml string) {
 	mod := reader("ide", "mod")
 	serie := reader("ide", "serie")
 	dEmit := reader("ide", "dEmi")
+	if dEmit == "" {
+		dhEmit := reader("ide", "dhEmi")
+		dEmit = dhEmit
+	}
 	tpNf := reader("ide", "tpNF")
 	tpImp := reader("ide", "tpImp")
 	tpEmis := reader("ide", "tpEmis")
@@ -174,6 +178,7 @@ func InsertXml(xml string) {
 			Qtd:       SpedConvert.ConvFloat(qtdi),
 			VUnit:     SpedConvert.ConvFloat(vuniti),
 			VTotal:    SpedConvert.ConvFloat(vtotali),
+			DtEmit:    SpedConvert.ConvertDataXml(dEmit),
 		}
 		itens = append(itens, Item)
 		//fmt.Printf("%#v\n",Item)

@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"github.com/chapzin/parse-efd-fiscal/SpedError"
 	"github.com/clbanning/mxj"
+	"strings"
 )
 
 const longForm = "2006-01-02"
@@ -32,7 +33,13 @@ func ConvXml(file string) func(pathTag string, tag string) string {
 		SpedError.CheckErr(err)
 		mv := mxj.Map(dest[0].(map[string]interface{}))
 		if mv[tag] == nil {return ""}
-		return mv[tag].(string)
+		if tag == "dhEmi"{
+			mv2 := strings.Split(mv[tag].(string),"T")
+			return mv2[0]
+		} else {
+			return mv[tag].(string)
+		}
+
 	}
 }
 

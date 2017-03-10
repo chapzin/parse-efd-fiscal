@@ -15,6 +15,7 @@ type Regs struct {
 	RegC100 BlocoC.RegC100
 	Reg0000 Bloco0.Reg0000
 	Reg0200 Bloco0.Reg0200
+	RegH005 BlocoH.RegH005
 }
 
 func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
@@ -381,7 +382,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		db.Create(&regH005)
 	case "H010":
 		ln := strings.Split(linha, "|")
-		regH010Sped := BlocoH.RegH010Sped{ln, r.Reg0000}
+		regH010Sped := BlocoH.RegH010Sped{ln, r.Reg0000,r.RegH005}
 		regH010 := BlocoH.CreateRegH010(regH010Sped)
 		db.NewRecord(regH010)
 		db.Create(&regH010)

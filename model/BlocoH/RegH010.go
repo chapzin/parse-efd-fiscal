@@ -20,6 +20,7 @@ type RegH010 struct {
 	TxtCompl string
 	CodCta   string
 	VlItemIr float64        `gorm:"type:decimal(19,2)"`
+	DtInv    time.Time                `gorm:"type:date"`
 	DtIni    time.Time        `gorm:"type:date"`
 	DtFin    time.Time        `gorm:"type:date"`
 	Cnpj     string                `gorm:"type:varchar(14)"`
@@ -33,6 +34,7 @@ func (RegH010) TableName() string {
 type RegH010Sped struct {
 	Ln      []string
 	Reg0000 Bloco0.Reg0000
+	RegH005 RegH005
 }
 
 type iRegH010 interface {
@@ -52,6 +54,7 @@ func (s RegH010Sped) GetRegH010() RegH010 {
 		TxtCompl: s.Ln[9],
 		CodCta:   s.Ln[10],
 		VlItemIr: SpedConvert.ConvFloat(s.Ln[11]),
+		DtInv:    s.RegH005.DtInv,
 		DtIni:    s.Reg0000.DtIni,
 		DtFin:    s.Reg0000.DtFin,
 		Cnpj:     s.Reg0000.Cnpj,

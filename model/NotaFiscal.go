@@ -52,6 +52,7 @@ type Item struct {
 	Qtd float64
 	VUnit float64
 	VTotal float64
+	DtEmit time.Time
 	NotaFiscalID uint
 }
 
