@@ -16,6 +16,7 @@ type Reg0220 struct {
 	DtIni    time.Time        `gorm:"type:date"`
 	DtFin    time.Time        `gorm:"type:date"`
 	Cnpj     string                `gorm:"type:varchar(14)"`
+	Feito    string                `gorm:"type:varchar(1)"`
 }
 
 func (Reg0220) TableName() string {
@@ -39,6 +40,7 @@ func (s Reg0220Sped) GetReg0220() Reg0220 {
 		DtIni:    s.Reg0000.DtIni,
 		DtFin:    s.Reg0000.DtFin,
 		Cnpj:     s.Reg0000.Cnpj,
+		Feito:    "0",
 	}
 	return reg0220
 }
