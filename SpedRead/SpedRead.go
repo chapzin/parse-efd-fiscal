@@ -158,6 +158,7 @@ func InsertXml(xml string) {
 	var itens []model.Item
 
 	for i, _ := range codigo {
+		i2 := i+1
 		codigoi := codigo[i].(string)
 		eani := ean[i].(string)
 		descricaoi := descricao[i].(string)
@@ -166,7 +167,7 @@ func InsertXml(xml string) {
 		unidi := unid[i].(string)
 		qtdi := qtd[i].(string)
 		vuniti := vUnit[i].(string)
-		vtotali := vTotal[i].(string)
+		vtotali := vTotal[i2].(string)
 
 		Item := model.Item{
 			Codigo:    codigoi,
