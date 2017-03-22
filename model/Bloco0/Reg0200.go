@@ -3,7 +3,8 @@ package Bloco0
 import (
 	"github.com/jinzhu/gorm"
 	"time"
-	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
+
+	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
@@ -53,7 +54,7 @@ func (s Reg0200Sped) GetReg0200() Reg0200 {
 		ExIpi:      s.Ln[9],
 		CodGen:     s.Ln[10],
 		CodLst:     s.Ln[11],
-		AliqIcms:   SpedConvert.ConvFloat(s.Ln[12]),
+		AliqIcms:   tools.ConvFloat(s.Ln[12]),
 		DtIni:      s.Reg0000.DtIni,
 		DtFin:      s.Reg0000.DtFin,
 		Cnpj:       s.Reg0000.Cnpj,

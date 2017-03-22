@@ -3,7 +3,7 @@ package Bloco0
 import (
 	"github.com/jinzhu/gorm"
 	"time"
-	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
@@ -52,8 +52,8 @@ func (x Reg0190Xml) GetReg0190() Reg0190 {
 		Reg:   "0190",
 		Unid:  x.Data,
 		Descr: "Importado Xml",
-		DtIni: SpedConvert.ConvertDataNull(),
-		DtFin: SpedConvert.ConvertDataNull(),
+		DtIni: tools.ConvertDataNull(),
+		DtFin: tools.ConvertDataNull(),
 		Cnpj:  "",
 	}
 	return reg0190

@@ -1,36 +1,37 @@
 package main
 
 import (
-	"github.com/chapzin/parse-efd-fiscal/SpedError"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"flag"
 	"github.com/chapzin/parse-efd-fiscal/SpedDB"
 	"github.com/chapzin/parse-efd-fiscal/SpedRead"
-
 	"fmt"
-	"sync"
 	"time"
+	"github.com/chapzin/parse-efd-fiscal/config"
 )
 
+
 func main() {
-	var wg sync.WaitGroup
-	db, err := gorm.Open("mysql", "root@/auditoria2?charset=utf8")
+	cfg := new(config.Configurador)
+	config.InicializaConfiguracoes(cfg)
+	dialect, err := config.Propriedades.ObterTexto("bd.dialect")
+	conexao, err := config.Propriedades.ObterTexto("bd.conexao")
+	db, err := gorm.Open(dialect, conexao)
+	if err != nil {
+		fmt.Println("Falha ao abrir conexão. dialect=%s, Linha de Conexao=%s", dialect, conexao)
+	}
 	schema := flag.Bool("schema", false, "Recria as tabelas")
 	flag.Parse()
 	if *schema {
 		// Recria o Schema do banco de dados
 		SpedDB.Schema(*db)
 	}
-	SpedError.CheckErr(err)
-	wg.Add(1)
-	time.Sleep(15 * time.Second)
 	// Lendo todos arquivos da pasta speds
 	fmt.Println("Iniciando processamento ",time.Now())
-	go SpedRead.RecursiveSpeds("./speds", &wg)
+	SpedRead.RecursiveSpeds("./speds", dialect,conexao)
 	// Pega cada arquivo e ler linha a linha e envia para o banco de dados
 	//SpedRead.AddAllSpeds(filesSpeds,*db)
-	wg.Wait()
 	fmt.Println("Final processamento ",time.Now())
 	var msg string
 	fmt.Scanln(&msg)

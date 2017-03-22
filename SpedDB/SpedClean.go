@@ -1,4 +1,4 @@
-package SpedClean
+package SpedDB
 
 import (
 	"time"

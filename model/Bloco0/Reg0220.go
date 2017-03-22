@@ -3,7 +3,7 @@ package Bloco0
 import (
 	"github.com/jinzhu/gorm"
 	"time"
-	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
@@ -36,7 +36,7 @@ func (s Reg0220Sped) GetReg0220() Reg0220 {
 	reg0220 := Reg0220{
 		Reg:      s.Ln[1],
 		UnidConv: s.Ln[2],
-		FatConv:  SpedConvert.ConvFloat(s.Ln[3]),
+		FatConv:  tools.ConvFloat(s.Ln[3]),
 		UnidCod:  s.Reg0200.UnidInv,
 		CodItem:  s.Reg0200.CodItem,
 		DtIni:    s.Reg0000.DtIni,

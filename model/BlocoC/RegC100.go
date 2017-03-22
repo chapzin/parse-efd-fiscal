@@ -4,7 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"time"
 	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
-	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
@@ -70,26 +70,26 @@ func (s RegC100Sped) GetRegC100() RegC100 {
 		Ser:        s.Ln[7],
 		NumDoc:     s.Ln[8],
 		ChvNfe:     s.Ln[9],
-		DtDoc:      SpedConvert.ConvertData(s.Ln[10]),
-		DtES:       SpedConvert.ConvertData(s.Ln[11]),
-		VlDoc:      SpedConvert.ConvFloat(s.Ln[12]),
+		DtDoc:      tools.ConvertData(s.Ln[10]),
+		DtES:       tools.ConvertData(s.Ln[11]),
+		VlDoc:      tools.ConvFloat(s.Ln[12]),
 		IndPgto:    s.Ln[13],
-		VlDesc:     SpedConvert.ConvFloat(s.Ln[14]),
-		VlAbatNt:   SpedConvert.ConvFloat(s.Ln[15]),
-		VlMerc:     SpedConvert.ConvFloat(s.Ln[16]),
+		VlDesc:     tools.ConvFloat(s.Ln[14]),
+		VlAbatNt:   tools.ConvFloat(s.Ln[15]),
+		VlMerc:     tools.ConvFloat(s.Ln[16]),
 		IndFrt:     s.Ln[17],
-		VlFrt:      SpedConvert.ConvFloat(s.Ln[18]),
-		VlSeg:      SpedConvert.ConvFloat(s.Ln[19]),
-		VlOutDa:    SpedConvert.ConvFloat(s.Ln[20]),
-		VlBcIcms:   SpedConvert.ConvFloat(s.Ln[21]),
-		VlIcms:     SpedConvert.ConvFloat(s.Ln[22]),
-		VlBcIcmsSt: SpedConvert.ConvFloat(s.Ln[23]),
-		VlIcmsSt:   SpedConvert.ConvFloat(s.Ln[24]),
-		VlIpi:      SpedConvert.ConvFloat(s.Ln[25]),
-		VlPis:      SpedConvert.ConvFloat(s.Ln[26]),
-		VlCofins:   SpedConvert.ConvFloat(s.Ln[27]),
-		VlPisSt:    SpedConvert.ConvFloat(s.Ln[29]),
-		VlCofinsSt: SpedConvert.ConvFloat(s.Ln[30]),
+		VlFrt:      tools.ConvFloat(s.Ln[18]),
+		VlSeg:      tools.ConvFloat(s.Ln[19]),
+		VlOutDa:    tools.ConvFloat(s.Ln[20]),
+		VlBcIcms:   tools.ConvFloat(s.Ln[21]),
+		VlIcms:     tools.ConvFloat(s.Ln[22]),
+		VlBcIcmsSt: tools.ConvFloat(s.Ln[23]),
+		VlIcmsSt:   tools.ConvFloat(s.Ln[24]),
+		VlIpi:      tools.ConvFloat(s.Ln[25]),
+		VlPis:      tools.ConvFloat(s.Ln[26]),
+		VlCofins:   tools.ConvFloat(s.Ln[27]),
+		VlPisSt:    tools.ConvFloat(s.Ln[29]),
+		VlCofinsSt: tools.ConvFloat(s.Ln[30]),
 		DtIni:      s.Reg0000.DtIni,
 		DtFin:      s.Reg0000.DtFin,
 		Cnpj:       s.Reg0000.Cnpj,

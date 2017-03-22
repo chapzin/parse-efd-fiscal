@@ -4,7 +4,7 @@ import (
 	"time"
 	"github.com/jinzhu/gorm"
 	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
-	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
@@ -37,8 +37,8 @@ type iRegH005 interface {
 func (s RegH005Sped) GetRegH005() RegH005 {
 	regH005 := RegH005{
 		Reg:    s.Ln[1],
-		DtInv:  SpedConvert.ConvertData(s.Ln[2]),
-		VlInv:  SpedConvert.ConvFloat(s.Ln[3]),
+		DtInv:  tools.ConvertData(s.Ln[2]),
+		VlInv:  tools.ConvFloat(s.Ln[3]),
 		MotInv: s.Ln[4],
 		DtIni:  s.Reg0000.DtIni,
 		DtFin:  s.Reg0000.DtFin,

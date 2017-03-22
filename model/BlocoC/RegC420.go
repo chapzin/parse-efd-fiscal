@@ -4,7 +4,7 @@ import (
 	"time"
 	"github.com/jinzhu/gorm"
 	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
-	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
@@ -39,7 +39,7 @@ func (s RegC420Sped) GetRegC420() RegC420 {
 	regC420 := RegC420{
 		Reg:        s.Ln[1],
 		CodTotPar:  s.Ln[2],
-		VlrAcumTot: SpedConvert.ConvFloat(s.Ln[3]),
+		VlrAcumTot: tools.ConvFloat(s.Ln[3]),
 		NrTot:      s.Ln[4],
 		DescrNrTot: s.Ln[5],
 		DtIni:      s.Reg0000.DtIni,

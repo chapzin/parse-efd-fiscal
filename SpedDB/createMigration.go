@@ -1,4 +1,4 @@
-package createMigration
+package SpedDB
 
 import (
 	"github.com/jinzhu/gorm"

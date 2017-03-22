@@ -7,41 +7,37 @@ import (
 	"strings"
 	"github.com/jinzhu/gorm"
 	"github.com/chapzin/parse-efd-fiscal/SpedExec"
-	"github.com/chapzin/parse-efd-fiscal/SpedError"
 	"time"
-	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 	"io/ioutil"
 	"github.com/clbanning/mxj"
-	"sync"
-
 	"github.com/chapzin/parse-efd-fiscal/model/NotaFiscal"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 var id int
 var maxid = 100
 // Ler todos os arquivos de uma determinada pasta
-func RecursiveSpeds(path string, wg *sync.WaitGroup) {
+func RecursiveSpeds(path string, dialect string,conexao string) {
 	filepath.Walk(path, func(file string, f os.FileInfo, err error) error {
 		if f.IsDir() == false {
 			ext := filepath.Ext(file)
 			if ext == ".txt" {
-				SpedError.CheckErr(err)
+				tools.CheckErr(err)
 				// Possivelmente uma goroutines começando aqui
 				r := SpedExec.Regs{}
 				id++
-				go InsertSped(file, &r)
+				go InsertSped(file, &r,dialect,conexao)
 				// Goroutines finalizando aqui
 			}
 
 			if ext == ".xml" {
 				id++
-				go InsertXml(file)
+				go InsertXml(file,dialect,conexao)
 			}
 			wait()
 		}
 		return nil
 	})
-	wg.Done()
 }
 
 func wait() {
@@ -55,14 +51,14 @@ func wait() {
 
 }
 
-func InsertXml(xml string) {
-	db, err := gorm.Open("mysql", "root@/auditoria2?charset=utf8")
+func InsertXml(xml string, dialect string, conexao string) {
+	db, err := gorm.Open(dialect,conexao)
 	// Teste de lista produtos
 	xmlFile, err := ioutil.ReadFile(xml)
-	reader := SpedConvert.ConvXml(xml)
-	SpedError.CheckErr(err)
+	reader := tools.ConvXml(xml)
+	tools.CheckErr(err)
 	nfe, errOpenXml := mxj.NewMapXml(xmlFile)
-	SpedError.CheckErr(errOpenXml)
+	tools.CheckErr(errOpenXml)
 	// Preenchendo o header da nfe
 	nNf := reader("ide", "nNF")
 	chnfe := reader("infProt", "chNFe")
@@ -179,10 +175,10 @@ func InsertXml(xml string) {
 			Ncm:       ncmi,
 			Cfop:      cfopi,
 			Unid:      unidi,
-			Qtd:       SpedConvert.ConvFloat(qtdi),
-			VUnit:     SpedConvert.ConvFloat(vuniti),
-			VTotal:    SpedConvert.ConvFloat(vtotali),
-			DtEmit:    SpedConvert.ConvertDataXml(dEmit),
+			Qtd:       tools.ConvFloat(qtdi),
+			VUnit:     tools.ConvFloat(vuniti),
+			VTotal:    tools.ConvFloat(vtotali),
+			DtEmit:    tools.ConvertDataXml(dEmit),
 		}
 		itens = append(itens, Item)
 		//fmt.Printf("%#v\n",Item)
@@ -195,7 +191,7 @@ func InsertXml(xml string) {
 		IndPag:       indPag,
 		Mod:          mod,
 		Serie:        serie,
-		DEmi:         SpedConvert.ConvertDataXml(dEmit),
+		DEmi:         tools.ConvertDataXml(dEmit),
 		TpNF:         tpNf,
 		TpImp:        tpImp,
 		TpEmis:       tpEmis,
@@ -213,10 +209,10 @@ func InsertXml(xml string) {
 	id--
 }
 
-func InsertSped(sped string, r *SpedExec.Regs) {
-	db, err := gorm.Open("mysql", "root@/auditoria2?charset=utf8")
+func InsertSped(sped string, r *SpedExec.Regs, dialect string, conexao string) {
+	db, err := gorm.Open(dialect, conexao)
 	file, err := os.Open(sped)
-	SpedError.CheckErr(err)
+	tools.CheckErr(err)
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
 	// guarda cada linha em indice diferente do slice

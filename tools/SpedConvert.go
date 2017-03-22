@@ -1,10 +1,9 @@
-package SpedConvert
+package tools
 
 import (
 	"strconv"
 	"time"
 	"io/ioutil"
-	"github.com/chapzin/parse-efd-fiscal/SpedError"
 	"github.com/clbanning/mxj"
 	"strings"
 )
@@ -24,13 +23,13 @@ func ConvInt(string string) int {
 func ConvXml(file string) func(pathTag string, tag string) string {
 	// TODO resolver problema de retorno nulo no mv[tag]
 		xmlFile, err := ioutil.ReadFile(file)
-		SpedError.CheckErr(err)
+		CheckErr(err)
 	return func (pathTag string, tag string) string {
 		nfe, errOpenXml := mxj.NewMapXml(xmlFile)
-		SpedError.CheckErr(errOpenXml)
+		CheckErr(errOpenXml)
 		pathDest := nfe.PathsForKey(pathTag)
 		dest, err := nfe.ValuesForPath(pathDest[0])
-		SpedError.CheckErr(err)
+		CheckErr(err)
 		mv := mxj.Map(dest[0].(map[string]interface{}))
 		if mv[tag] == nil {return ""}
 		if tag == "dhEmi"{

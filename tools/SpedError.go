@@ -1,4 +1,4 @@
-package SpedError
+package tools
 
 import "github.com/sirupsen/logrus"
 

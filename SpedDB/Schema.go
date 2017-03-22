@@ -1,7 +1,6 @@
 package SpedDB
 
 import (
-	"github.com/chapzin/parse-efd-fiscal/createMigration"
 	"fmt"
 	"github.com/jinzhu/gorm"
 )
@@ -9,8 +8,8 @@ import (
 func Schema(db gorm.DB) {
 
 	fmt.Println("Deletando Tabelas....")
-	createMigration.Drop(db)
+	Drop(db)
 	fmt.Println("Criando Tabelas....")
-	createMigration.Create(db)
+	Create(db)
 
 }

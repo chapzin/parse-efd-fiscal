@@ -7,7 +7,7 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/model/BlocoH"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"github.com/chapzin/parse-efd-fiscal/SpedClean"
+	"github.com/chapzin/parse-efd-fiscal/SpedDB"
 )
 
 type Regs struct {
@@ -24,7 +24,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		reg0000Sped := Bloco0.Reg0000Sped{ln}
 		r.Reg0000 = Bloco0.CreateReg0000(reg0000Sped)
 		// Caso já exista informacoes da movimentacao dos produtos referente ao sped que está sendo importado os dados são deletados
-		SpedClean.CleanSpedItems(r.Reg0000.Cnpj, r.Reg0000.DtIni, r.Reg0000.DtFin, db)
+		SpedDB.CleanSpedItems(r.Reg0000.Cnpj, r.Reg0000.DtIni, r.Reg0000.DtFin, db)
 		db.NewRecord(r.Reg0000)
 		db.Create(&r.Reg0000)
 	case "0001":
