@@ -7,6 +7,8 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 )
 
+// Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
+
 type RegC170 struct {
 	gorm.Model
 	Reg           string                `gorm:"type:varchar(4)"`

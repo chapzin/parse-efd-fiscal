@@ -10,15 +10,17 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/SpedError"
 	"time"
 	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
-	"github.com/chapzin/parse-efd-fiscal/model"
 	"io/ioutil"
 	"github.com/clbanning/mxj"
+	"sync"
+
+	"github.com/chapzin/parse-efd-fiscal/model/NotaFiscal"
 )
 
 var id int
 var maxid = 100
 // Ler todos os arquivos de uma determinada pasta
-func RecursiveSpeds(path string) {
+func RecursiveSpeds(path string, wg *sync.WaitGroup) {
 	filepath.Walk(path, func(file string, f os.FileInfo, err error) error {
 		if f.IsDir() == false {
 			ext := filepath.Ext(file)
@@ -39,6 +41,7 @@ func RecursiveSpeds(path string) {
 		}
 		return nil
 	})
+	wg.Done()
 }
 
 func wait() {
@@ -121,7 +124,7 @@ func InsertXml(xml string) {
 	fonee := reader("enderEmit", "fone")
 	iee := reader("emit", "IE")
 
-	destinatario := model.Destinatario{
+	destinatario := NotaFiscal.Destinatario{
 		CNPJ:    cnpj,
 		XNome:   xNome,
 		XLgr:    xLgr,
@@ -138,7 +141,7 @@ func InsertXml(xml string) {
 		Ie:      ie,
 	}
 
-	emitentede := model.Emitente{
+	emitentede := NotaFiscal.Emitente{
 		CNPJ:    cnpje,
 		XNome:   xNomee,
 		XLgr:    xLgre,
@@ -155,7 +158,7 @@ func InsertXml(xml string) {
 		Ie:      iee,
 	}
 
-	var itens []model.Item
+	var itens []NotaFiscal.Item
 
 	for i, _ := range codigo {
 		i2 := i+1
@@ -169,7 +172,7 @@ func InsertXml(xml string) {
 		vuniti := vUnit[i].(string)
 		vtotali := vTotal[i2].(string)
 
-		Item := model.Item{
+		Item := NotaFiscal.Item{
 			Codigo:    codigoi,
 			Ean:       eani,
 			Descricao: descricaoi,
@@ -185,7 +188,7 @@ func InsertXml(xml string) {
 		//fmt.Printf("%#v\n",Item)
 	}
 
-	notafiscal := model.NotaFiscal{
+	notafiscal := NotaFiscal.NotaFiscal{
 		NNF:          nNf,
 		ChNFe:        chnfe,
 		NatOp:        natOp,

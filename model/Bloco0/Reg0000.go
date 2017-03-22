@@ -5,6 +5,7 @@ import (
 	"time"
 	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 )
+// Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
 
 type Reg0000 struct {
 	gorm.Model
@@ -20,7 +21,7 @@ type Reg0000 struct {
 	Ie        string        `gorm:"type:varchar(14)"`
 	CodMun    string        `gorm:"type:varchar(7)"`
 	Im        string
-	Suframa   string        `gorm:"type:varchar(9)"`
+	Suframa   string       `gorm:"type:varchar(9)"`
 	IndPerfil string        `gorm:"type:varchar(1)"`
 	IndAtiv   int
 }

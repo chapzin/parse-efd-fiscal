@@ -1,6 +1,9 @@
 package NotaFiscal
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+	"time"
+)
 
 type Item struct {
 	gorm.Model
@@ -13,5 +16,6 @@ type Item struct {
 	Qtd float64		`gorm:"type:decimal(19,3)"`
 	VUnit float64		`gorm:"type:decimal(19,3)"`
 	VTotal float64		`gorm:"type:decimal(19,3)"`
+	DtEmit time.Time	`gorm:"type:date"`
 	NotaFiscalID uint
 }
