@@ -1,7 +1,8 @@
-# EFD Fiscal em Go para banco de dados relacional
+# Analise e Auditoria EFD Fiscal em Go
 [![Build Status](https://travis-ci.org/chapzin/parse-efd-fiscal.svg?branch=master)](https://travis-ci.org/chapzin/parse-efd-fiscal)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
 [![Join the chat at https://gitter.im/olebedev/go-starter-kit](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000&style=plastic)](https://gitter.im/GoAuditoriaFiscal/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R673QGW2LQVCJ)
 
 Projeto voltado para fazer o mapeamento e parse do sped fiscal para dentro do banco de dados
 
@@ -10,7 +11,7 @@ Projeto voltado para fazer o mapeamento e parse do sped fiscal para dentro do ba
 A Escrituração Fiscal Digital - EFD é um arquivo digital, que se constitui de um conjunto de escriturações de documentos fiscais e de outras informações de interesse dos Fiscos das unidades federadas e da Secretaria da Receita Federal do Brasil, bem como de registros de apuração de impostos referentes às operações e prestações praticadas pelo contribuinte.
 Este arquivo deverá ser assinado digitalmente e transmitido, via Internet, ao ambiente Sped.
 
-Site Oficial do Sped: http://sped.rfb.gov.br
+###### SITE OFICIAL DO SPED: http://sped.rfb.gov.br/
 
 
 # Funcionalidades que serão desenvolvidas no sistema:
@@ -29,10 +30,21 @@ Além de ter o importantíssimo papel de atender todas as exigências estabeleci
 
 O principal objetivo do sistema é facilitar que as empresas possam fazer um analise da qualidade das informações enviadas, com isso podendo fazer retificações de forma voluntária evitando receber uma multa muito alta.
 
+## Dúvidas?
+
+Abra um issue na página do projeto no GitHub ou [clique aqui](https://github.com/chapzin/parse-efd-fiscal/issues).
+
 ## Donate
 Ajude a acabar com as injustiça feita pela SEFAZ devido a tantas obrigações a serem entregues.
 
 Donate via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R673QGW2LQVCJ)
+
+## Colaboradores
+
+FixAuditoria - www.fixauditoria.com.br
+- Ricardo Gomes (https://github.com/chapzin)
+- Junior Holanda (https://github.com/holandajunior)
+- Cesar Gimenes (https://github.com/crgimenes)
 
 ## License
 
