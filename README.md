@@ -1,6 +1,7 @@
 # EFD Fiscal em Go para banco de dados relacional
 [![Build Status](https://travis-ci.org/chapzin/parse-efd-fiscal.svg?branch=master)](https://travis-ci.org/chapzin/parse-efd-fiscal)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
+[![Join the chat at https://gitter.im/olebedev/go-starter-kit](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000&style=plastic)](https://gitter.im/GoAuditoriaFiscal/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
 Projeto voltado para fazer o mapeamento e parse do sped fiscal para dentro do banco de dados
 
