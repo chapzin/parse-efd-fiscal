@@ -8,7 +8,7 @@ import (
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
-
+// Estrutura do registro RegC420 do Sped Fiscal
 type RegC420 struct {
 	gorm.Model
 	Reg        string  `gorm:"type:varchar(4)"`
@@ -20,11 +20,10 @@ type RegC420 struct {
 	DtFin      time.Time `gorm:"type:date"`
 	Cnpj       string    `gorm:"type:varchar(14)"`
 }
-
+// Nome da tabela que o gorm deve criar no DB
 func (RegC420) TableName() string {
 	return "reg_c420"
 }
-
 // Implementando Interface do Sped RegC420
 type RegC420Sped struct {
 	Ln      []string
@@ -36,6 +35,7 @@ type iRegC420 interface {
 }
 
 func (s RegC420Sped) GetRegC420() RegC420 {
+	// Implementando registro RegC420 no SpedFiscal
 	regC420 := RegC420{
 		Reg:        s.Ln[1],
 		CodTotPar:  s.Ln[2],
@@ -48,7 +48,7 @@ func (s RegC420Sped) GetRegC420() RegC420 {
 	}
 	return regC420
 }
-
+// Aplicando RegC420
 func CreateRegC420(read iRegC420) RegC420 {
 	return read.GetRegC420()
 }

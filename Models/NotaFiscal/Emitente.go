@@ -2,6 +2,7 @@ package NotaFiscal
 
 import "github.com/jinzhu/gorm"
 
+// Cadastro Emitente referente aos campos da nota fiscal
 type Emitente struct {
 	gorm.Model
 	CNPJ    string

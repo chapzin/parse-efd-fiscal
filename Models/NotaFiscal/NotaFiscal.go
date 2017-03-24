@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Estrutura da nota fiscal eletronica
 type NotaFiscal struct {
 	gorm.Model
 	NNF            string

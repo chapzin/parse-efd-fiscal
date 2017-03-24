@@ -2,6 +2,7 @@ package NotaFiscal
 
 import "github.com/jinzhu/gorm"
 
+// Cadastro Destinatario referente aos campos da nota fiscal
 type Destinatario struct {
 	gorm.Model
 	CNPJ    string

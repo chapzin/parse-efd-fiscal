@@ -4,7 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"time"
 )
-
+// Cadastro Itens referente aos campos da nota fiscal
 type Item struct {
 	gorm.Model
 	Codigo       string    `gorm:"type:varchar(60)"`
