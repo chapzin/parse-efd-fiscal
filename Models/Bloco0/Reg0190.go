@@ -7,6 +7,7 @@ import (
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
+// Estrutura modelo do banco de dados Registro 0190
 type Reg0190 struct {
 	gorm.Model
 	Reg   string `gorm:"type:varchar(4)"`
