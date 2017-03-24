@@ -11,5 +11,4 @@ func Schema(db gorm.DB) {
 	Drop(db)
 	fmt.Println("Criando Tabelas....")
 	Create(db)
-
 }

@@ -1,16 +1,15 @@
 package main
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
 	"flag"
+	"fmt"
 	"github.com/chapzin/parse-efd-fiscal/SpedDB"
 	"github.com/chapzin/parse-efd-fiscal/SpedRead"
-	"fmt"
-	"time"
 	"github.com/chapzin/parse-efd-fiscal/config"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+	"time"
 )
-
 
 func main() {
 	cfg := new(config.Configurador)
@@ -28,11 +27,11 @@ func main() {
 		SpedDB.Schema(*db)
 	}
 	// Lendo todos arquivos da pasta speds
-	fmt.Println("Iniciando processamento ",time.Now())
-	SpedRead.RecursiveSpeds("./speds", dialect,conexao)
+	fmt.Println("Iniciando processamento ", time.Now())
+	SpedRead.RecursiveSpeds("./speds", dialect, conexao)
 	// Pega cada arquivo e ler linha a linha e envia para o banco de dados
 	//SpedRead.AddAllSpeds(filesSpeds,*db)
-	fmt.Println("Final processamento ",time.Now())
+	fmt.Println("Final processamento ", time.Now())
 	var msg string
 	fmt.Scanln(&msg)
 
