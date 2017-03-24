@@ -13,12 +13,14 @@ import (
 
 func main() {
 	db, err := gorm.Open("mysql", "root@/auditoria2?charset=utf8")
+	
 	// Teste de lista produtos
 	xmlFile, err := ioutil.ReadFile("23130141334079000760550010000060781002141849-procNFe.xml")
 	reader := SpedConvert.ConvXml("23130141334079000760550010000060781002141849-procNFe.xml")
 	SpedError.CheckErr(err)
 	nfe, errOpenXml := mxj.NewMapXml(xmlFile)
 	SpedError.CheckErr(errOpenXml)
+	
 	// Preenchendo o header da nfe
 	nNf := reader("ide", "nNF")
 	chnfe := reader("infProt", "chNFe")
@@ -45,6 +47,7 @@ func main() {
 	qtd, err := nfe.ValuesForKey("qCom")
 	vUnit, err := nfe.ValuesForKey("vUnCom")
 	vTotal, err := nfe.ValuesForKey("vProd")
+	
 	// Preenchendo Destinatario
 	cnpj := reader("dest", "CNPJ")
 	xNome := reader("dest", "xNome")
@@ -60,6 +63,7 @@ func main() {
 	xPais := reader("enderDest", "xPais")
 	fone := reader("enderDest", "fone")
 	ie := reader("dest", "IE")
+	
 	// Preenchendo Emitente
 	cnpje := reader("emit", "CNPJ")
 	xNomee := reader("emit", "xNome")
