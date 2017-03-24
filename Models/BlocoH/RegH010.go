@@ -1,31 +1,31 @@
 package BlocoH
 
 import (
-	"github.com/jinzhu/gorm"
-	"time"
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/tools"
+	"github.com/jinzhu/gorm"
+	"time"
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
 
 type RegH010 struct {
 	gorm.Model
-	Reg      string                `gorm:"type:varchar(4)"`
-	CodItem  string                `gorm:"type:varchar(60)"`
-	Unid     string                `gorm:"type:varchar(6)"`
-	Qtd      float64                `gorm:"type:decimal(19,3)"`
-	VlUnit   float64                `gorm:"type:decimal(19,6)"`
-	VlItem   float64                `gorm:"type:decimal(19,2)"`
-	IndProp  string                `gorm:"type:varchar(1)"`
-	CodPart  string                `gorm:"type:varchar(60)"`
+	Reg      string  `gorm:"type:varchar(4)"`
+	CodItem  string  `gorm:"type:varchar(60)"`
+	Unid     string  `gorm:"type:varchar(6)"`
+	Qtd      float64 `gorm:"type:decimal(19,3)"`
+	VlUnit   float64 `gorm:"type:decimal(19,6)"`
+	VlItem   float64 `gorm:"type:decimal(19,2)"`
+	IndProp  string  `gorm:"type:varchar(1)"`
+	CodPart  string  `gorm:"type:varchar(60)"`
 	TxtCompl string
 	CodCta   string
-	VlItemIr float64        `gorm:"type:decimal(19,2)"`
-	DtInv    time.Time                `gorm:"type:date"`
-	DtIni    time.Time        `gorm:"type:date"`
-	DtFin    time.Time        `gorm:"type:date"`
-	Cnpj     string                `gorm:"type:varchar(14)"`
+	VlItemIr float64   `gorm:"type:decimal(19,2)"`
+	DtInv    time.Time `gorm:"type:date"`
+	DtIni    time.Time `gorm:"type:date"`
+	DtFin    time.Time `gorm:"type:date"`
+	Cnpj     string    `gorm:"type:varchar(14)"`
 }
 
 func (RegH010) TableName() string {

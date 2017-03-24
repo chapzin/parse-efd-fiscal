@@ -10,21 +10,21 @@ import (
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
 type Reg0200 struct {
 	gorm.Model
-	Reg        string                `gorm:"type:varchar(4)"`
-	CodItem    string                `gorm:"type:varchar(60)"`
+	Reg        string `gorm:"type:varchar(4)"`
+	CodItem    string `gorm:"type:varchar(60)"`
 	DescrItem  string
 	CodBarra   string
-	CodAntItem string        `gorm:"type:varchar(60)"`
-	UnidInv    string                `gorm:"type:varchar(6)"`
-	TipoItem   string                `gorm:"type:varchar(2)"`
-	CodNcm     string                `gorm:"type:varchar(8)"`
-	ExIpi      string                `gorm:"type:varchar(3)"`
-	CodGen     string                `gorm:"type:varchar(2)"`
-	CodLst     string                `gorm:"type:varchar(5)"`
-	AliqIcms   float64        `gorm:"type:decimal(6,2)"`
-	DtIni      time.Time        `gorm:"type:date"`
-	DtFin      time.Time        `gorm:"type:date"`
-	Cnpj       string                `gorm:"type:varchar(14)"`
+	CodAntItem string    `gorm:"type:varchar(60)"`
+	UnidInv    string    `gorm:"type:varchar(6)"`
+	TipoItem   string    `gorm:"type:varchar(2)"`
+	CodNcm     string    `gorm:"type:varchar(8)"`
+	ExIpi      string    `gorm:"type:varchar(3)"`
+	CodGen     string    `gorm:"type:varchar(2)"`
+	CodLst     string    `gorm:"type:varchar(5)"`
+	AliqIcms   float64   `gorm:"type:decimal(6,2)"`
+	DtIni      time.Time `gorm:"type:date"`
+	DtFin      time.Time `gorm:"type:date"`
+	Cnpj       string    `gorm:"type:varchar(14)"`
 }
 
 func (Reg0200) TableName() string {
@@ -58,7 +58,6 @@ func (s Reg0200Sped) GetReg0200() Reg0200 {
 		DtIni:      s.Reg0000.DtIni,
 		DtFin:      s.Reg0000.DtFin,
 		Cnpj:       s.Reg0000.Cnpj,
-
 	}
 	return reg0200
 }

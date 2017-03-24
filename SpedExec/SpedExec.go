@@ -1,13 +1,13 @@
 package SpedExec
 
 import (
-	"strings"
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoH"
+	"github.com/chapzin/parse-efd-fiscal/SpedDB"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"github.com/chapzin/parse-efd-fiscal/SpedDB"
+	"strings"
 )
 
 type Regs struct {
@@ -381,7 +381,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		db.Create(&regH005)
 	case "H010":
 		ln := strings.Split(linha, "|")
-		regH010Sped := BlocoH.RegH010Sped{ln, r.Reg0000,r.RegH005}
+		regH010Sped := BlocoH.RegH010Sped{ln, r.Reg0000, r.RegH005}
 		regH010 := BlocoH.CreateRegH010(regH010Sped)
 		db.NewRecord(regH010)
 		db.Create(&regH010)

@@ -1,24 +1,24 @@
 package BlocoC
 
 import (
-	"time"
-	"github.com/jinzhu/gorm"
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/tools"
+	"github.com/jinzhu/gorm"
+	"time"
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
 
 type RegC420 struct {
 	gorm.Model
-	Reg        string                `gorm:"type:varchar(4)"`
-	CodTotPar  string        `gorm:"type:varchar(7)"`
-	VlrAcumTot float64        `gorm:"type:decimal(19,2)"`
-	NrTot      string                `gorm:"type:varchar(2)"`
+	Reg        string  `gorm:"type:varchar(4)"`
+	CodTotPar  string  `gorm:"type:varchar(7)"`
+	VlrAcumTot float64 `gorm:"type:decimal(19,2)"`
+	NrTot      string  `gorm:"type:varchar(2)"`
 	DescrNrTot string
-	DtIni      time.Time        `gorm:"type:date"`
-	DtFin      time.Time        `gorm:"type:date"`
-	Cnpj       string                `gorm:"type:varchar(14)"`
+	DtIni      time.Time `gorm:"type:date"`
+	DtFin      time.Time `gorm:"type:date"`
+	Cnpj       string    `gorm:"type:varchar(14)"`
 }
 
 func (RegC420) TableName() string {

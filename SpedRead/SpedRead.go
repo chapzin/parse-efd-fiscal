@@ -1,23 +1,24 @@
 package SpedRead
 
 import (
-	"path/filepath"
-	"os"
 	"bufio"
-	"strings"
-	"github.com/jinzhu/gorm"
-	"github.com/chapzin/parse-efd-fiscal/SpedExec"
-	"time"
-	"io/ioutil"
-	"github.com/clbanning/mxj"
 	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
+	"github.com/chapzin/parse-efd-fiscal/SpedExec"
 	"github.com/chapzin/parse-efd-fiscal/tools"
+	"github.com/clbanning/mxj"
+	"github.com/jinzhu/gorm"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
+	"time"
 )
 
 var id int
 var maxid = 100
+
 // Ler todos os arquivos de uma determinada pasta
-func RecursiveSpeds(path string, dialect string,conexao string) {
+func RecursiveSpeds(path string, dialect string, conexao string) {
 	filepath.Walk(path, func(file string, f os.FileInfo, err error) error {
 		if f.IsDir() == false {
 			ext := filepath.Ext(file)
@@ -26,13 +27,13 @@ func RecursiveSpeds(path string, dialect string,conexao string) {
 				// Possivelmente uma goroutines começando aqui
 				r := SpedExec.Regs{}
 				id++
-				go InsertSped(file, &r,dialect,conexao)
+				go InsertSped(file, &r, dialect, conexao)
 				// Goroutines finalizando aqui
 			}
 
 			if ext == ".xml" {
 				id++
-				go InsertXml(file,dialect,conexao)
+				go InsertXml(file, dialect, conexao)
 			}
 			wait()
 		}
@@ -52,7 +53,7 @@ func wait() {
 }
 
 func InsertXml(xml string, dialect string, conexao string) {
-	db, err := gorm.Open(dialect,conexao)
+	db, err := gorm.Open(dialect, conexao)
 	// Teste de lista produtos
 	xmlFile, err := ioutil.ReadFile(xml)
 	reader := tools.ConvXml(xml)
@@ -157,7 +158,7 @@ func InsertXml(xml string, dialect string, conexao string) {
 	var itens []NotaFiscal.Item
 
 	for i, _ := range codigo {
-		i2 := i+1
+		i2 := i + 1
 		codigoi := codigo[i].(string)
 		eani := ean[i].(string)
 		descricaoi := descricao[i].(string)

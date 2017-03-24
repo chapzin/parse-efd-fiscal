@@ -1,20 +1,20 @@
 package Bloco0
 
 import (
+	"github.com/chapzin/parse-efd-fiscal/tools"
 	"github.com/jinzhu/gorm"
 	"time"
-	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
 type Reg0190 struct {
 	gorm.Model
-	Reg   string        `gorm:"type:varchar(4)"`
-	Unid  string        `gorm:"type:varchar(6)"`
+	Reg   string `gorm:"type:varchar(4)"`
+	Unid  string `gorm:"type:varchar(6)"`
 	Descr string
 	DtIni time.Time `gorm:"type:date"`
 	DtFin time.Time `gorm:"type:date"`
-	Cnpj  string        `gorm:"type:varchar(14)"`
+	Cnpj  string    `gorm:"type:varchar(14)"`
 }
 
 func (Reg0190) TableName() string {

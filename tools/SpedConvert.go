@@ -1,11 +1,11 @@
 package tools
 
 import (
-	"strconv"
-	"time"
-	"io/ioutil"
 	"github.com/clbanning/mxj"
+	"io/ioutil"
+	"strconv"
 	"strings"
+	"time"
 )
 
 const longForm = "2006-01-02"
@@ -18,22 +18,22 @@ func ConvInt(string string) int {
 	return integer
 }
 
-
-
 func ConvXml(file string) func(pathTag string, tag string) string {
 	// TODO resolver problema de retorno nulo no mv[tag]
-		xmlFile, err := ioutil.ReadFile(file)
-		CheckErr(err)
-	return func (pathTag string, tag string) string {
+	xmlFile, err := ioutil.ReadFile(file)
+	CheckErr(err)
+	return func(pathTag string, tag string) string {
 		nfe, errOpenXml := mxj.NewMapXml(xmlFile)
 		CheckErr(errOpenXml)
 		pathDest := nfe.PathsForKey(pathTag)
 		dest, err := nfe.ValuesForPath(pathDest[0])
 		CheckErr(err)
 		mv := mxj.Map(dest[0].(map[string]interface{}))
-		if mv[tag] == nil {return ""}
-		if tag == "dhEmi"{
-			mv2 := strings.Split(mv[tag].(string),"T")
+		if mv[tag] == nil {
+			return ""
+		}
+		if tag == "dhEmi" {
+			mv2 := strings.Split(mv[tag].(string), "T")
 			return mv2[0]
 		} else {
 			return mv[tag].(string)
