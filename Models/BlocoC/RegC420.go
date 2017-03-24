@@ -3,7 +3,7 @@ package BlocoC
 import (
 	"time"
 	"github.com/jinzhu/gorm"
-	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
+	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 

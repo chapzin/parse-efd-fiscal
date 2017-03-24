@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/chapzin/parse-efd-fiscal/SpedError"
 	"io/ioutil"
 	"github.com/clbanning/mxj"
-	"github.com/chapzin/parse-efd-fiscal/model"
-	"github.com/chapzin/parse-efd-fiscal/SpedConvert"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/chapzin/GoInventario/Tools"
+	"github.com/chapzin/parse-efd-fiscal/tools"
+	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
 )
 
 func main() {
@@ -16,10 +16,10 @@ func main() {
 	
 	// Teste de lista produtos
 	xmlFile, err := ioutil.ReadFile("23130141334079000760550010000060781002141849-procNFe.xml")
-	reader := SpedConvert.ConvXml("23130141334079000760550010000060781002141849-procNFe.xml")
-	SpedError.CheckErr(err)
+	reader := tools.ConvXml("23130141334079000760550010000060781002141849-procNFe.xml")
+	Tools.CheckErr(err)
 	nfe, errOpenXml := mxj.NewMapXml(xmlFile)
-	SpedError.CheckErr(errOpenXml)
+	tools.CheckErr(errOpenXml)
 	
 	// Preenchendo o header da nfe
 	nNf := reader("ide", "nNF")
@@ -80,7 +80,7 @@ func main() {
 	fonee := reader("enderEmit", "fone")
 	iee := reader("emit", "IE")
 
-	destinatario := model.Destinatario{
+	destinatario := NotaFiscal.Destinatario{
 		CNPJ:    cnpj,
 		XNome:   xNome,
 		XLgr:    xLgr,
@@ -97,7 +97,7 @@ func main() {
 		Ie:      ie,
 	}
 
-	emitentede := model.Emitente{
+	emitentede := NotaFiscal.Emitente{
 		CNPJ:    cnpje,
 		XNome:   xNomee,
 		XLgr:    xLgre,
@@ -114,7 +114,7 @@ func main() {
 		Ie:      iee,
 	}
 
-	var itens []model.Item
+	var itens []NotaFiscal.Item
 
 	for i, _ := range codigo {
 		codigoi := codigo[i].(string)
@@ -127,29 +127,29 @@ func main() {
 		vuniti := vUnit[i].(string)
 		vtotali := vTotal[i].(string)
 
-		Item := model.Item{
+		Item := NotaFiscal.Item{
 			Codigo:    codigoi,
 			Ean:       eani,
 			Descricao: descricaoi,
 			Ncm:       ncmi,
 			Cfop:      cfopi,
 			Unid:      unidi,
-			Qtd:       SpedConvert.ConvFloat(qtdi),
-			VUnit:     SpedConvert.ConvFloat(vuniti),
-			VTotal:    SpedConvert.ConvFloat(vtotali),
+			Qtd:       tools.ConvFloat(qtdi),
+			VUnit:     tools.ConvFloat(vuniti),
+			VTotal:    tools.ConvFloat(vtotali),
 		}
 		itens = append(itens, Item)
 		//fmt.Printf("%#v\n",Item)
 	}
 
-	notafiscal := model.NotaFiscal{
+	notafiscal := NotaFiscal.NotaFiscal{
 		NNF:          nNf,
 		ChNFe:        chnfe,
 		NatOp:        natOp,
 		IndPag:       indPag,
 		Mod:          mod,
 		Serie:        serie,
-		DEmi:         SpedConvert.ConvertDataXml(dEmit),
+		DEmi:         tools.ConvertDataXml(dEmit),
 		TpNF:         tpNf,
 		TpImp:        tpImp,
 		TpEmis:       tpEmis,

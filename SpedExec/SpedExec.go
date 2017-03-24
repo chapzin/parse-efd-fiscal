@@ -2,9 +2,9 @@ package SpedExec
 
 import (
 	"strings"
-	"github.com/chapzin/parse-efd-fiscal/model/Bloco0"
-	"github.com/chapzin/parse-efd-fiscal/model/BlocoC"
-	"github.com/chapzin/parse-efd-fiscal/model/BlocoH"
+	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
+	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
+	"github.com/chapzin/parse-efd-fiscal/Models/BlocoH"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/chapzin/parse-efd-fiscal/SpedDB"

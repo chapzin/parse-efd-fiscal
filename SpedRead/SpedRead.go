@@ -10,7 +10,7 @@ import (
 	"time"
 	"io/ioutil"
 	"github.com/clbanning/mxj"
-	"github.com/chapzin/parse-efd-fiscal/model/NotaFiscal"
+	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
 	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
