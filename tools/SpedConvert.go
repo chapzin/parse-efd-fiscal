@@ -52,6 +52,10 @@ func ConvFloat(string string) float64 {
 	return float
 }
 
+func FloatToString(valor float64) string {
+	return strconv.FormatFloat(valor, 'f', 10, 64)
+}
+
 // Funcao tratando data recebida do arquivo do sped
 func dataSpedMysql(dtsped string) string {
 	if dtsped != "" {

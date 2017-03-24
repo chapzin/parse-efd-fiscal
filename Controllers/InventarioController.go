@@ -2,7 +2,6 @@ package Controllers
 
 import (
 	"github.com/chapzin/GoInventario/Models"
-	"github.com/chapzin/GoInventario/Tools"
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoH"
@@ -12,6 +11,8 @@ import (
 	"strconv"
 	"sync"
 	"time"
+	"github.com/tealeg/xlsx"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 func ProcessarFatorConversao(db gorm.DB, wg *sync.WaitGroup) {
@@ -99,11 +100,9 @@ func PopularItensXmls(db gorm.DB, wg *sync.WaitGroup) {
 
 }
 
-func PopularInventario(InicialFinal string, ano int, wg *sync.WaitGroup) {
+func PopularInventario(InicialFinal string, ano int, wg *sync.WaitGroup, db gorm.DB) {
 	time.Sleep(1 * time.Second)
 	color.Green("Começo popula Inventario %s", time.Now())
-	db, err := gorm.Open("mysql", "root:123@/auditoria2?charset=utf8&parseTime=true")
-	Tools.CheckErr(err)
 	var regH010 []BlocoH.RegH010
 	if InicialFinal == "final" {
 		ano = ano + 1
@@ -130,11 +129,9 @@ func PopularInventario(InicialFinal string, ano int, wg *sync.WaitGroup) {
 
 }
 
-func PopularEntradas(ano string, wg *sync.WaitGroup) {
+func PopularEntradas(ano string, wg *sync.WaitGroup, db gorm.DB) {
 	time.Sleep(3 * time.Second)
 	color.Green("Comeco popula entradas %s", time.Now())
-	db, err := gorm.Open("mysql", "root:123@/auditoria2?charset=utf8&parseTime=true")
-	Tools.CheckErr(err)
 	dtIni := ano + "-01-01"
 	dtFin := ano + "-12-31"
 	// Carregando inventario na memoria
@@ -174,11 +171,9 @@ func PopularEntradas(ano string, wg *sync.WaitGroup) {
 	wg.Done()
 }
 
-func PopularSaidas(ano string, wg *sync.WaitGroup) {
+func PopularSaidas(ano string, wg *sync.WaitGroup,db gorm.DB) {
 	time.Sleep(2 * time.Second)
 	color.Green("Comeco popula saidas %s", time.Now())
-	db, err := gorm.Open("mysql", "root:123@/auditoria2?charset=utf8&parseTime=true")
-	Tools.CheckErr(err)
 	dtIni := ano + "-01-01"
 	dtFin := ano + "-12-31"
 	var inv []Models.Inventario
@@ -273,4 +268,70 @@ func ProcessarDiferencas(db gorm.DB) {
 	}
 	// Deleta tudo tipo de inventario que nao seja material de revenda
 	db.Exec("Delete from inventarios where tipo <> '00'")
+}
+
+
+func ExcelAdd (db gorm.DB, sheet *xlsx.Sheet) {
+	var inv []Models.Inventario
+	db.Find(&inv)
+	for _, vInv := range inv {
+		ExcelItens(sheet,vInv)
+	}
+}
+
+func ColunaAdd(linha *xlsx.Row, string string) {
+	cell := linha.AddCell()
+	cell.Value = string
+}
+
+func ExcelItens(sheet *xlsx.Sheet, inv Models.Inventario){
+	menu := sheet.AddRow()
+	ColunaAdd(menu, inv.Codigo)
+	ColunaAdd(menu, inv.Descricao)
+	ColunaAdd(menu, inv.Tipo)
+	ColunaAdd(menu, inv.UnidInv)
+	ColunaAdd(menu, tools.FloatToString(inv.InvInicial))
+	ColunaAdd(menu, "Vl_Inv_Inicial")
+	ColunaAdd(menu, "Entradas")
+	ColunaAdd(menu, "Vl_Total_Entradas")
+	ColunaAdd(menu, "Vl_Unit_Entrada")
+	ColunaAdd(menu, "Saidas")
+	ColunaAdd(menu, "Vl_Total_Saidas")
+	ColunaAdd(menu, "Vl_Unit_Saida")
+	ColunaAdd(menu, "Margem")
+	ColunaAdd(menu, "Inv_Final")
+	ColunaAdd(menu, "Vl_Inv_Final")
+	ColunaAdd(menu, "Diferencas")
+	ColunaAdd(menu, "Sug_Estoque_Inicial")
+	ColunaAdd(menu, "Sug_Vl_Unit_Inicial")
+	ColunaAdd(menu, "Sug_Vl_Tot_Inicial")
+	ColunaAdd(menu, "Sug_Estoque_Final")
+	ColunaAdd(menu, "Sug_Vl_Unit_Final")
+	ColunaAdd(menu, "Sug_Vl_Tot_Final")
+}
+
+func ExcelMenu(sheet *xlsx.Sheet){
+	menu := sheet.AddRow()
+	ColunaAdd(menu, "Codigo")
+	ColunaAdd(menu, "Descricao")
+	ColunaAdd(menu, "Tipo")
+	ColunaAdd(menu, "Unid_inv")
+	ColunaAdd(menu, "Inv_Inicial")
+	ColunaAdd(menu, "Vl_Inv_Inicial")
+	ColunaAdd(menu, "Entradas")
+	ColunaAdd(menu, "Vl_Total_Entradas")
+	ColunaAdd(menu, "Vl_Unit_Entrada")
+	ColunaAdd(menu, "Saidas")
+	ColunaAdd(menu, "Vl_Total_Saidas")
+	ColunaAdd(menu, "Vl_Unit_Saida")
+	ColunaAdd(menu, "Margem")
+	ColunaAdd(menu, "Inv_Final")
+	ColunaAdd(menu, "Vl_Inv_Final")
+	ColunaAdd(menu, "Diferencas")
+	ColunaAdd(menu, "Sug_Estoque_Inicial")
+	ColunaAdd(menu, "Sug_Vl_Unit_Inicial")
+	ColunaAdd(menu, "Sug_Vl_Tot_Inicial")
+	ColunaAdd(menu, "Sug_Estoque_Final")
+	ColunaAdd(menu, "Sug_Vl_Unit_Final")
+	ColunaAdd(menu, "Sug_Vl_Tot_Final")
 }
