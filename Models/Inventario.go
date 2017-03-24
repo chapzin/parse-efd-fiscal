@@ -16,6 +16,7 @@ type Inventario struct {
 	Saidas          float64 `gorm:"type:decimal(19,3)"`
 	VlTotalSaidas   float64 `gorm:"type:decimal(19,3)"`
 	VlUnitSai       float64 `gorm:"type:decimal(19,3)"`
+	Margem          float64 `gorm:"type:decimal(19,3)"`
 	InvFinal        float64 `gorm:"type:decimal(19,3)"`
 	VlInvFin        float64 `gorm:"type:decimal(19,3)"`
 	Diferencas      float64 `gorm:"type:decimal(19,3)"`

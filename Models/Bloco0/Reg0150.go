@@ -36,11 +36,13 @@ type iReg0150 interface {
 	GetReg0150() Reg0150
 }
 
+// Estrutura necessaria para polular o Reg150 pelo sped fiscal
 type Reg0150Sped struct {
 	Ln      []string
 	Reg0000 Reg0000
 }
 
+// Metodo popula toda estrutura do reg0150 pelo sped
 func (s Reg0150Sped) GetReg0150() Reg0150 {
 	reg0150 := Reg0150{
 		Reg:      s.Ln[1],
@@ -63,10 +65,12 @@ func (s Reg0150Sped) GetReg0150() Reg0150 {
 	return reg0150
 }
 
+// Estrutura necessaria para popular o Reg0150 pelo Xml
 type Reg0150Xml struct {
 	Reader func(pathTag string, tag string) string
 }
 
+// Metodo popula toda estrutura do reg0150 pelo xml
 func (x Reg0150Xml) GetReg0150() Reg0150 {
 	reg0150 := Reg0150{
 		Reg:      "0150",

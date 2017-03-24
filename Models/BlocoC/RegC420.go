@@ -20,10 +20,12 @@ type RegC420 struct {
 	DtFin      time.Time `gorm:"type:date"`
 	Cnpj       string    `gorm:"type:varchar(14)"`
 }
+
 // Nome da tabela que o gorm deve criar no DB
 func (RegC420) TableName() string {
 	return "reg_c420"
 }
+
 // Implementando Interface do Sped RegC420
 type RegC420Sped struct {
 	Ln      []string
@@ -48,6 +50,7 @@ func (s RegC420Sped) GetRegC420() RegC420 {
 	}
 	return regC420
 }
+
 // Aplicando RegC420
 func CreateRegC420(read iRegC420) RegC420 {
 	return read.GetRegC420()
