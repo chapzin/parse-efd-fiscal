@@ -53,7 +53,7 @@ func ConvFloat(string string) float64 {
 }
 
 func FloatToString(valor float64) string {
-	return strconv.FormatFloat(valor, 'f', 10, 64)
+	return strconv.FormatFloat(valor, 'f', -1, 64)
 }
 
 // Funcao tratando data recebida do arquivo do sped

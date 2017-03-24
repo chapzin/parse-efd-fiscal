@@ -7,15 +7,15 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/SpedDB"
 	"github.com/chapzin/parse-efd-fiscal/SpedRead"
 	"github.com/chapzin/parse-efd-fiscal/config"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 	"github.com/fatih/color"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/tealeg/xlsx"
+	"os"
 	"strconv"
 	"sync"
 	"time"
-	"os"
-	"github.com/tealeg/xlsx"
-	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 var schema = flag.Bool("schema", false, "Recria as tabelas")
@@ -115,7 +115,7 @@ func main() {
 		}
 
 		Controllers.ExcelMenu(sheet)
-		Controllers.ExcelAdd(*db,sheet)
+		Controllers.ExcelAdd(*db, sheet)
 
 		err = file.Save("AnaliseInventario.xlsx")
 		if err != nil {
@@ -125,4 +125,3 @@ func main() {
 	}
 
 }
-

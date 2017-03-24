@@ -1,18 +1,17 @@
 package Controllers
 
 import (
-	"github.com/chapzin/GoInventario/Models"
+	"github.com/chapzin/parse-efd-fiscal/Models"
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoH"
 	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
 	"github.com/fatih/color"
 	"github.com/jinzhu/gorm"
+	"github.com/tealeg/xlsx"
 	"strconv"
 	"sync"
 	"time"
-	"github.com/tealeg/xlsx"
-	"github.com/chapzin/parse-efd-fiscal/tools"
 )
 
 func ProcessarFatorConversao(db gorm.DB, wg *sync.WaitGroup) {
@@ -171,7 +170,7 @@ func PopularEntradas(ano string, wg *sync.WaitGroup, db gorm.DB) {
 	wg.Done()
 }
 
-func PopularSaidas(ano string, wg *sync.WaitGroup,db gorm.DB) {
+func PopularSaidas(ano string, wg *sync.WaitGroup, db gorm.DB) {
 	time.Sleep(2 * time.Second)
 	color.Green("Comeco popula saidas %s", time.Now())
 	dtIni := ano + "-01-01"
@@ -270,12 +269,11 @@ func ProcessarDiferencas(db gorm.DB) {
 	db.Exec("Delete from inventarios where tipo <> '00'")
 }
 
-
-func ExcelAdd (db gorm.DB, sheet *xlsx.Sheet) {
+func ExcelAdd(db gorm.DB, sheet *xlsx.Sheet) {
 	var inv []Models.Inventario
 	db.Find(&inv)
 	for _, vInv := range inv {
-		ExcelItens(sheet,vInv)
+		ExcelItens(sheet, vInv)
 	}
 }
 
@@ -284,24 +282,30 @@ func ColunaAdd(linha *xlsx.Row, string string) {
 	cell.Value = string
 }
 
-func ExcelItens(sheet *xlsx.Sheet, inv Models.Inventario){
+func ColunaAddFloat(linha *xlsx.Row, valor float64) {
+	cell := linha.AddCell()
+	cell.SetFloat(valor)
+}
+
+func ExcelItens(sheet *xlsx.Sheet, inv Models.Inventario) {
 	menu := sheet.AddRow()
+
 	ColunaAdd(menu, inv.Codigo)
 	ColunaAdd(menu, inv.Descricao)
 	ColunaAdd(menu, inv.Tipo)
 	ColunaAdd(menu, inv.UnidInv)
-	ColunaAdd(menu, tools.FloatToString(inv.InvInicial))
-	ColunaAdd(menu, "Vl_Inv_Inicial")
-	ColunaAdd(menu, "Entradas")
-	ColunaAdd(menu, "Vl_Total_Entradas")
-	ColunaAdd(menu, "Vl_Unit_Entrada")
-	ColunaAdd(menu, "Saidas")
-	ColunaAdd(menu, "Vl_Total_Saidas")
-	ColunaAdd(menu, "Vl_Unit_Saida")
-	ColunaAdd(menu, "Margem")
-	ColunaAdd(menu, "Inv_Final")
-	ColunaAdd(menu, "Vl_Inv_Final")
-	ColunaAdd(menu, "Diferencas")
+	ColunaAddFloat(menu, inv.InvInicial)
+	ColunaAddFloat(menu, inv.VlInvIni)
+	ColunaAddFloat(menu, inv.Entradas)
+	ColunaAddFloat(menu, inv.VlTotalEntradas)
+	ColunaAddFloat(menu, inv.VlUnitEnt)
+	ColunaAddFloat(menu, inv.Saidas)
+	ColunaAddFloat(menu, inv.VlTotalSaidas)
+	ColunaAddFloat(menu, inv.VlUnitSai)
+	ColunaAddFloat(menu, inv.Margem)
+	ColunaAddFloat(menu, inv.InvFinal)
+	ColunaAddFloat(menu, inv.VlInvFin)
+	ColunaAddFloat(menu, inv.Diferencas)
 	ColunaAdd(menu, "Sug_Estoque_Inicial")
 	ColunaAdd(menu, "Sug_Vl_Unit_Inicial")
 	ColunaAdd(menu, "Sug_Vl_Tot_Inicial")
@@ -310,7 +314,7 @@ func ExcelItens(sheet *xlsx.Sheet, inv Models.Inventario){
 	ColunaAdd(menu, "Sug_Vl_Tot_Final")
 }
 
-func ExcelMenu(sheet *xlsx.Sheet){
+func ExcelMenu(sheet *xlsx.Sheet) {
 	menu := sheet.AddRow()
 	ColunaAdd(menu, "Codigo")
 	ColunaAdd(menu, "Descricao")

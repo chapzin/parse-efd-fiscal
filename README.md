@@ -26,8 +26,11 @@ go build
 - Adicione todos xmls próprios e speds do periodo onde pretende fazer a importação na pasta speds
 Depois de feito esse processo basta executar o programa com a flag -schema que ele cria toda estrutura do banco de dados.
 ```
-parse-efd-fiscal -schema
+parse-efd-fiscal -schema -importa
+parse-efd-fiscal -inventario
+parse-efd-fiscal -excel
 ```
+Depois disso sera criado um arquivo com o nome AnaliseInventario.xlsx na pasta que foi executado.
 
 ## Funcionalidades que serão desenvolvidas no sistema:
 - Importar todos Speds e Xmls de um determinado CNPJ para um banco de dados relacional;

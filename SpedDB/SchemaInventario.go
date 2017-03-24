@@ -2,7 +2,7 @@ package SpedDB
 
 import (
 	"fmt"
-	"github.com/chapzin/GoInventario/Models"
+	"github.com/chapzin/parse-efd-fiscal/Models"
 	"github.com/jinzhu/gorm"
 )
 
