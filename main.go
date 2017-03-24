@@ -3,23 +3,23 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/chapzin/GoInventario/Schema"
+	"github.com/chapzin/GoInventario/Tools"
+	"github.com/chapzin/parse-efd-fiscal/Controllers"
 	"github.com/chapzin/parse-efd-fiscal/SpedDB"
 	"github.com/chapzin/parse-efd-fiscal/SpedRead"
 	"github.com/chapzin/parse-efd-fiscal/config"
+	"github.com/fatih/color"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"time"
-	"github.com/chapzin/GoInventario/Schema"
 	"strconv"
 	"sync"
-	"github.com/chapzin/GoInventario/Tools"
-	"github.com/chapzin/parse-efd-fiscal/Controllers"
-	"github.com/fatih/color"
+	"time"
 )
 
 var schema = flag.Bool("schema", false, "Recria as tabelas")
-var importa = flag.Bool("importa",false,"Importa os xmls e speds ")
-var inventario = flag.Bool("inventario",false,"Fazer processamento do inventario")
+var importa = flag.Bool("importa", false, "Importa os xmls e speds ")
+var inventario = flag.Bool("inventario", false, "Fazer processamento do inventario")
 
 func init() {
 	flag.Parse()
@@ -101,6 +101,5 @@ func main() {
 		color.Green("TERMINOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
 		time.Sleep(60 * time.Second)
 	}
-
 
 }

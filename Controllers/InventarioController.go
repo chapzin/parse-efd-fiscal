@@ -1,17 +1,17 @@
 package Controllers
 
 import (
-	"github.com/jinzhu/gorm"
-	"sync"
-	"time"
-	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
-	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
-	"github.com/fatih/color"
-	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
 	"github.com/chapzin/GoInventario/Models"
 	"github.com/chapzin/GoInventario/Tools"
+	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
+	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoH"
+	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
+	"github.com/fatih/color"
+	"github.com/jinzhu/gorm"
 	"strconv"
+	"sync"
+	"time"
 )
 
 func ProcessarFatorConversao(db gorm.DB, wg *sync.WaitGroup) {
@@ -191,13 +191,13 @@ func PopularSaidas(ano string, wg *sync.WaitGroup) {
 		var qtd_saida = 0.0
 		var vl_tot_saida = 0.0
 		for _, vItens := range itens {
-			if (vItens.Codigo == vInv.Codigo) {
+			if vItens.Codigo == vInv.Codigo {
 				qtd_saida = qtd_saida + vItens.Qtd
 				vl_tot_saida = vl_tot_saida + vItens.VTotal
 			}
 		}
 		for _, vC425 := range c425 {
-			if (vC425.CodItem == vInv.Codigo) {
+			if vC425.CodItem == vInv.Codigo {
 				qtd_saida = qtd_saida + vC425.Qtd
 				vl_tot_saida = vl_tot_saida + vC425.VlItem
 			}
@@ -212,9 +212,7 @@ func PopularSaidas(ano string, wg *sync.WaitGroup) {
 
 }
 
-
-
-func ProcessarDiferencas( db gorm.DB ) {
+func ProcessarDiferencas(db gorm.DB) {
 	db.Exec("Delete from inventarios where inv_inicial=0 and entradas=0 and vl_total_entradas=0 and saidas=0 and vl_total_saidas=0 and inv_final=0")
 	var inv []Models.Inventario
 	var reg0200 []Bloco0.Reg0200
