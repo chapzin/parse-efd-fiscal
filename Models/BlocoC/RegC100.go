@@ -59,6 +59,7 @@ type RegC100Sped struct {
 type iRegC100 interface {
 	GetRegC100() RegC100
 }
+
 // Metodo popula strutura com conteudo do sped fiscal
 func (s RegC100Sped) GetRegC100() RegC100 {
 	regC100 := RegC100{

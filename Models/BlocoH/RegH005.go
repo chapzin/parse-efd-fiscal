@@ -34,6 +34,7 @@ type RegH005Sped struct {
 type iRegH005 interface {
 	GetRegH005() RegH005
 }
+
 // Metodo que popula o H005 do arquivo de sped
 func (s RegH005Sped) GetRegH005() RegH005 {
 	regH005 := RegH005{

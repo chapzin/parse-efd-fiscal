@@ -5,6 +5,7 @@ import (
 	"github.com/chapzin/GoInventario/Models"
 	"github.com/jinzhu/gorm"
 )
+
 // funcao cria estrutura do DB
 func CreateSchemaInventario(db gorm.DB) {
 	fmt.Println("Criando schema do inventario...")
