@@ -2,6 +2,7 @@ package Model
 
 import "github.com/jinzhu/gorm"
 
+// Estrutura de inventário
 type Inventario struct {
 	gorm.Model
 	Codigo          string `gorm:"type:varchar(60)"`

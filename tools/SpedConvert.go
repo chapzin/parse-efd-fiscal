@@ -10,6 +10,7 @@ import (
 
 const longForm = "2006-01-02"
 
+// Funcao de conversao de arquivo string para inteiro caso venha vazio ele retorna zero
 func ConvInt(string string) int {
 	integer, err := strconv.Atoi(string)
 	if err != nil {
@@ -18,8 +19,8 @@ func ConvInt(string string) int {
 	return integer
 }
 
+// Funcao que faz parse do xml e suas sub tags
 func ConvXml(file string) func(pathTag string, tag string) string {
-	// TODO resolver problema de retorno nulo no mv[tag]
 	xmlFile, err := ioutil.ReadFile(file)
 	CheckErr(err)
 	return func(pathTag string, tag string) string {
@@ -42,6 +43,7 @@ func ConvXml(file string) func(pathTag string, tag string) string {
 	}
 }
 
+// Funcao converte string para float caso venha vazio ele retorna zero
 func ConvFloat(string string) float64 {
 	float, err := strconv.ParseFloat(string, 64)
 	if err != nil {
@@ -50,6 +52,7 @@ func ConvFloat(string string) float64 {
 	return float
 }
 
+// Funcao tratando data recebida do arquivo do sped
 func dataSpedMysql(dtsped string) string {
 	if dtsped != "" {
 		dia := dtsped[0:2]
@@ -61,11 +64,13 @@ func dataSpedMysql(dtsped string) string {
 	return ""
 }
 
+// Funcao que trata data nula
 func ConvertDataNull() time.Time {
 	DtIni, _ := time.Parse(longForm, dataSpedMysql("1960-01-01"))
 	return DtIni
 }
 
+// funcao utilizada para data nula
 func ConvertData(string string) time.Time {
 	DtIni, err := time.Parse(longForm, dataSpedMysql(string))
 	if err != nil {
@@ -75,6 +80,7 @@ func ConvertData(string string) time.Time {
 
 }
 
+// Funcao converte data do xml
 func ConvertDataXml(string string) time.Time {
 	DtIni, err := time.Parse(longForm, string)
 	if err != nil {

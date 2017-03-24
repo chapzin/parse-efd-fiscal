@@ -8,7 +8,7 @@ import (
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
-
+// Estrutura do registro H010
 type RegH010 struct {
 	gorm.Model
 	Reg      string  `gorm:"type:varchar(4)"`
@@ -28,6 +28,7 @@ type RegH010 struct {
 	Cnpj     string    `gorm:"type:varchar(14)"`
 }
 
+// Metodo define nome da tabela no banco de dados
 func (RegH010) TableName() string {
 	return "reg_h010"
 }
@@ -43,6 +44,7 @@ type iRegH010 interface {
 	GetRegH010() RegH010
 }
 
+// Meotodo que popula o H010 do sped fiscal
 func (s RegH010Sped) GetRegH010() RegH010 {
 	regH010 := RegH010{
 		Reg:      s.Ln[1],
@@ -64,6 +66,7 @@ func (s RegH010Sped) GetRegH010() RegH010 {
 	return regH010
 }
 
+// Metodo que cria o registro populado generico
 func CreateRegH010(read iRegH010) RegH010 {
 	return read.GetRegH010()
 }

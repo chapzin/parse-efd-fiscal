@@ -8,7 +8,7 @@ import (
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
-
+// Estrutura do registro C100
 type RegC100 struct {
 	gorm.Model
 	Reg        string    `gorm:"type:varchar(4)"`
@@ -45,6 +45,7 @@ type RegC100 struct {
 	Cnpj       string    `gorm:"type:varchar(14)"`
 }
 
+// Metodo do nome da tabela
 func (RegC100) TableName() string {
 	return "reg_c100"
 }
@@ -58,7 +59,7 @@ type RegC100Sped struct {
 type iRegC100 interface {
 	GetRegC100() RegC100
 }
-
+// Metodo popula strutura com conteudo do sped fiscal
 func (s RegC100Sped) GetRegC100() RegC100 {
 	regC100 := RegC100{
 		Reg:        s.Ln[1],
@@ -97,6 +98,7 @@ func (s RegC100Sped) GetRegC100() RegC100 {
 	return regC100
 }
 
+// Criar estrutura populada
 func CreateRegC100(read iRegC100) RegC100 {
 	return read.GetRegC100()
 }
