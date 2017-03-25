@@ -21,9 +21,9 @@ type Inventario struct {
 	InvFinal        float64 `gorm:"type:decimal(19,3)"`
 	VlInvFin        float64 `gorm:"type:decimal(19,3)"`
 	Diferencas      float64 `gorm:"type:decimal(19,3)"`
-	EstoqueIni      float64 `gorm:"type:decimal(19,3)"`
-	VlTotIni        float64 `gorm:"type:decimal(19,3)"`
-	EstoqueFin      float64 `gorm:"type:decimal(19,3)"`
-	VlTotFin        float64 `gorm:"type:decimal(19,3)"`
+	SugInvInicial   float64 `gorm:"type:decimal(19,3)"`
+	SugVlInvInicial float64 `gorm:"type:decimal(19,3)"`
+	SugInvFinal     float64 `gorm:"type:decimal(19,3)"`
+	SugVlInvFinal   float64 `gorm:"type:decimal(19,3)"`
 	Ano             int
 }

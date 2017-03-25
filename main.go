@@ -34,7 +34,7 @@ func main() {
 	dialect, err := config.Propriedades.ObterTexto("bd.dialect")
 	conexao, err := config.Propriedades.ObterTexto("bd.conexao")
 	db, err := gorm.Open(dialect, conexao)
-	db.LogMode(true)
+	//db.LogMode(true)
 	defer db.Close()
 	if err != nil {
 		fmt.Println("Falha ao abrir conexão. dialect=?, Linha de Conexao=?", dialect, conexao)
@@ -52,8 +52,7 @@ func main() {
 		SpedRead.RecursiveSpeds("./speds", dialect, conexao)
 		// Pega cada arquivo e ler linha a linha e envia para o banco de dados
 		fmt.Println("Final processamento ", time.Now())
-		var msg string
-		fmt.Scanln(&msg)
+		time.Sleep(60 * time.Second)
 	}
 
 	if *inventario {
@@ -96,9 +95,9 @@ func main() {
 
 		// Quando finalizar todas essas deve rodar o processar diferencas
 		Controllers.ProcessarDiferencas(*db)
-		time.Sleep(60 * time.Second)
+		time.Sleep(90 * time.Second)
 		fmt.Println(time.Now())
-		color.Green("TERMINOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+		color.Green("TERMINOU")
 	}
 
 	if *excel {
@@ -121,6 +120,8 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
+		} else {
+			fmt.Println("Arquivo de Analise Inventario Gerado com Sucesso!!!")
 		}
 	}
 

@@ -243,17 +243,17 @@ func ProcessarDiferencas(db gorm.DB) {
 		if diferencas >= 0 {
 			// Novo inventario final somando diferencas
 			nvInvFin := diferencas + vInv.InvFinal
-			inv3.EstoqueFin = nvInvFin
+			inv3.SugInvFinal = nvInvFin
 		} else {
-			inv3.EstoqueFin = vInv.InvFinal
+			inv3.SugInvFinal = vInv.InvFinal
 		}
 		if diferencas < 0 {
 			// Caso negativo adiciona ao inventario inicial
 			nvInvIni := (diferencas * -1) + vInv.InvInicial
-			inv3.EstoqueIni = nvInvIni
+			inv3.SugInvInicial = nvInvIni
 		} else {
 			// Caso nao seja negativo mantenha o inventario anterior
-			inv3.EstoqueIni = vInv.InvInicial
+			inv3.SugInvInicial = vInv.InvInicial
 		}
 		// Adicionando Tipo e unidade de medida no inventario
 		for _, v0200 := range reg0200 {
@@ -286,6 +286,21 @@ func ColunaAddFloat(linha *xlsx.Row, valor float64) {
 	cell := linha.AddCell()
 	cell.SetFloat(valor)
 }
+func ColunaAddFloatDif(linha *xlsx.Row, valor float64) {
+	cell := linha.AddCell()
+
+	var style = xlsx.NewStyle()
+	if valor < 0 {
+		style.Fill = *xlsx.NewFill("solid", "00FA8072", "00FA8072")
+	} else if valor > 0 {
+		style.Fill = *xlsx.NewFill("solid", "0087CEFA", "0087CEFA")
+	} else {
+		style.Fill = *xlsx.NewFill("solid", "009ACD32", "009ACD32")
+	}
+	cell.SetStyle(style)
+
+	cell.SetFloat(valor)
+}
 
 func ExcelItens(sheet *xlsx.Sheet, inv Models.Inventario) {
 	menu := sheet.AddRow()
@@ -305,13 +320,11 @@ func ExcelItens(sheet *xlsx.Sheet, inv Models.Inventario) {
 	ColunaAddFloat(menu, inv.Margem)
 	ColunaAddFloat(menu, inv.InvFinal)
 	ColunaAddFloat(menu, inv.VlInvFin)
-	ColunaAddFloat(menu, inv.Diferencas)
-	ColunaAdd(menu, "Sug_Estoque_Inicial")
-	ColunaAdd(menu, "Sug_Vl_Unit_Inicial")
-	ColunaAdd(menu, "Sug_Vl_Tot_Inicial")
-	ColunaAdd(menu, "Sug_Estoque_Final")
-	ColunaAdd(menu, "Sug_Vl_Unit_Final")
-	ColunaAdd(menu, "Sug_Vl_Tot_Final")
+	ColunaAddFloatDif(menu, inv.Diferencas)
+	ColunaAddFloat(menu, inv.SugInvInicial)
+	ColunaAddFloat(menu, inv.SugVlInvInicial)
+	ColunaAddFloat(menu, inv.SugInvFinal)
+	ColunaAddFloat(menu, inv.SugVlInvFinal)
 }
 
 func ExcelMenu(sheet *xlsx.Sheet) {
@@ -333,9 +346,7 @@ func ExcelMenu(sheet *xlsx.Sheet) {
 	ColunaAdd(menu, "Vl_Inv_Final")
 	ColunaAdd(menu, "Diferencas")
 	ColunaAdd(menu, "Sug_Estoque_Inicial")
-	ColunaAdd(menu, "Sug_Vl_Unit_Inicial")
 	ColunaAdd(menu, "Sug_Vl_Tot_Inicial")
 	ColunaAdd(menu, "Sug_Estoque_Final")
-	ColunaAdd(menu, "Sug_Vl_Unit_Final")
 	ColunaAdd(menu, "Sug_Vl_Tot_Final")
 }
