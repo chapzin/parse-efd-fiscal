@@ -67,3 +67,7 @@ FixAuditoria - www.fixauditoria.com.br
 ## License
 
 The project Go Auditoria Fiscal is available under the [MIT license](LICENSE).
+
+## Imagem exemplo da planilha gerada
+
+![Inventario](inv.png "Inventario")
