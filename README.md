@@ -27,7 +27,7 @@ go build
 Depois de feito esse processo basta executar o programa com a flag -schema que ele cria toda estrutura do banco de dados.
 ```
 parse-efd-fiscal -schema -importa
-parse-efd-fiscal -inventario
+parse-efd-fiscal -inventario -ano=2016
 parse-efd-fiscal -excel
 ```
 Depois disso sera criado um arquivo com o nome AnaliseInventario.xlsx na pasta que foi executado.
