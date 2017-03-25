@@ -25,7 +25,7 @@ go build
 parse-efd-fiscal downloads (version snapshot)
 
 ### Estrutura**
- * [Estrutura]([builds/estrutura.zip])
+ * [Estrutura](builds/estrutura.zip)
  
  **Arquivo obrigatório para o funcionamento do sistema
  
