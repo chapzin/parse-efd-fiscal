@@ -1,0 +1,23 @@
+Seja bem vindo
+O principal objetivo do GoSpedFiscal é fazer a leitura dos arquivos do sped e das notas fiscais eletronicas próprias (as emitidas pela empresa que será feito o inventário), depois calcular toda movimentação de um deteminado ano e analisar seu inventário quanto é a diferença do estoque inicial para o estoque final.
+
+Passos a serem feitos:
+- Descompactar os arquivos da estrutura e o executavel dentro de uma pasta de sua preferencia; 
+- Configurar um banco de dados mysql e criar um banco onde sera guardado as informações e o nome do banco, do usuario e da senha você deve configurar no arquivo config.cfg que fica dentro da pasta /config ;
+- Copiar todos arquivos do sped e dos xmls proprios para dentro da pasta /speds tomando o cuidado de que realmente todos os speds e xmls são da empresa que você quer processar o inventário e não deve enviar nenhum arquivo xml ou sped que nao seja o emitido pela empresa;
+
+Feito todos passos acima deve executa no terminal ou na linha de comando as seguintes sintaxe
+
+
+O primeiro comando ele vai criar toda estrutura do banco de dados e importar os speds fiscais e xmls que estão na pasta speds
+parse-efd-fiscal -schema -importa
+
+Esse proximo ele vai fazer o analise de toda movimentação de toda empresa
+parse-efd-fiscal -inventario -ano=2016
+
+Esse proximo ele gera o arquivo em excel referente a toda essa movimentação gerada
+parse-efd-fiscal -excel
+
+Qualquer duvida, sugestão ou erro favor enviar para o email ricardogomes@fixauditoria.com.br ou pelo hangout no email chapzin@gmail.com que vamos analisar e responde o mais breve possivel.
+
+Gostou do sistema? Ele foi util para você? Então ajude o proximo e divulge o sistema para todos seus amigos e empresas!!!
