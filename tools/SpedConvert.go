@@ -70,7 +70,7 @@ func dataSpedMysql(dtsped string) string {
 
 // Funcao que trata data nula
 func ConvertDataNull() time.Time {
-	DtIni, _ := time.Parse(longForm, dataSpedMysql("1960-01-01"))
+	DtIni, _ := time.Parse(longForm, dataSpedMysql("01011960"))
 	return DtIni
 }
 
