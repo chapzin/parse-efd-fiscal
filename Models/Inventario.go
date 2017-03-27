@@ -9,6 +9,7 @@ type Inventario struct {
 	Descricao       string
 	Tipo            string  `gorm:"type:varchar(2)"`
 	UnidInv         string  `gorm:"type:varchar(6)"`
+	Ncm             string  `gorm:"type:varchar(8)"`
 	InvInicial      float64 `gorm:"type:decimal(19,3)"`
 	VlInvIni        float64 `gorm:"type:decimal(19,3)"`
 	Entradas        float64 `gorm:"type:decimal(19,3)"`

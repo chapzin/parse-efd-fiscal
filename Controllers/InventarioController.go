@@ -1,14 +1,17 @@
 package Controllers
 
 import (
+	"bufio"
 	"github.com/chapzin/parse-efd-fiscal/Models"
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoH"
 	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 	"github.com/fatih/color"
 	"github.com/jinzhu/gorm"
 	"github.com/tealeg/xlsx"
+	"os"
 	"strconv"
 	"sync"
 	"time"
@@ -69,6 +72,7 @@ func PopularReg0200(db gorm.DB, wg *sync.WaitGroup) {
 				Descricao: v.DescrItem,
 				Tipo:      v.TipoItem,
 				UnidInv:   v.UnidInv,
+				Ncm:       v.CodNcm,
 			}
 			db.NewRecord(inv2)
 			db.Create(&inv2)
@@ -219,22 +223,20 @@ func ProcessarDiferencas(db gorm.DB) {
 
 		// Calculando o valor unitário de entrada
 		if vInv.VlTotalEntradas > 0 && vInv.Entradas > 0 {
-			vlUnitEntrada := vInv.VlTotalEntradas / vInv.Entradas
-			inv3.VlUnitEnt = vlUnitEntrada
+			inv3.VlUnitEnt = vInv.VlTotalEntradas / vInv.Entradas
 		} else if vInv.VlTotalEntradas == 0 && vInv.Entradas == 0 && vInv.VlInvIni > 0 {
-			vlUnitEntrada := vInv.VlInvIni
-			inv3.VlUnitEnt = vlUnitEntrada
+			inv3.VlUnitEnt = vInv.VlInvIni
+		} else if vInv.VlTotalEntradas == 0 && vInv.Entradas == 0 && vInv.VlInvIni == 0 && vInv.VlInvFin > 0 {
+			inv3.VlUnitEnt = vInv.VlInvFin
 		} else {
-			inv3.VlUnitEnt = 0
+			inv3.VlUnitEnt = 1
 		}
 
 		// Calculando o valor unitário de saida
 		if vInv.VlTotalSaidas > 0 && vInv.Saidas > 0 {
-			vlUnitSaida := vInv.VlTotalSaidas / vInv.Saidas
-			inv3.VlUnitSai = vlUnitSaida
+			inv3.VlUnitSai = vInv.VlTotalSaidas / vInv.Saidas
 		} else if vInv.VlTotalSaidas == 0 && vInv.Saidas == 0 && vInv.VlInvIni > 0 {
-			vlUnitSaida := vInv.VlInvIni
-			inv3.VlUnitSai = vlUnitSaida
+			inv3.VlUnitSai = vInv.VlInvIni
 		} else {
 			inv3.VlUnitSai = 0
 		}
@@ -244,16 +246,20 @@ func ProcessarDiferencas(db gorm.DB) {
 			// Novo inventario final somando diferencas
 			nvInvFin := diferencas + vInv.InvFinal
 			inv3.SugInvFinal = nvInvFin
+			inv3.SugVlInvFinal = nvInvFin * inv3.VlUnitEnt
 		} else {
 			inv3.SugInvFinal = vInv.InvFinal
+			inv3.SugVlInvFinal = inv3.SugInvFinal * inv3.VlUnitEnt
 		}
 		if diferencas < 0 {
 			// Caso negativo adiciona ao inventario inicial
 			nvInvIni := (diferencas * -1) + vInv.InvInicial
 			inv3.SugInvInicial = nvInvIni
+			inv3.SugVlInvInicial = nvInvIni * inv3.VlUnitEnt
 		} else {
 			// Caso nao seja negativo mantenha o inventario anterior
 			inv3.SugInvInicial = vInv.InvInicial
+			inv3.SugVlInvInicial = inv3.SugInvInicial * inv3.VlUnitEnt
 		}
 		// Adicionando Tipo e unidade de medida no inventario
 		for _, v0200 := range reg0200 {
@@ -349,4 +355,119 @@ func ExcelMenu(sheet *xlsx.Sheet) {
 	ColunaAdd(menu, "Sug_Vl_Tot_Inicial")
 	ColunaAdd(menu, "Sug_Estoque_Final")
 	ColunaAdd(menu, "Sug_Vl_Tot_Final")
+}
+
+func CriarH010InvInicial(ano int, db gorm.DB) {
+	ano = ano - 1
+	anoString := strconv.Itoa(ano)
+	var inv []Models.Inventario
+	db.Find(&inv)
+	f, err := os.Create("SpedInvInicial.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	for _, vInv := range inv {
+		if vInv.SugInvInicial > 0 {
+			r0200 := Bloco0.Reg0200{
+				Reg:       "0200",
+				CodItem:   vInv.Codigo,
+				DescrItem: vInv.Descricao,
+				UnidInv:   vInv.UnidInv,
+				TipoItem:  vInv.Tipo,
+			}
+			aliqicms := tools.FloatToStringSped(r0200.AliqIcms)
+			linha := "|" + r0200.Reg + "|" + r0200.CodItem + "|" + r0200.DescrItem + "|" +
+				r0200.CodBarra + "|" + r0200.CodAntItem + "|" + r0200.UnidInv + "|" + r0200.TipoItem +
+				"|" + r0200.CodNcm + "|" + r0200.ExIpi + "|" + r0200.CodGen + "|" + r0200.CodLst +
+				"|" + aliqicms + "|\r\n"
+			f.WriteString(linha)
+			f.Sync()
+		}
+	}
+	linha := "|H005|3112" + anoString + "|1726778,31|01|\r\n"
+	f.WriteString(linha)
+	f.Sync()
+
+	for _, vInv2 := range inv {
+		if vInv2.SugInvInicial > 0 {
+			sugVlUnit := vInv2.SugVlInvInicial / vInv2.SugInvInicial
+			h010 := BlocoH.RegH010{
+				Reg:     "H010",
+				CodItem: vInv2.Codigo,
+				Unid:    vInv2.UnidInv,
+				Qtd:     vInv2.SugInvInicial,
+				VlUnit:  sugVlUnit,
+				VlItem:  vInv2.SugVlInvInicial,
+				IndProp: "0",
+			}
+			linha := "|" + h010.Reg + "|" + h010.CodItem + "|" + h010.Unid + "|" +
+				tools.FloatToStringSped(h010.Qtd) + "|" + tools.FloatToStringSped(h010.VlUnit) +
+				"|" + tools.FloatToStringSped(h010.VlItem) + "|" + h010.IndProp + "|" + h010.CodPart +
+				"|" + h010.CodCta + "|" + tools.FloatToStringSped(h010.VlItemIr) + "|\r\n"
+			f.WriteString(linha)
+			f.Sync()
+		}
+
+	}
+
+	w := bufio.NewWriter(f)
+	w.Flush()
+}
+
+func CriarH010InvFinal(ano int, db gorm.DB) {
+	anoString := strconv.Itoa(ano)
+	var inv []Models.Inventario
+	db.Find(&inv)
+	f, err := os.Create("SpedInvFinal.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	for _, vInv := range inv {
+		if vInv.SugInvFinal > 0 {
+			r0200 := Bloco0.Reg0200{
+				Reg:       "0200",
+				CodItem:   vInv.Codigo,
+				DescrItem: vInv.Descricao,
+				UnidInv:   vInv.UnidInv,
+				TipoItem:  vInv.Tipo,
+			}
+			aliqicms := tools.FloatToStringSped(r0200.AliqIcms)
+			linha := "|" + r0200.Reg + "|" + r0200.CodItem + "|" + r0200.DescrItem + "|" +
+				r0200.CodBarra + "|" + r0200.CodAntItem + "|" + r0200.UnidInv + "|" + r0200.TipoItem +
+				"|" + r0200.CodNcm + "|" + r0200.ExIpi + "|" + r0200.CodGen + "|" + r0200.CodLst +
+				"|" + aliqicms + "|\r\n"
+			f.WriteString(linha)
+			f.Sync()
+		}
+	}
+	linha := "|H005|3112" + anoString + "|1726778,31|01|\r\n"
+	f.WriteString(linha)
+	f.Sync()
+
+	for _, vInv2 := range inv {
+		if vInv2.SugInvFinal > 0 {
+			sugVlUnit := vInv2.SugVlInvFinal / vInv2.SugInvFinal
+			h010 := BlocoH.RegH010{
+				Reg:     "H010",
+				CodItem: vInv2.Codigo,
+				Unid:    vInv2.UnidInv,
+				Qtd:     vInv2.SugInvFinal,
+				VlUnit:  sugVlUnit,
+				VlItem:  vInv2.SugVlInvFinal,
+				IndProp: "0",
+			}
+			linha := "|" + h010.Reg + "|" + h010.CodItem + "|" + h010.Unid + "|" +
+				tools.FloatToStringSped(h010.Qtd) + "|" + tools.FloatToStringSped(h010.VlUnit) +
+				"|" + tools.FloatToStringSped(h010.VlItem) + "|" + h010.IndProp + "|" + h010.CodPart +
+				"|" + h010.CodCta + "|" + tools.FloatToStringSped(h010.VlItemIr) + "|\r\n"
+			f.WriteString(linha)
+			f.Sync()
+		}
+
+	}
+
+	w := bufio.NewWriter(f)
+	w.Flush()
 }

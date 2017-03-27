@@ -19,6 +19,13 @@ func TestFloatToString(t *testing.T) {
 	}
 }
 
+func TestFloatToStringSped(t *testing.T) {
+	v := FloatToStringSped(3.5)
+	if v != "3,50" {
+		t.Error("Esperado um retorno string com casa decimal em virgula e duas casas")
+	}
+}
+
 func TestConvertDataNull(t *testing.T) {
 	v := ConvertDataNull()
 	correto, _ := time.Parse(longForm, dataSpedMysql("01011960"))

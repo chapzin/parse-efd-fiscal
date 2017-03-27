@@ -23,6 +23,7 @@ var importa = flag.Bool("importa", false, "Importa os xmls e speds ")
 var inventario = flag.Bool("inventario", false, "Fazer processamento do inventario")
 var ano = flag.Int("ano", 0, "Ano do processamento do inventário")
 var excel = flag.Bool("excel", false, "Gera arquivo excel do inventario")
+var h010 = flag.Bool("h010", false, "Gera arquivo h010 e 0200 no layout sped para ser importado")
 
 func init() {
 	flag.Parse()
@@ -123,6 +124,17 @@ func main() {
 		} else {
 			fmt.Println("Arquivo de Analise Inventario Gerado com Sucesso!!!")
 		}
+	}
+
+	if *h010 {
+
+		if *ano != 0 {
+			Controllers.CriarH010InvInicial(*ano, *db)
+			Controllers.CriarH010InvFinal(*ano, *db)
+		} else {
+			fmt.Println("Favor informar a tag -ano=AnoQueQuer")
+		}
+
 	}
 
 }
