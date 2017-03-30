@@ -60,6 +60,16 @@ func FloatToStringSped(valor float64) string {
 	return strings.Replace(strconv.FormatFloat(valor, 'f', 2, 64), ".", ",", -1)
 }
 
+func AdicionaDigitosCodigo(codigo string, digitos int) string {
+	if digitos != 0 {
+		for len(codigo) < digitos {
+			codigo = "0" + codigo
+
+		}
+	}
+	return codigo
+}
+
 // Funcao tratando data recebida do arquivo do sped
 func dataSpedMysql(dtsped string) string {
 	if dtsped != "" {

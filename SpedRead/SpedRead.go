@@ -18,7 +18,7 @@ var id int
 var maxid = 100
 
 // Ler todos os arquivos de uma determinada pasta
-func RecursiveSpeds(path string, dialect string, conexao string) {
+func RecursiveSpeds(path string, dialect string, conexao string, digitosCodigo string) {
 	filepath.Walk(path, func(file string, f os.FileInfo, err error) error {
 		if f.IsDir() == false {
 			ext := filepath.Ext(file)
@@ -33,7 +33,7 @@ func RecursiveSpeds(path string, dialect string, conexao string) {
 
 			if ext == ".xml" {
 				id++
-				go InsertXml(file, dialect, conexao)
+				go InsertXml(file, dialect, conexao, digitosCodigo)
 			}
 			wait()
 		}
@@ -52,7 +52,8 @@ func wait() {
 
 }
 
-func InsertXml(xml string, dialect string, conexao string) {
+func InsertXml(xml string, dialect string, conexao string, digitosCodigo string) {
+	digitosCodigo2 := tools.ConvInt(digitosCodigo)
 	db, err := gorm.Open(dialect, conexao)
 	// Teste de lista produtos
 	xmlFile, err := ioutil.ReadFile(xml)
@@ -159,7 +160,7 @@ func InsertXml(xml string, dialect string, conexao string) {
 
 	for i, _ := range codigo {
 		i2 := i + 1
-		codigoi := codigo[i].(string)
+		codigoi := tools.AdicionaDigitosCodigo(codigo[i].(string), digitosCodigo2)
 		eani := ean[i].(string)
 		descricaoi := descricao[i].(string)
 		ncmi := ncm[i].(string)

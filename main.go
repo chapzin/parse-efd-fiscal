@@ -34,6 +34,7 @@ func init() {
 func main() {
 	dialect, err := config.Propriedades.ObterTexto("bd.dialect")
 	conexao, err := config.Propriedades.ObterTexto("bd.conexao")
+	digitos, err := config.Propriedades.ObterTexto("bd.digit.cod")
 	db, err := gorm.Open(dialect, conexao)
 	//db.LogMode(true)
 	defer db.Close()
@@ -50,7 +51,7 @@ func main() {
 	if *importa {
 		// Lendo todos arquivos da pasta speds
 		fmt.Println("Iniciando processamento ", time.Now())
-		SpedRead.RecursiveSpeds("./speds", dialect, conexao)
+		SpedRead.RecursiveSpeds("./speds", dialect, conexao, digitos)
 		// Pega cada arquivo e ler linha a linha e envia para o banco de dados
 		fmt.Println("Final processamento ", time.Now())
 		time.Sleep(60 * time.Second)
@@ -132,7 +133,7 @@ func main() {
 			Controllers.CriarH010InvInicial(*ano, *db)
 			Controllers.CriarH010InvFinal(*ano, *db)
 		} else {
-			fmt.Println("Favor informar a tag -ano=AnoQueQuer")
+			fmt.Println("Favor informar a tag ano. Exemplo: -ano=2016")
 		}
 
 	}
