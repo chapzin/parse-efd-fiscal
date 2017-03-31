@@ -261,6 +261,14 @@ func ProcessarDiferencas(db gorm.DB) {
 			inv3.SugInvInicial = vInv.InvInicial
 			inv3.SugVlInvInicial = inv3.SugInvInicial * inv3.VlUnitEnt
 		}
+
+		// Zera o produto quando inventario inicial e final forem iguais
+		if inv3.SugInvInicial == inv3.SugInvFinal {
+			inv3.SugInvFinal = 0
+			inv3.SugInvInicial = 0
+			inv3.SugVlInvFinal = 0
+			inv3.SugVlInvInicial = 0
+		}
 		// Adicionando Tipo e unidade de medida no inventario
 		for _, v0200 := range reg0200 {
 			if v0200.CodItem == vInv.Codigo {
