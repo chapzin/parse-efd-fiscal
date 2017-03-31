@@ -26,6 +26,7 @@ func RecursiveSpeds(path string, dialect string, conexao string, digitosCodigo s
 				tools.CheckErr(err)
 				// Possivelmente uma goroutines começando aqui
 				r := SpedExec.Regs{}
+				r.Digito = digitosCodigo
 				id++
 				go InsertSped(file, &r, dialect, conexao)
 				// Goroutines finalizando aqui

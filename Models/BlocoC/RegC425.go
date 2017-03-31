@@ -31,6 +31,7 @@ func (RegC425) TableName() string {
 type RegC425Sped struct {
 	Ln      []string
 	Reg0000 Bloco0.Reg0000
+	Digito  string
 }
 
 type iRegC425 interface {
@@ -38,9 +39,10 @@ type iRegC425 interface {
 }
 
 func (s RegC425Sped) GetRegC425() RegC425 {
+	digitoInt := tools.ConvInt(s.Digito)
 	regC425 := RegC425{
 		Reg:      s.Ln[1],
-		CodItem:  s.Ln[2],
+		CodItem:  tools.AdicionaDigitosCodigo(s.Ln[2], digitoInt),
 		Qtd:      tools.ConvFloat(s.Ln[3]),
 		Unid:     s.Ln[4],
 		VlItem:   tools.ConvFloat(s.Ln[5]),

@@ -15,9 +15,11 @@ type Regs struct {
 	Reg0000 Bloco0.Reg0000
 	Reg0200 Bloco0.Reg0200
 	RegH005 BlocoH.RegH005
+	Digito  string
 }
 
 func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
+
 	switch ln1 {
 	case "0000":
 		ln := strings.Split(linha, "|")
@@ -49,7 +51,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		db.Create(&reg0190)
 	case "0200":
 		ln := strings.Split(linha, "|")
-		reg0200Sped := Bloco0.Reg0200Sped{ln, r.Reg0000}
+		reg0200Sped := Bloco0.Reg0200Sped{ln, r.Reg0000, r.Digito}
 		r.Reg0200 = Bloco0.CreateReg0200(reg0200Sped)
 		db.NewRecord(r.Reg0200)
 		db.Create(&r.Reg0200)
@@ -61,7 +63,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		//fmt.Println(linha)
 	case "0220":
 		ln := strings.Split(linha, "|")
-		reg0220sped := Bloco0.Reg0220Sped{ln, r.Reg0000, r.Reg0200}
+		reg0220sped := Bloco0.Reg0220Sped{ln, r.Reg0000, r.Reg0200, r.Digito}
 		reg0220 := Bloco0.CreateReg0220(reg0220sped)
 		db.NewRecord(reg0220)
 		db.Create(&reg0220)
@@ -121,7 +123,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		//fmt.Println(linha)
 	case "C170":
 		ln := strings.Split(linha, "|")
-		regC100sped := BlocoC.RegC170Sped{ln, r.Reg0000, r.RegC100}
+		regC100sped := BlocoC.RegC170Sped{ln, r.Reg0000, r.RegC100, r.Digito}
 		regC170 := BlocoC.CreateRegC170(regC100sped)
 		db.NewRecord(regC170)
 		db.Create(&regC170)
@@ -185,7 +187,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		db.Create(&regC420)
 	case "C425":
 		ln := strings.Split(linha, "|")
-		regC425sped := BlocoC.RegC425Sped{ln, r.Reg0000}
+		regC425sped := BlocoC.RegC425Sped{ln, r.Reg0000, r.Digito}
 		regC425 := BlocoC.CreateRegC425(regC425sped)
 		db.NewRecord(regC425)
 		db.Create(&regC425)
@@ -381,7 +383,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		db.Create(&regH005)
 	case "H010":
 		ln := strings.Split(linha, "|")
-		regH010Sped := BlocoH.RegH010Sped{ln, r.Reg0000, r.RegH005}
+		regH010Sped := BlocoH.RegH010Sped{ln, r.Reg0000, r.RegH005, r.Digito}
 		regH010 := BlocoH.CreateRegH010(regH010Sped)
 		db.NewRecord(regH010)
 		db.Create(&regH010)

@@ -30,15 +30,17 @@ type Reg0220Sped struct {
 	Ln      []string
 	Reg0000 Reg0000
 	Reg0200 Reg0200
+	Digito  string
 }
 
 func (s Reg0220Sped) GetReg0220() Reg0220 {
+	digitoInt := tools.ConvInt(s.Digito)
 	reg0220 := Reg0220{
 		Reg:      s.Ln[1],
 		UnidConv: s.Ln[2],
 		FatConv:  tools.ConvFloat(s.Ln[3]),
 		UnidCod:  s.Reg0200.UnidInv,
-		CodItem:  s.Reg0200.CodItem,
+		CodItem:  tools.AdicionaDigitosCodigo(s.Reg0200.CodItem, digitoInt),
 		DtIni:    s.Reg0000.DtIni,
 		DtFin:    s.Reg0000.DtFin,
 		Cnpj:     s.Reg0000.Cnpj,

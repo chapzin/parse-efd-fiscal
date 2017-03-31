@@ -64,6 +64,7 @@ type RegC170Sped struct {
 	Ln      []string
 	Reg0000 Bloco0.Reg0000
 	RegC100 RegC100
+	Digito  string
 }
 
 type iRegC170 interface {
@@ -71,10 +72,11 @@ type iRegC170 interface {
 }
 
 func (s RegC170Sped) GetRegC170() RegC170 {
+	digitoInt := tools.ConvInt(s.Digito)
 	regC170 := RegC170{
 		Reg:           s.Ln[1],
 		NumItem:       s.Ln[2],
-		CodItem:       s.Ln[3],
+		CodItem:       tools.AdicionaDigitosCodigo(s.Ln[3], digitoInt),
 		DescrCompl:    s.Ln[4],
 		Qtd:           tools.ConvFloat(s.Ln[5]),
 		Unid:          s.Ln[6],

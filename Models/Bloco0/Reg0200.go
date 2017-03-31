@@ -35,6 +35,7 @@ func (Reg0200) TableName() string {
 type Reg0200Sped struct {
 	Ln      []string
 	Reg0000 Reg0000
+	Digito  string
 }
 
 type iReg0200 interface {
@@ -42,9 +43,11 @@ type iReg0200 interface {
 }
 
 func (s Reg0200Sped) GetReg0200() Reg0200 {
+	digitoInt := tools.ConvInt(s.Digito)
+	codigo := tools.AdicionaDigitosCodigo(s.Ln[2], digitoInt)
 	reg0200 := Reg0200{
 		Reg:        s.Ln[1],
-		CodItem:    s.Ln[2],
+		CodItem:    codigo,
 		DescrItem:  s.Ln[3],
 		CodBarra:   s.Ln[4],
 		CodAntItem: s.Ln[5],

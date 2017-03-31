@@ -38,6 +38,7 @@ type RegH010Sped struct {
 	Ln      []string
 	Reg0000 Bloco0.Reg0000
 	RegH005 RegH005
+	Digito  string
 }
 
 type iRegH010 interface {
@@ -46,9 +47,10 @@ type iRegH010 interface {
 
 // Meotodo que popula o H010 do sped fiscal
 func (s RegH010Sped) GetRegH010() RegH010 {
+	digitoInt := tools.ConvInt(s.Digito)
 	regH010 := RegH010{
 		Reg:      s.Ln[1],
-		CodItem:  s.Ln[2],
+		CodItem:  tools.AdicionaDigitosCodigo(s.Ln[2], digitoInt),
 		Unid:     s.Ln[3],
 		Qtd:      tools.ConvFloat(s.Ln[4]),
 		VlUnit:   tools.ConvFloat(s.Ln[5]),
