@@ -97,7 +97,7 @@ func main() {
 		wg.Wait()
 
 		// Quando finalizar todas essas deve rodar o processar diferencas
-		//	Controllers.ProcessarDiferencas(*db)
+		Controllers.ProcessarDiferencas(*db)
 		time.Sleep(90 * time.Second)
 		fmt.Println(time.Now())
 		color.Green("TERMINOU")

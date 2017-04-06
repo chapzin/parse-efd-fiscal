@@ -276,8 +276,7 @@ func PopularSaidas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.DB)
 	wg.Done()
 }
 
-/*
- * fazer uma refactory completo recursive
+// fazer uma refactory completo recursive
 func ProcessarDiferencas(db gorm.DB) {
 	db.Exec("Delete from inventarios where inv_inicial=0 and entradas=0 and vl_total_entradas=0 and saidas=0 and vl_total_saidas=0 and inv_final=0")
 	var inv []Models.Inventario
@@ -287,56 +286,140 @@ func ProcessarDiferencas(db gorm.DB) {
 	for _, vInv := range inv {
 		inv3 := Models.Inventario{}
 		// Calculando as diferencas
-		diferencas := (vInv.InvInicial + vInv.Entradas) - (vInv.Saidas + vInv.InvFinal)
+		diferencasAno2 := (vInv.InvFinalAno1 + vInv.EntradasAno2) - (vInv.SaidasAno2 + vInv.InvFinalAno2)
+		diferencasAno3 := (vInv.InvFinalAno2 + vInv.EntradasAno3) - (vInv.SaidasAno3 + vInv.InvFinalAno3)
+		diferencasAno4 := (vInv.InvFinalAno3 + vInv.EntradasAno4) - (vInv.SaidasAno4 + vInv.InvFinalAno4)
+		diferencasAno5 := (vInv.InvFinalAno4 + vInv.EntradasAno5) - (vInv.SaidasAno5 + vInv.InvFinalAno5)
+		diferencasAno6 := (vInv.InvFinalAno5 + vInv.EntradasAno6) - (vInv.SaidasAno6 + vInv.InvFinalAno6)
 
-		// Calculando o valor unitário de entrada
-		if vInv.VlTotalEntradas > 0 && vInv.Entradas > 0 {
-			inv3.VlUnitEnt = vInv.VlTotalEntradas / vInv.Entradas
-		} else if vInv.VlTotalEntradas == 0 && vInv.Entradas == 0 && vInv.VlInvIni > 0 {
-			inv3.VlUnitEnt = vInv.VlInvIni
-		} else if vInv.VlTotalEntradas == 0 && vInv.Entradas == 0 && vInv.VlInvIni == 0 && vInv.VlInvFin > 0 {
-			inv3.VlUnitEnt = vInv.VlInvFin
+		// Calculando o valor unitário de entrada ano 2
+		if vInv.VlTotalEntradasAno2 > 0 && vInv.EntradasAno2 > 0 {
+			inv3.VlUnitEntAno2 = vInv.VlTotalEntradasAno2 / vInv.EntradasAno2
+		} else if vInv.VlTotalEntradasAno2 == 0 && vInv.EntradasAno2 == 0 && vInv.VlInvAno1 > 0 {
+			inv3.VlUnitEntAno2 = vInv.VlInvAno1
+		} else if vInv.VlTotalEntradasAno2 == 0 && vInv.EntradasAno2 == 0 && vInv.VlInvAno1 == 0 && vInv.VlInvAno2 > 0 {
+			inv3.VlUnitEntAno2 = vInv.VlInvAno2
 		} else {
-			inv3.VlUnitEnt = 1
-		}
-
-		// Calculando o valor unitário de saida
-		if vInv.VlTotalSaidas > 0 && vInv.Saidas > 0 {
-			inv3.VlUnitSai = vInv.VlTotalSaidas / vInv.Saidas
-		} else if vInv.VlTotalSaidas == 0 && vInv.Saidas == 0 && vInv.VlInvIni > 0 {
-			inv3.VlUnitSai = vInv.VlInvIni
-		} else {
-			inv3.VlUnitSai = 0
+			inv3.VlUnitEntAno2 = 1
 		}
 
-		// Criando Sugestao de novo inventário
-		if diferencas >= 0 {
-			// Novo inventario final somando diferencas
-			nvInvFin := diferencas + vInv.InvFinal
-			inv3.SugInvFinal = nvInvFin
-			inv3.SugVlInvFinal = nvInvFin * inv3.VlUnitEnt
+		// Calculando o valor unitário de entrada ano 3
+		if vInv.VlTotalEntradasAno3 > 0 && vInv.EntradasAno3 > 0 {
+			inv3.VlUnitEntAno3 = vInv.VlTotalEntradasAno3 / vInv.EntradasAno3
+		} else if vInv.VlTotalEntradasAno3 == 0 && vInv.EntradasAno3 == 0 && vInv.VlInvAno2 > 0 {
+			inv3.VlUnitEntAno3 = vInv.VlInvAno2
+		} else if vInv.VlTotalEntradasAno3 == 0 && vInv.EntradasAno3 == 0 && vInv.VlInvAno2 == 0 && vInv.VlInvAno3 > 0 {
+			inv3.VlUnitEntAno3 = vInv.VlInvAno3
 		} else {
-			inv3.SugInvFinal = vInv.InvFinal
-			inv3.SugVlInvFinal = inv3.SugInvFinal * inv3.VlUnitEnt
-		}
-		if diferencas < 0 {
-			// Caso negativo adiciona ao inventario inicial
-			nvInvIni := (diferencas * -1) + vInv.InvInicial
-			inv3.SugInvInicial = nvInvIni
-			inv3.SugVlInvInicial = nvInvIni * inv3.VlUnitEnt
-		} else {
-			// Caso nao seja negativo mantenha o inventario anterior
-			inv3.SugInvInicial = vInv.InvInicial
-			inv3.SugVlInvInicial = inv3.SugInvInicial * inv3.VlUnitEnt
+			inv3.VlUnitEntAno3 = 1
 		}
 
-		// Zera o produto quando inventario inicial e final forem iguais
-		if inv3.SugInvInicial == inv3.SugInvFinal {
-			inv3.SugInvFinal = 0
-			inv3.SugInvInicial = 0
-			inv3.SugVlInvFinal = 0
-			inv3.SugVlInvInicial = 0
+		// Calculando o valor unitário de entrada ano 4
+		if vInv.VlTotalEntradasAno4 > 0 && vInv.EntradasAno4 > 0 {
+			inv3.VlUnitEntAno4 = vInv.VlTotalEntradasAno4 / vInv.EntradasAno4
+		} else if vInv.VlTotalEntradasAno4 == 0 && vInv.EntradasAno4 == 0 && vInv.VlInvAno3 > 0 {
+			inv3.VlUnitEntAno4 = vInv.VlInvAno3
+		} else if vInv.VlTotalEntradasAno4 == 0 && vInv.EntradasAno4 == 0 && vInv.VlInvAno3 == 0 && vInv.VlInvAno4 > 0 {
+			inv3.VlUnitEntAno4 = vInv.VlInvAno4
+		} else {
+			inv3.VlUnitEntAno4 = 1
 		}
+
+		// Calculando o valor unitário de entrada ano 5
+		if vInv.VlTotalEntradasAno5 > 0 && vInv.EntradasAno5 > 0 {
+			inv3.VlUnitEntAno5 = vInv.VlTotalEntradasAno5 / vInv.EntradasAno5
+		} else if vInv.VlTotalEntradasAno5 == 0 && vInv.EntradasAno5 == 0 && vInv.VlInvAno4 > 0 {
+			inv3.VlUnitEntAno5 = vInv.VlInvAno5
+		} else if vInv.VlTotalEntradasAno5 == 0 && vInv.EntradasAno5 == 0 && vInv.VlInvAno4 == 0 && vInv.VlInvAno5 > 0 {
+			inv3.VlUnitEntAno5 = vInv.VlInvAno5
+		} else {
+			inv3.VlUnitEntAno5 = 1
+		}
+
+		// Calculando o valor unitário de entrada ano 6
+		if vInv.VlTotalEntradasAno6 > 0 && vInv.EntradasAno6 > 0 {
+			inv3.VlUnitEntAno6 = vInv.VlTotalEntradasAno6 / vInv.EntradasAno6
+		} else if vInv.VlTotalEntradasAno6 == 0 && vInv.EntradasAno6 == 0 && vInv.VlInvAno5 > 0 {
+			inv3.VlUnitEntAno6 = vInv.VlInvAno6
+		} else if vInv.VlTotalEntradasAno6 == 0 && vInv.EntradasAno6 == 0 && vInv.VlInvAno5 == 0 && vInv.VlInvAno6 > 0 {
+			inv3.VlUnitEntAno6 = vInv.VlInvAno6
+		} else {
+			inv3.VlUnitEntAno6 = 1
+		}
+
+		// Calculando o valor unitário de saida Ano 2
+		if vInv.VlTotalSaidasAno2 > 0 && vInv.SaidasAno2 > 0 {
+			inv3.VlUnitSaiAno2 = vInv.VlTotalSaidasAno2 / vInv.SaidasAno2
+		} else if vInv.VlTotalSaidasAno2 == 0 && vInv.SaidasAno2 == 0 && vInv.VlInvAno1 > 0 {
+			inv3.VlUnitSaiAno2 = vInv.VlInvAno1
+		} else {
+			inv3.VlUnitSaiAno2 = 0
+		}
+
+		// Calculando o valor unitário de saida Ano 3
+		if vInv.VlTotalSaidasAno3 > 0 && vInv.SaidasAno3 > 0 {
+			inv3.VlUnitSaiAno3 = vInv.VlTotalSaidasAno3 / vInv.SaidasAno3
+		} else if vInv.VlTotalSaidasAno3 == 0 && vInv.SaidasAno3 == 0 && vInv.VlInvAno2 > 0 {
+			inv3.VlUnitSaiAno3 = vInv.VlInvAno2
+		} else {
+			inv3.VlUnitSaiAno3 = 0
+		}
+
+		// Calculando o valor unitário de saida Ano 4
+		if vInv.VlTotalSaidasAno4 > 0 && vInv.SaidasAno4 > 0 {
+			inv3.VlUnitSaiAno4 = vInv.VlTotalSaidasAno4 / vInv.SaidasAno4
+		} else if vInv.VlTotalSaidasAno4 == 0 && vInv.SaidasAno4 == 0 && vInv.VlInvAno3 > 0 {
+			inv3.VlUnitSaiAno4 = vInv.VlInvAno3
+		} else {
+			inv3.VlUnitSaiAno4 = 0
+		}
+
+		// Calculando o valor unitário de saida Ano 5
+		if vInv.VlTotalSaidasAno5 > 0 && vInv.SaidasAno5 > 0 {
+			inv3.VlUnitSaiAno5 = vInv.VlTotalSaidasAno5 / vInv.SaidasAno5
+		} else if vInv.VlTotalSaidasAno5 == 0 && vInv.SaidasAno5 == 0 && vInv.VlInvAno4 > 0 {
+			inv3.VlUnitSaiAno5 = vInv.VlInvAno4
+		} else {
+			inv3.VlUnitSaiAno5 = 0
+		}
+
+		// Calculando o valor unitário de saida Ano 6
+		if vInv.VlTotalSaidasAno6 > 0 && vInv.SaidasAno6 > 0 {
+			inv3.VlUnitSaiAno6 = vInv.VlTotalSaidasAno6 / vInv.SaidasAno6
+		} else if vInv.VlTotalSaidasAno6 == 0 && vInv.SaidasAno6 == 0 && vInv.VlInvAno5 > 0 {
+			inv3.VlUnitSaiAno6 = vInv.VlInvAno5
+		} else {
+			inv3.VlUnitSaiAno6 = 0
+		}
+
+		//// Criando Sugestao de novo inventário
+		//if diferencas >= 0 {
+		//	// Novo inventario final somando diferencas
+		//	nvInvFin := diferencas + vInv.InvFinal
+		//	inv3.SugInvFinal = nvInvFin
+		//	inv3.SugVlInvFinal = nvInvFin * inv3.VlUnitEnt
+		//} else {
+		//	inv3.SugInvFinal = vInv.InvFinal
+		//	inv3.SugVlInvFinal = inv3.SugInvFinal * inv3.VlUnitEnt
+		//}
+		//if diferencas < 0 {
+		//	// Caso negativo adiciona ao inventario inicial
+		//	nvInvIni := (diferencas * -1) + vInv.InvInicial
+		//	inv3.SugInvInicial = nvInvIni
+		//	inv3.SugVlInvInicial = nvInvIni * inv3.VlUnitEnt
+		//} else {
+		//	// Caso nao seja negativo mantenha o inventario anterior
+		//	inv3.SugInvInicial = vInv.InvInicial
+		//	inv3.SugVlInvInicial = inv3.SugInvInicial * inv3.VlUnitEnt
+		//}
+		//
+		//// Zera o produto quando inventario inicial e final forem iguais
+		//if inv3.SugInvInicial == inv3.SugInvFinal {
+		//	inv3.SugInvFinal = 0
+		//	inv3.SugInvInicial = 0
+		//	inv3.SugVlInvFinal = 0
+		//	inv3.SugVlInvInicial = 0
+		//}
 		// Adicionando Tipo e unidade de medida no inventario
 		for _, v0200 := range reg0200 {
 			if v0200.CodItem == vInv.Codigo {
@@ -344,14 +427,17 @@ func ProcessarDiferencas(db gorm.DB) {
 				inv3.UnidInv = v0200.UnidInv
 			}
 		}
-		inv3.Diferencas = diferencas
+		inv3.DiferencasAno2 = diferencasAno2
+		inv3.DiferencasAno3 = diferencasAno3
+		inv3.DiferencasAno4 = diferencasAno4
+		inv3.DiferencasAno5 = diferencasAno5
+		inv3.DiferencasAno6 = diferencasAno6
 		db.Table("inventarios").Where("codigo = ?", vInv.Codigo).Update(&inv3)
 	}
 	// Deleta tudo tipo de inventario que nao seja material de revenda
 	db.Exec("Delete from inventarios where tipo <> '00'")
 }
 
-*/
 func ExcelAdd(db gorm.DB, sheet *xlsx.Sheet) {
 	var inv []Models.Inventario
 	db.Find(&inv)
