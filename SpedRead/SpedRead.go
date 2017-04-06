@@ -15,7 +15,7 @@ import (
 )
 
 var id int
-var maxid = 100
+var maxid = 250
 
 // Ler todos os arquivos de uma determinada pasta
 func RecursiveSpeds(path string, dialect string, conexao string, digitosCodigo string) {
@@ -24,17 +24,17 @@ func RecursiveSpeds(path string, dialect string, conexao string, digitosCodigo s
 			ext := filepath.Ext(file)
 			if ext == ".txt" {
 				tools.CheckErr(err)
-				// Possivelmente uma goroutines começando aqui
 				r := SpedExec.Regs{}
 				r.Digito = digitosCodigo
 				id++
 				go InsertSped(file, &r, dialect, conexao)
-				// Goroutines finalizando aqui
+
 			}
 
 			if ext == ".xml" {
 				id++
 				go InsertXml(file, dialect, conexao, digitosCodigo)
+
 			}
 			wait()
 		}

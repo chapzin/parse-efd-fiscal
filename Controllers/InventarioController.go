@@ -1,17 +1,14 @@
 package Controllers
 
 import (
-	"bufio"
 	"github.com/chapzin/parse-efd-fiscal/Models"
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoH"
 	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
-	"github.com/chapzin/parse-efd-fiscal/tools"
 	"github.com/fatih/color"
 	"github.com/jinzhu/gorm"
 	"github.com/tealeg/xlsx"
-	"os"
 	"strconv"
 	"sync"
 	"time"
@@ -19,7 +16,6 @@ import (
 
 func ProcessarFatorConversao(db gorm.DB, wg *sync.WaitGroup) {
 	time.Sleep(1 * time.Second)
-
 	color.Green("Começo Processa Fator de Conversao %s", time.Now())
 	db.Exec("DELETE FROM reg_0220 WHERE fat_conv=1")
 	var fator []Bloco0.Reg0220
@@ -64,19 +60,16 @@ func PopularReg0200(db gorm.DB, wg *sync.WaitGroup) {
 	var reg0200 []Bloco0.Reg0200
 	db.Where("tipo_item=00").Select("distinct cod_item,descr_item,tipo_item,unid_inv").Find(&reg0200)
 	for _, v := range reg0200 {
-		var inventario Models.Inventario
-		db.Where("codigo=?", v.CodItem).First(&inventario)
-		if inventario.Codigo == "" {
-			inv2 := Models.Inventario{
-				Codigo:    v.CodItem,
-				Descricao: v.DescrItem,
-				Tipo:      v.TipoItem,
-				UnidInv:   v.UnidInv,
-				Ncm:       v.CodNcm,
-			}
-			db.NewRecord(inv2)
-			db.Create(&inv2)
+		inv2 := Models.Inventario{
+			Codigo:    v.CodItem,
+			Descricao: v.DescrItem,
+			Tipo:      v.TipoItem,
+			UnidInv:   v.UnidInv,
+			Ncm:       v.CodNcm,
 		}
+		db.NewRecord(inv2)
+		db.Create(&inv2)
+
 	}
 	wg.Done()
 	color.Green("Fim popula reg0200 %s", time.Now())
@@ -103,113 +96,188 @@ func PopularItensXmls(db gorm.DB, wg *sync.WaitGroup) {
 
 }
 
-func PopularInventario(InicialFinal string, ano int, wg *sync.WaitGroup, db gorm.DB) {
+func PopularInventarios(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.DB) {
 	time.Sleep(1 * time.Second)
 	color.Green("Começo popula Inventario %s", time.Now())
-	var regH010 []BlocoH.RegH010
-	if InicialFinal == "final" {
+	qtdAnos := AnoFinal - AnoInicial
+	ano1 := AnoInicial
+	qtdAnos = qtdAnos + 1
+	ano := 0
+	for qtdAnos >= 0 {
+		qtdAnos = qtdAnos - 1
 		ano = ano + 1
-	}
-	anostring := strconv.Itoa(ano)
-	db.Where("dt_ini= ?", anostring+"-02-01").Find(&regH010)
-	for _, v3 := range regH010 {
-		inventario := Models.Inventario{}
-		if InicialFinal == "inicial" {
-			inventario.InvInicial = v3.Qtd
-			inventario.VlInvIni = v3.VlUnit
-			inventario.Ano = ano
-			db.Table("inventarios").Where("codigo = ?", v3.CodItem).Update(&inventario)
+		var regH010 []BlocoH.RegH010
+		var inv []Models.Inventario
+		AnoInicialString := strconv.Itoa(ano1)
+		db.Where("dt_ini= ?", AnoInicialString+"-02-01").Find(&regH010)
+		db.Find(&inv)
+		for _, vInv := range inv {
+			for _, vH010 := range regH010 {
+				if vH010.CodItem == vInv.Codigo {
+					inv3 := Models.Inventario{}
+					switch ano {
+					case 1:
+						inv3.InvFinalAno1 = vH010.Qtd
+						inv3.VlInvAno1 = vH010.VlUnit
+					case 2:
+						inv3.InvFinalAno2 = vH010.Qtd
+						inv3.VlInvAno2 = vH010.VlUnit
+					case 3:
+						inv3.InvFinalAno3 = vH010.Qtd
+						inv3.VlInvAno3 = vH010.VlUnit
+					case 4:
+						inv3.InvFinalAno4 = vH010.Qtd
+						inv3.VlInvAno4 = vH010.VlUnit
+					case 5:
+						inv3.InvFinalAno5 = vH010.Qtd
+						inv3.VlInvAno5 = vH010.VlUnit
+					case 6:
+						inv3.InvFinalAno6 = vH010.Qtd
+						inv3.VlInvAno6 = vH010.VlUnit
+
+					}
+					db.Table("inventarios").Where("codigo = ?", vH010.CodItem).Update(&inv3)
+				}
+			}
 		}
-		if InicialFinal == "final" {
-			inventario.InvFinal = v3.Qtd
-			inventario.VlInvFin = v3.VlUnit
-			inventario.Ano = ano - 1
-			db.Table("inventarios").Where("codigo = ?", v3.CodItem).Update(&inventario)
-		}
+		ano1 = ano1 + 1
 	}
 	color.Green("Fim popula inventario %s", time.Now())
 	wg.Done()
-
 }
 
-func PopularEntradas(ano string, wg *sync.WaitGroup, db gorm.DB) {
-	time.Sleep(3 * time.Second)
-	color.Green("Comeco popula entradas %s", time.Now())
-	dtIni := ano + "-01-01"
-	dtFin := ano + "-12-31"
-	// Carregando inventario na memoria
-	var inv []Models.Inventario
-	db.Find(&inv)
-	// Carregando RegC170 na memoria do periodo
-	var c170 []BlocoC.RegC170
-	db.Where("entrada_saida = ? and dt_ini >= ? and dt_fin <= ? ", "0", dtIni, dtFin).Find(&c170)
-	var itens []NotaFiscal.Item
-	db.Where("cfop < 3999 and dt_emit >= ? and dt_emit <= ?", dtIni, dtFin).Find(&itens)
+func PopularEntradas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.DB) {
+	time.Sleep(1 * time.Second)
+	color.Green("Começo popula entradas %s", time.Now())
+	qtdAnos := AnoFinal - AnoInicial
+	ano1 := AnoInicial
+	ano := 0
+	for qtdAnos >= 0 {
+		qtdAnos = qtdAnos - 1
+		ano = ano + 1
+		AnoInicialString := strconv.Itoa(ano1)
 
-	// Listando itens que estão no inventário
-	for _, vInv := range inv {
-		var qtd_tot = 0.0
-		var vl_tot = 0.0
-		// Compara o codigo do c170 com o do inventario e adiciona a qtd
-		for _, vC170 := range c170 {
-			if vC170.CodItem == vInv.Codigo {
-				qtd_tot = qtd_tot + vC170.Qtd
-				vl_tot = vl_tot + vC170.VlItem
+		dtIni := AnoInicialString + "-01-01"
+		dtFin := AnoInicialString + "-12-31"
+
+		var inv []Models.Inventario
+		var c170 []BlocoC.RegC170
+		var itens []NotaFiscal.Item
+
+		db.Find(&inv)
+		db.Where("entrada_saida = ? and dt_ini >= ? and dt_fin <= ? ", "0", dtIni, dtFin).Find(&c170)
+		db.Where("cfop < 3999 and dt_emit >= ? and dt_emit <= ?", dtIni, dtFin).Find(&itens)
+		for _, vInv := range inv {
+			var qtd_tot = 0.0
+			var vl_tot = 0.0
+			for _, vc170 := range c170 {
+				if vc170.CodItem == vInv.Codigo {
+					qtd_tot = qtd_tot + vc170.Qtd
+					vl_tot = vl_tot + vc170.VlItem
+				}
 			}
-		}
-		// Listando itens das notas fiscais que o cfop seja menor que 3999 e adicionando na entrada
-		for _, vItens := range itens {
-			if vItens.Codigo == vInv.Codigo {
-				qtd_tot = qtd_tot + vItens.Qtd
-				vl_tot = vl_tot + vItens.VTotal
+
+			for _, vitens := range itens {
+				if vitens.Codigo == vInv.Codigo {
+					qtd_tot = qtd_tot + vitens.Qtd
+					vl_tot = vl_tot + vitens.VTotal
+				}
 			}
+			inv2 := Models.Inventario{}
+			switch ano {
+			case 1:
+				inv2.EntradasAno2 = qtd_tot
+				inv2.VlTotalEntradasAno2 = vl_tot
+			case 2:
+				inv2.EntradasAno3 = qtd_tot
+				inv2.VlTotalEntradasAno3 = vl_tot
+			case 3:
+				inv2.EntradasAno4 = qtd_tot
+				inv2.VlTotalEntradasAno4 = vl_tot
+			case 4:
+				inv2.EntradasAno5 = qtd_tot
+				inv2.VlTotalEntradasAno5 = vl_tot
+			case 5:
+				inv2.EntradasAno6 = qtd_tot
+				inv2.VlTotalEntradasAno6 = vl_tot
+
+			}
+			db.Table("inventarios").Where("codigo = ?", vInv.Codigo).Update(&inv2)
 		}
-		// inserindo os valores finais das somas a entrada
-		inv2 := Models.Inventario{}
-		inv2.Entradas = qtd_tot
-		inv2.VlTotalEntradas = vl_tot
-		db.Table("inventarios").Where("codigo = ?", vInv.Codigo).Update(&inv2)
+
+		ano1 = ano1 + 1
 	}
 	color.Green("Fim popula entradas %s", time.Now())
 	wg.Done()
 }
 
-func PopularSaidas(ano string, wg *sync.WaitGroup, db gorm.DB) {
+func PopularSaidas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.DB) {
 	time.Sleep(2 * time.Second)
 	color.Green("Comeco popula saidas %s", time.Now())
-	dtIni := ano + "-01-01"
-	dtFin := ano + "-12-31"
-	var inv []Models.Inventario
-	db.Find(&inv)
-	var itens []NotaFiscal.Item
-	db.Where("cfop > 3999 and cfop <> 5929 and cfop <> 6929 and dt_emit >= ? and dt_emit <= ?", dtIni, dtFin).Find(&itens)
-	var c425 []BlocoC.RegC425
-	db.Where("dt_ini >= ? and dt_ini <= ?", dtIni, dtFin).Find(&c425)
-	for _, vInv := range inv {
-		var qtd_saida = 0.0
-		var vl_tot_saida = 0.0
-		for _, vItens := range itens {
-			if vItens.Codigo == vInv.Codigo {
-				qtd_saida = qtd_saida + vItens.Qtd
-				vl_tot_saida = vl_tot_saida + vItens.VTotal
+	qtdAnos := AnoFinal - AnoInicial
+	ano1 := AnoInicial
+	ano := 0
+	for qtdAnos >= 0 {
+		qtdAnos = qtdAnos - 1
+		ano = ano + 1
+		AnoInicialString := strconv.Itoa(ano1)
+
+		dtIni := AnoInicialString + "-01-01"
+		dtFin := AnoInicialString + "-12-31"
+
+		var inv []Models.Inventario
+		var itens []NotaFiscal.Item
+		var c425 []BlocoC.RegC425
+
+		db.Find(&inv)
+		db.Where("cfop > 3999 and cfop <> 5929 and cfop <> 6929 and dt_emit >= ? and dt_emit <= ?", dtIni, dtFin).Find(&itens)
+		db.Where("dt_ini >= ? and dt_ini <= ?", dtIni, dtFin).Find(&c425)
+
+		for _, vInv := range inv {
+			var qtd_saida = 0.0
+			var vl_tot_saida = 0.0
+			for _, vItens := range itens {
+				if vItens.Codigo == vInv.Codigo {
+					qtd_saida = qtd_saida + vItens.Qtd
+					vl_tot_saida = vl_tot_saida + vItens.VTotal
+				}
 			}
-		}
-		for _, vC425 := range c425 {
-			if vC425.CodItem == vInv.Codigo {
-				qtd_saida = qtd_saida + vC425.Qtd
-				vl_tot_saida = vl_tot_saida + vC425.VlItem
+			for _, vc425 := range c425 {
+				if vc425.CodItem == vInv.Codigo {
+					qtd_saida = qtd_saida + vc425.Qtd
+					vl_tot_saida = vl_tot_saida + vc425.VlItem
+				}
 			}
+			inv3 := Models.Inventario{}
+			switch ano {
+			case 1:
+				inv3.SaidasAno2 = qtd_saida
+				inv3.VlTotalSaidasAno2 = vl_tot_saida
+			case 2:
+				inv3.SaidasAno3 = qtd_saida
+				inv3.VlTotalSaidasAno3 = vl_tot_saida
+			case 3:
+				inv3.SaidasAno4 = qtd_saida
+				inv3.VlTotalSaidasAno4 = vl_tot_saida
+			case 4:
+				inv3.SaidasAno5 = qtd_saida
+				inv3.VlTotalSaidasAno5 = vl_tot_saida
+			case 5:
+				inv3.SaidasAno6 = qtd_saida
+				inv3.VlTotalSaidasAno6 = vl_tot_saida
+
+			}
+			db.Table("inventarios").Where("codigo = ?", vInv.Codigo).Update(&inv3)
+
 		}
-		inv3 := Models.Inventario{}
-		inv3.Saidas = qtd_saida
-		inv3.VlTotalSaidas = vl_tot_saida
-		db.Table("inventarios").Where("codigo = ?", vInv.Codigo).Update(&inv3)
+		ano1 = ano1 + 1
 	}
 	color.Green("Fim popula saidas %s", time.Now())
 	wg.Done()
-
 }
 
+/*
+ * fazer uma refactory completo recursive
 func ProcessarDiferencas(db gorm.DB) {
 	db.Exec("Delete from inventarios where inv_inicial=0 and entradas=0 and vl_total_entradas=0 and saidas=0 and vl_total_saidas=0 and inv_final=0")
 	var inv []Models.Inventario
@@ -283,6 +351,7 @@ func ProcessarDiferencas(db gorm.DB) {
 	db.Exec("Delete from inventarios where tipo <> '00'")
 }
 
+*/
 func ExcelAdd(db gorm.DB, sheet *xlsx.Sheet) {
 	var inv []Models.Inventario
 	db.Find(&inv)
@@ -318,53 +387,141 @@ func ColunaAddFloatDif(linha *xlsx.Row, valor float64) {
 
 func ExcelItens(sheet *xlsx.Sheet, inv Models.Inventario) {
 	menu := sheet.AddRow()
-
+	// Produto
 	ColunaAdd(menu, inv.Codigo)
 	ColunaAdd(menu, inv.Descricao)
 	ColunaAdd(menu, inv.Tipo)
 	ColunaAdd(menu, inv.UnidInv)
-	ColunaAddFloat(menu, inv.InvInicial)
-	ColunaAddFloat(menu, inv.VlInvIni)
-	ColunaAddFloat(menu, inv.Entradas)
-	ColunaAddFloat(menu, inv.VlTotalEntradas)
-	ColunaAddFloat(menu, inv.VlUnitEnt)
-	ColunaAddFloat(menu, inv.Saidas)
-	ColunaAddFloat(menu, inv.VlTotalSaidas)
-	ColunaAddFloat(menu, inv.VlUnitSai)
-	ColunaAddFloat(menu, inv.Margem)
-	ColunaAddFloat(menu, inv.InvFinal)
-	ColunaAddFloat(menu, inv.VlInvFin)
-	ColunaAddFloatDif(menu, inv.Diferencas)
-	ColunaAddFloat(menu, inv.SugInvInicial)
-	ColunaAddFloat(menu, inv.SugVlInvInicial)
-	ColunaAddFloat(menu, inv.SugInvFinal)
-	ColunaAddFloat(menu, inv.SugVlInvFinal)
+	ColunaAdd(menu, inv.Ncm)
+	// Ano 1
+	ColunaAddFloat(menu, inv.InvFinalAno1)
+	ColunaAddFloat(menu, inv.VlInvAno1)
+	// Ano 2
+	ColunaAddFloat(menu, inv.EntradasAno2)
+	ColunaAddFloat(menu, inv.VlTotalEntradasAno2)
+	ColunaAddFloat(menu, inv.VlUnitEntAno2)
+	ColunaAddFloat(menu, inv.SaidasAno2)
+	ColunaAddFloat(menu, inv.VlTotalSaidasAno2)
+	ColunaAddFloat(menu, inv.VlUnitSaiAno2)
+	ColunaAddFloat(menu, inv.MargemAno2)
+	ColunaAddFloat(menu, inv.InvFinalAno2)
+	ColunaAddFloat(menu, inv.VlInvAno2)
+	ColunaAddFloatDif(menu, inv.DiferencasAno2)
+	// Ano 3
+	ColunaAddFloat(menu, inv.EntradasAno3)
+	ColunaAddFloat(menu, inv.VlTotalEntradasAno3)
+	ColunaAddFloat(menu, inv.VlUnitEntAno3)
+	ColunaAddFloat(menu, inv.SaidasAno3)
+	ColunaAddFloat(menu, inv.VlTotalSaidasAno3)
+	ColunaAddFloat(menu, inv.VlUnitSaiAno3)
+	ColunaAddFloat(menu, inv.MargemAno3)
+	ColunaAddFloat(menu, inv.InvFinalAno3)
+	ColunaAddFloat(menu, inv.VlInvAno3)
+	ColunaAddFloatDif(menu, inv.DiferencasAno3)
+	// Ano 4
+	ColunaAddFloat(menu, inv.EntradasAno4)
+	ColunaAddFloat(menu, inv.VlTotalEntradasAno4)
+	ColunaAddFloat(menu, inv.VlUnitEntAno4)
+	ColunaAddFloat(menu, inv.SaidasAno4)
+	ColunaAddFloat(menu, inv.VlTotalSaidasAno4)
+	ColunaAddFloat(menu, inv.VlUnitSaiAno4)
+	ColunaAddFloat(menu, inv.MargemAno4)
+	ColunaAddFloat(menu, inv.InvFinalAno4)
+	ColunaAddFloat(menu, inv.VlInvAno4)
+	ColunaAddFloatDif(menu, inv.DiferencasAno4)
+	// Ano 5
+	ColunaAddFloat(menu, inv.EntradasAno5)
+	ColunaAddFloat(menu, inv.VlTotalEntradasAno5)
+	ColunaAddFloat(menu, inv.VlUnitEntAno5)
+	ColunaAddFloat(menu, inv.SaidasAno5)
+	ColunaAddFloat(menu, inv.VlTotalSaidasAno5)
+	ColunaAddFloat(menu, inv.VlUnitSaiAno5)
+	ColunaAddFloat(menu, inv.MargemAno5)
+	ColunaAddFloat(menu, inv.InvFinalAno5)
+	ColunaAddFloat(menu, inv.VlInvAno5)
+	ColunaAddFloatDif(menu, inv.DiferencasAno5)
+	// Ano 6
+	ColunaAddFloat(menu, inv.EntradasAno6)
+	ColunaAddFloat(menu, inv.VlTotalEntradasAno6)
+	ColunaAddFloat(menu, inv.VlUnitEntAno6)
+	ColunaAddFloat(menu, inv.SaidasAno6)
+	ColunaAddFloat(menu, inv.VlTotalSaidasAno6)
+	ColunaAddFloat(menu, inv.VlUnitSaiAno6)
+	ColunaAddFloat(menu, inv.MargemAno6)
+	ColunaAddFloat(menu, inv.InvFinalAno6)
+	ColunaAddFloat(menu, inv.VlInvAno6)
+	ColunaAddFloatDif(menu, inv.DiferencasAno6)
 }
 
 func ExcelMenu(sheet *xlsx.Sheet) {
 	menu := sheet.AddRow()
+	// Produtos
 	ColunaAdd(menu, "Codigo")
 	ColunaAdd(menu, "Descricao")
 	ColunaAdd(menu, "Tipo")
 	ColunaAdd(menu, "Unid_inv")
-	ColunaAdd(menu, "Inv_Inicial")
-	ColunaAdd(menu, "Vl_Inv_Inicial")
-	ColunaAdd(menu, "Entradas")
-	ColunaAdd(menu, "Vl_Total_Entradas")
-	ColunaAdd(menu, "Vl_Unit_Entrada")
-	ColunaAdd(menu, "Saidas")
-	ColunaAdd(menu, "Vl_Total_Saidas")
-	ColunaAdd(menu, "Vl_Unit_Saida")
-	ColunaAdd(menu, "Margem")
-	ColunaAdd(menu, "Inv_Final")
-	ColunaAdd(menu, "Vl_Inv_Final")
-	ColunaAdd(menu, "Diferencas")
-	ColunaAdd(menu, "Sug_Estoque_Inicial")
-	ColunaAdd(menu, "Sug_Vl_Tot_Inicial")
-	ColunaAdd(menu, "Sug_Estoque_Final")
-	ColunaAdd(menu, "Sug_Vl_Tot_Final")
+	ColunaAdd(menu, "NCM")
+	// Ano 1
+	ColunaAdd(menu, "InvFinalAno1")
+	ColunaAdd(menu, "VlInvAno1")
+	// Ano 2
+	ColunaAdd(menu, "EntradasAno2")
+	ColunaAdd(menu, "VlTotalEntradasAno2")
+	ColunaAdd(menu, "VlUnitEntAno2")
+	ColunaAdd(menu, "SaidasAno2")
+	ColunaAdd(menu, "VlTotalSaidasAno2")
+	ColunaAdd(menu, "VlUnitSaidaAno2")
+	ColunaAdd(menu, "MargemAno2")
+	ColunaAdd(menu, "InvFinalAno2")
+	ColunaAdd(menu, "VlInvAno2")
+	ColunaAdd(menu, "DiferencasAno2")
+	// Ano 3
+	ColunaAdd(menu, "EntradasAno3")
+	ColunaAdd(menu, "VlTotalEntradasAno3")
+	ColunaAdd(menu, "VlUnitEntAno3")
+	ColunaAdd(menu, "SaidasAno3")
+	ColunaAdd(menu, "VlTotalSaidasAno3")
+	ColunaAdd(menu, "VlUnitSaidaAno3")
+	ColunaAdd(menu, "MargemAno3")
+	ColunaAdd(menu, "InvFinalAno3")
+	ColunaAdd(menu, "VlInvAno3")
+	ColunaAdd(menu, "DiferencasAno3")
+	// Ano 4
+	ColunaAdd(menu, "EntradasAno4")
+	ColunaAdd(menu, "VlTotalEntradasAno4")
+	ColunaAdd(menu, "VlUnitEntAno4")
+	ColunaAdd(menu, "SaidasAno4")
+	ColunaAdd(menu, "VlTotalSaidasAno4")
+	ColunaAdd(menu, "VlUnitSaidaAno4")
+	ColunaAdd(menu, "MargemAno4")
+	ColunaAdd(menu, "InvFinalAno4")
+	ColunaAdd(menu, "VlInvAno4")
+	ColunaAdd(menu, "DiferencasAno4")
+	// Ano 5
+	ColunaAdd(menu, "EntradasAno5")
+	ColunaAdd(menu, "VlTotalEntradasAno5")
+	ColunaAdd(menu, "VlUnitEntAno5")
+	ColunaAdd(menu, "SaidasAno5")
+	ColunaAdd(menu, "VlTotalSaidasAno5")
+	ColunaAdd(menu, "VlUnitSaidaAno5")
+	ColunaAdd(menu, "MargemAno5")
+	ColunaAdd(menu, "InvFinalAno5")
+	ColunaAdd(menu, "VlInvAno5")
+	ColunaAdd(menu, "DiferencasAno5")
+	// Ano 6
+	ColunaAdd(menu, "EntradasAno6")
+	ColunaAdd(menu, "VlTotalEntradasAno6")
+	ColunaAdd(menu, "VlUnitEntAno6")
+	ColunaAdd(menu, "SaidasAno6")
+	ColunaAdd(menu, "VlTotalSaidasAno6")
+	ColunaAdd(menu, "VlUnitSaidaAno6")
+	ColunaAdd(menu, "MargemAno6")
+	ColunaAdd(menu, "InvFinalAno6")
+	ColunaAdd(menu, "VlInvAno6")
+	ColunaAdd(menu, "DiferencasAno6")
 }
 
+/*
 func CriarH010InvInicial(ano int, db gorm.DB) {
 	ano = ano - 1
 	anoString := strconv.Itoa(ano)
@@ -479,3 +636,5 @@ func CriarH010InvFinal(ano int, db gorm.DB) {
 	w := bufio.NewWriter(f)
 	w.Flush()
 }
+
+*/
