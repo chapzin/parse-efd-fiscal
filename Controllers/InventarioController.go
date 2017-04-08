@@ -40,13 +40,19 @@ func ProcessarFatorConversao(db gorm.DB, wg *sync.WaitGroup) {
 func DeletarItensNotasCanceladas(db gorm.DB, dtIni string, dtFin string, wg *sync.WaitGroup) {
 	color.Green("Começo Deleta itens notas canceladas %s", time.Now())
 	var c100 []BlocoC.RegC100
+	var nota []NotaFiscal.NotaFiscal
 	db.Where("cod_sit <> ? and dt_ini >= ? and dt_ini <= ? ", "00", dtIni, dtFin).Find(&c100)
+	db.Find(&nota)
 	for _, v := range c100 {
 		//fmt.Println(v.NumDoc)
-		var nota []NotaFiscal.NotaFiscal
-		db.Where("ch_n_fe = ?", v.ChvNfe).Find(&nota)
-		for _, v2 := range nota {
-			db.Where("nota_fiscal_id =?", v2.ID).Delete(NotaFiscal.Item{})
+		for _, vNota := range nota {
+			func() {
+				if v.ChvNfe == vNota.ChNFe {
+					db.Exec("Delete from items where nota_fiscal_id=?", vNota.ID)
+					//db.Where("nota_fiscal_id =?", vNota.ID).Delete(NotaFiscal.Item{})
+				}
+			}()
+
 		}
 	}
 	db.Exec("DELETE FROM items WHERE deleted_at is not null")
@@ -425,6 +431,7 @@ func ProcessarDiferencas(db gorm.DB) {
 			if v0200.CodItem == vInv.Codigo {
 				inv3.Tipo = v0200.TipoItem
 				inv3.UnidInv = v0200.UnidInv
+				inv3.Ncm = v0200.CodNcm
 			}
 		}
 		inv3.DiferencasAno2 = diferencasAno2

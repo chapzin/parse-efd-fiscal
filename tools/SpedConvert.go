@@ -27,19 +27,21 @@ func ConvXml(file string) func(pathTag string, tag string) string {
 		nfe, errOpenXml := mxj.NewMapXml(xmlFile)
 		CheckErr(errOpenXml)
 		pathDest := nfe.PathsForKey(pathTag)
-		dest, err := nfe.ValuesForPath(pathDest[0])
-		CheckErr(err)
-		mv := mxj.Map(dest[0].(map[string]interface{}))
-		if mv[tag] == nil {
-			return ""
+		if len(pathDest) > 0 {
+			dest, err := nfe.ValuesForPath(pathDest[0])
+			CheckErr(err)
+			mv := mxj.Map(dest[0].(map[string]interface{}))
+			if mv[tag] == nil {
+				return ""
+			}
+			if tag == "dhEmi" {
+				mv2 := strings.Split(mv[tag].(string), "T")
+				return mv2[0]
+			} else {
+				return mv[tag].(string)
+			}
 		}
-		if tag == "dhEmi" {
-			mv2 := strings.Split(mv[tag].(string), "T")
-			return mv2[0]
-		} else {
-			return mv[tag].(string)
-		}
-
+		return ""
 	}
 }
 

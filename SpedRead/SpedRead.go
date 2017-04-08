@@ -15,7 +15,7 @@ import (
 )
 
 var id int
-var maxid = 250
+var maxid = 150
 
 // Ler todos os arquivos de uma determinada pasta
 func RecursiveSpeds(path string, dialect string, conexao string, digitosCodigo string) {
