@@ -33,11 +33,11 @@ func init() {
 
 func main() {
 	dialect, err := config.Propriedades.ObterTexto("bd.dialect")
-	conexao, err := config.Propriedades.ObterTexto("bd.conexao")
+	conexao, err := config.Propriedades.ObterTexto("bd.conexao.mysql")
 	digitos, err := config.Propriedades.ObterTexto("bd.digit.cod")
 	db, err := gorm.Open(dialect, conexao)
 	db.LogMode(true)
-	defer db.Close()
+	//defer db.Close()
 	if err != nil {
 		fmt.Println("Falha ao abrir conexão. dialect=?, Linha de Conexao=?", dialect, conexao)
 		return

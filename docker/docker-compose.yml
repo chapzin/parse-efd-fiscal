@@ -1,0 +1,19 @@
+version: '2'
+services:
+  db:
+    image: centurylink/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: auditoria2
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - "8000:80"
+    restart: always
