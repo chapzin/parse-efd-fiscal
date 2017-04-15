@@ -22,7 +22,7 @@ func RecursiveSpeds(path string, dialect string, conexao string, digitosCodigo s
 	filepath.Walk(path, func(file string, f os.FileInfo, err error) error {
 		if f.IsDir() == false {
 			ext := filepath.Ext(file)
-			if ext == ".txt" {
+			if ext == ".txt" || ext == ".TXT" {
 				tools.CheckErr(err)
 				r := SpedExec.Regs{}
 				r.Digito = digitosCodigo
@@ -31,7 +31,7 @@ func RecursiveSpeds(path string, dialect string, conexao string, digitosCodigo s
 
 			}
 
-			if ext == ".xml" {
+			if ext == ".xml" || ext == ".XML" {
 				id++
 				go InsertXml(file, dialect, conexao, digitosCodigo)
 
