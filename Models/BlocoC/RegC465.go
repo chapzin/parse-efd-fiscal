@@ -1,6 +1,7 @@
 package BlocoC
 
 import (
+	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/jinzhu/gorm"
 	"time"
 )
@@ -17,4 +18,30 @@ type RegC465 struct {
 
 func (RegC465) TableName() string {
 	return "reg_C465"
+}
+
+type RegC465Sped struct {
+	Ln     []string
+	Reg000 Bloco0.Reg0000
+}
+
+type iRegC465 interface {
+	GetRegC465() RegC465
+}
+
+func (s RegC465Sped) GetRegC465() RegC465 {
+	regC465 := RegC465{
+		Reg:    s.Ln[1],
+		ChvCfe: s.Ln[2],
+		NumCcF: s.Ln[3],
+		DtIni:  s.Reg000.DtIni,
+		DtFin:  s.Reg000.DtFin,
+		Cnpj:   s.Reg000.Cnpj,
+	}
+	return regC465
+}
+
+// Cria estrutura populada
+func CreateRegC465(read iRegC465) RegC465 {
+	return read.GetRegC465()
 }

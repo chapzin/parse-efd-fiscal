@@ -192,13 +192,29 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		db.NewRecord(regC425)
 		db.Create(&regC425)
 	case "C460":
-		//fmt.Println(linha)
+		ln := strings.Split(linha, "|")
+		regC460sped := BlocoC.RegC460Sped{ln, r.Reg0000}
+		regC460 := BlocoC.CreateRegC460(regC460sped)
+		db.NewRecord(regC460)
+		db.Create(&regC460)
 	case "C465":
-		//fmt.Println(linha)
+		ln := strings.Split(linha, "|")
+		regC465sped := BlocoC.RegC465Sped{ln, r.Reg0000}
+		regC465 := BlocoC.CreateRegC465(regC465sped)
+		db.NewRecord(regC465)
+		db.Create(&regC465)
 	case "C470":
-		//fmt.Println(linha)
+		ln := strings.Split(linha, "|")
+		regC470sped := BlocoC.RegC470Sped{ln, r.Reg0000, r.Digito}
+		regC470 := BlocoC.CreateRegC470(regC470sped)
+		db.NewRecord(regC470)
+		db.Create(&regC470)
 	case "C490":
-		//fmt.Println(linha)
+		ln := strings.Split(linha, "|")
+		regC490sped := BlocoC.RegC490Sped{ln, r.Reg0000}
+		regC490 := BlocoC.CreateRegC490(regC490sped)
+		db.NewRecord(regC490)
+		db.Create(&regC490)
 	case "C495":
 		//fmt.Println(linha)
 	case "C500":

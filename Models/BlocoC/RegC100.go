@@ -99,7 +99,7 @@ func (s RegC100Sped) GetRegC100() RegC100 {
 	return regC100
 }
 
-// Criar estrutura populada
+// Cria estrutura populada
 func CreateRegC100(read iRegC100) RegC100 {
 	return read.GetRegC100()
 }

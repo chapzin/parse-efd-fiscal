@@ -1,6 +1,8 @@
 package BlocoC
 
 import (
+	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 	"github.com/jinzhu/gorm"
 	"time"
 )
@@ -25,4 +27,40 @@ type RegC470 struct {
 
 func (RegC470) TableName() string {
 	return "reg_C470"
+}
+
+type RegC470Sped struct {
+	Ln     []string
+	Reg000 Bloco0.Reg0000
+	Digito string
+}
+
+type iRegC470 interface {
+	GetRegC470() RegC470
+}
+
+func (s RegC470Sped) GetRegC470() RegC470 {
+	digitoInt := tools.ConvInt(s.Digito)
+	regC470 := RegC470{
+		Reg:      s.Ln[1],
+		CodItem:  tools.AdicionaDigitosCodigo(s.Ln[2], digitoInt),
+		Qtd:      tools.ConvFloat(s.Ln[3]),
+		QtdCanc:  tools.ConvFloat(s.Ln[4]),
+		Unid:     s.Ln[5],
+		VlItem:   tools.ConvFloat(s.Ln[6]),
+		CstIcms:  s.Ln[7],
+		Cfop:     s.Ln[8],
+		AliqIcms: tools.ConvFloat(s.Ln[9]),
+		VlPis:    tools.ConvFloat(s.Ln[10]),
+		VlCofins: tools.ConvFloat(s.Ln[11]),
+		DtIni:    s.Reg000.DtIni,
+		DtFin:    s.Reg000.DtFin,
+		Cnpj:     s.Reg000.Cnpj,
+	}
+	return regC470
+}
+
+// Cria estrutura populada
+func CreateRegC470(read iRegC470) RegC470 {
+	return read.GetRegC470()
 }
