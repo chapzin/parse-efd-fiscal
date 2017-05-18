@@ -234,10 +234,12 @@ func PopularSaidas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.DB)
 		var inv []Models.Inventario
 		var itens []NotaFiscal.Item
 		var c425 []BlocoC.RegC425
+		var c470 []BlocoC.RegC470
 
 		db.Find(&inv)
 		db.Where("cfop > 3999 and cfop <> 5929 and cfop <> 6929 and dt_emit >= ? and dt_emit <= ?", dtIni, dtFin).Find(&itens)
 		db.Where("dt_ini >= ? and dt_ini <= ?", dtIni, dtFin).Find(&c425)
+		db.Where("dt_ini >= ? and dt_ini <= ?", dtIni, dtFin).Find(&c470)
 
 		for _, vInv := range inv {
 			var qtd_saida = 0.0
@@ -252,6 +254,12 @@ func PopularSaidas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.DB)
 				if vc425.CodItem == vInv.Codigo {
 					qtd_saida = qtd_saida + vc425.Qtd
 					vl_tot_saida = vl_tot_saida + vc425.VlItem
+				}
+			}
+			for _, vc470 := range c470 {
+				if vc470.CodItem == vInv.Codigo {
+					qtd_saida = qtd_saida + vc470.Qtd
+					vl_tot_saida = vl_tot_saida + vc470.VlItem
 				}
 			}
 			inv3 := Models.Inventario{}
