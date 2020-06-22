@@ -1,10 +1,11 @@
 package BlocoC
 
 import (
+	"time"
+
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/tools"
 	"github.com/jinzhu/gorm"
-	"time"
 )
 
 // Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
