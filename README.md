@@ -63,12 +63,32 @@ go build
 - Edite o arquivo .env e adicione as configurações de conexão do banco de dados mysql
 - Crie o banco de dados que pretende adicionar as informacoes dos xmls e speds
 - Adicione todos xmls próprios e speds do periodo onde pretende fazer a importação na pasta speds
-Depois de feito esse processo basta executar o programa com a flag -schema que ele cria toda estrutura do banco de dados.
+
+- Criar estrutura do banco de dados
 ```
-parse-efd-fiscal -schema -importa
+parse-efd-fiscal -schema
+```
+
+- Importar os speds
+```
+parse-efd-fiscal -importar-sped
+```
+
+- Importar os xmls de notas fiscais e cupons fiscais
+```
+parse-efd-fiscal -importar-xml
+```
+
+- Gerar inventário de um determinado ano (2016)
+```
 parse-efd-fiscal -inventario -ano=2016
+```
+
+- Gerar relatório de inventário em Excel
+```
 parse-efd-fiscal -excel
 ```
+
 Depois disso sera criado um arquivo com o nome AnaliseInventario.xlsx na pasta que foi executado.
 
 ## Utilizando Docker
