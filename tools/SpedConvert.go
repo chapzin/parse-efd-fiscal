@@ -109,3 +109,13 @@ func ConvertDataXml(string string) time.Time {
 	return DtIni
 
 }
+
+// Contains verifica se uma string está presente em um slice de strings
+func Contains(slice []string, str string) bool {
+	for _, v := range slice {
+		if v == str {
+			return true
+		}
+	}
+	return false
+}

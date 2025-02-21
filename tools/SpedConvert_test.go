@@ -57,3 +57,41 @@ func TestConvFloat(t *testing.T) {
 		t.Error("Conversao de string pra float nao foi feita")
 	}
 }
+
+func TestContains(t *testing.T) {
+	tests := []struct {
+		name     string
+		slice    []string
+		str      string
+		expected bool
+	}{
+		{
+			name:     "string presente no slice",
+			slice:    []string{"00", "01", "02", "03"},
+			str:      "02",
+			expected: true,
+		},
+		{
+			name:     "string não presente no slice",
+			slice:    []string{"00", "01", "02", "03"},
+			str:      "04",
+			expected: false,
+		},
+		{
+			name:     "slice vazio",
+			slice:    []string{},
+			str:      "00",
+			expected: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := Contains(tt.slice, tt.str)
+			if result != tt.expected {
+				t.Errorf("Contains(%v, %v) = %v, esperado %v",
+					tt.slice, tt.str, result, tt.expected)
+			}
+		})
+	}
+}
