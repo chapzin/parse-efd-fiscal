@@ -96,7 +96,14 @@ func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) error {
 	case "0450":
 		//fmt.Println(linha)
 	case "0460":
-		//fmt.Println(linha)
+		ln := strings.Split(linha, "|")
+		regC460sped := BlocoC.RegC460Sped{Ln: ln, Reg0000: r.Reg0000}
+		regC460, err := BlocoC.CreateRegC460(regC460sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro C460: %v", err)
+		}
+		db.NewRecord(regC460)
+		db.Create(&regC460)
 	case "0500":
 		//fmt.Println(linha)
 	case "0600":
@@ -108,7 +115,11 @@ func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) error {
 	case "C100":
 		ln := strings.Split(linha, "|")
 		regC100sped := BlocoC.RegC100Sped{Ln: ln, Reg0000: r.Reg0000}
-		r.RegC100 = BlocoC.CreateRegC100(regC100sped)
+		regC100, err := BlocoC.CreateRegC100(regC100sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro C100: %v", err)
+		}
+		r.RegC100 = regC100
 		db.NewRecord(r.RegC100)
 		db.Create(&r.RegC100)
 	case "C101":
@@ -143,8 +154,16 @@ func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) error {
 		//fmt.Println(linha)
 	case "C170":
 		ln := strings.Split(linha, "|")
-		regC100sped := BlocoC.RegC170Sped{Ln: ln, Reg0000: r.Reg0000, RegC100: r.RegC100, Digito: r.Digito}
-		regC170 := BlocoC.CreateRegC170(regC100sped)
+		regC170sped := BlocoC.RegC170Sped{
+			Ln:      ln,
+			Reg0000: r.Reg0000,
+			RegC100: r.RegC100,
+			Digito:  r.Digito,
+		}
+		regC170, err := BlocoC.CreateRegC170(regC170sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro C170: %v", err)
+		}
 		db.NewRecord(regC170)
 		db.Create(&regC170)
 	case "C171":
@@ -188,13 +207,19 @@ func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) error {
 	case "C400":
 		ln := strings.Split(linha, "|")
 		regC400sped := BlocoC.RegC400Sped{Ln: ln, Reg0000: r.Reg0000}
-		regC400 := BlocoC.CreateRegC400(regC400sped)
+		regC400, err := BlocoC.CreateRegC400(regC400sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro C400: %v", err)
+		}
 		db.NewRecord(regC400)
 		db.Create(&regC400)
 	case "C405":
 		ln := strings.Split(linha, "|")
 		regC405sped := BlocoC.RegC405Sped{Ln: ln, Reg0000: r.Reg0000}
-		regC405 := BlocoC.CreateRegC405(regC405sped)
+		regC405, err := BlocoC.CreateRegC405(regC405sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro C405: %v", err)
+		}
 		db.NewRecord(regC405)
 		db.Create(&regC405)
 	case "C410":
@@ -202,37 +227,54 @@ func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) error {
 	case "C420":
 		ln := strings.Split(linha, "|")
 		regC420sped := BlocoC.RegC420Sped{Ln: ln, Reg0000: r.Reg0000}
-		regC420 := BlocoC.CreateRegC420(regC420sped)
+		regC420, err := BlocoC.CreateRegC420(regC420sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro C420: %v", err)
+		}
 		db.NewRecord(regC420)
 		db.Create(&regC420)
 	case "C425":
 		ln := strings.Split(linha, "|")
-		regC425sped := BlocoC.RegC425Sped{Ln: ln, Reg0000: r.Reg0000, Digito: r.Digito}
-		regC425 := BlocoC.CreateRegC425(regC425sped)
+		regC425sped := BlocoC.RegC425Sped{
+			Ln:      ln,
+			Reg0000: r.Reg0000,
+			Digito:  r.Digito,
+		}
+		regC425, err := BlocoC.CreateRegC425(regC425sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro C425: %v", err)
+		}
 		db.NewRecord(regC425)
 		db.Create(&regC425)
-	case "C460":
-		ln := strings.Split(linha, "|")
-		regC460sped := BlocoC.RegC460Sped{Ln: ln, Reg0000: r.Reg0000}
-		regC460 := BlocoC.CreateRegC460(regC460sped)
-		db.NewRecord(regC460)
-		db.Create(&regC460)
 	case "C465":
 		ln := strings.Split(linha, "|")
 		regC465sped := BlocoC.RegC465Sped{Ln: ln, Reg0000: r.Reg0000}
-		regC465 := BlocoC.CreateRegC465(regC465sped)
+		regC465, err := BlocoC.CreateRegC465(regC465sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro C465: %v", err)
+		}
 		db.NewRecord(regC465)
 		db.Create(&regC465)
 	case "C470":
 		ln := strings.Split(linha, "|")
-		regC470sped := BlocoC.RegC470Sped{Ln: ln, Reg0000: r.Reg0000, Digito: r.Digito}
-		regC470 := BlocoC.CreateRegC470(regC470sped)
+		regC470sped := BlocoC.RegC470Sped{
+			Ln:      ln,
+			Reg0000: r.Reg0000,
+			Digito:  r.Digito,
+		}
+		regC470, err := BlocoC.CreateRegC470(regC470sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro C470: %v", err)
+		}
 		db.NewRecord(regC470)
 		db.Create(&regC470)
 	case "C490":
 		ln := strings.Split(linha, "|")
 		regC490sped := BlocoC.RegC490Sped{Ln: ln, Reg0000: r.Reg0000}
-		regC490 := BlocoC.CreateRegC490(regC490sped)
+		regC490, err := BlocoC.CreateRegC490(regC490sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro C490: %v", err)
+		}
 		db.NewRecord(regC490)
 		db.Create(&regC490)
 	case "C495":

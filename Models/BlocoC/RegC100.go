@@ -1,6 +1,7 @@
 package BlocoC
 
 import (
+	"errors"
 	"time"
 
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
@@ -8,60 +9,77 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// Estrutura criada usando layout Guia Prático EFD-ICMS/IPI – Versão 2.0.20 Atualização: 07/12/2016
-// Estrutura do registro C100
+// RegC100 representa o registro C100 do SPED Fiscal que contém as notas fiscais
 type RegC100 struct {
 	gorm.Model
-	Reg        string    `gorm:"type:varchar(4)"`
-	IndOper    string    `gorm:"type:varchar(1)"`
-	IndEmit    string    `gorm:"type:varchar(1)"`
-	CodPart    string    `gorm:"type:varchar(60)"`
-	CodMod     string    `gorm:"type:varchar(2)"`
-	CodSit     string    `gorm:"type:varchar(2)"`
-	Ser        string    `gorm:"type:varchar(3)"`
-	NumDoc     string    `gorm:"type:varchar(9)"`
-	ChvNfe     string    `gorm:"type:varchar(44);unique_index"`
-	DtDoc      time.Time `gorm:"type:date"`
-	DtES       time.Time `gorm:"type:date"`
-	VlDoc      float64   `gorm:"type:decimal(19,2)"`
-	IndPgto    string    `gorm:"type:varchar(1)"`
-	VlDesc     float64   `gorm:"type:decimal(19,2)"`
-	VlAbatNt   float64   `gorm:"type:decimal(19,2)"`
-	VlMerc     float64   `gorm:"type:decimal(19,2)"`
-	IndFrt     string    `gorm:"type:varchar(1)"`
-	VlFrt      float64   `gorm:"type:decimal(19,2)"`
-	VlSeg      float64   `gorm:"type:decimal(19,2)"`
-	VlOutDa    float64   `gorm:"type:decimal(19,2)"`
-	VlBcIcms   float64   `gorm:"type:decimal(19,2)"`
-	VlIcms     float64   `gorm:"type:decimal(19,2)"`
-	VlBcIcmsSt float64   `gorm:"type:decimal(19,2)"`
-	VlIcmsSt   float64   `gorm:"type:decimal(19,2)"`
-	VlIpi      float64   `gorm:"type:decimal(19,2)"`
-	VlPis      float64   `gorm:"type:decimal(19,2)"`
-	VlCofins   float64   `gorm:"type:decimal(19,2)"`
-	VlPisSt    float64   `gorm:"type:decimal(19,2)"`
-	VlCofinsSt float64   `gorm:"type:decimal(19,2)"`
-	DtIni      time.Time `gorm:"type:date"`
-	DtFin      time.Time `gorm:"type:date"`
-	Cnpj       string    `gorm:"type:varchar(14)"`
+	Reg        string    `gorm:"type:varchar(4);index"`         // Texto fixo contendo "C100"
+	IndOper    string    `gorm:"type:varchar(1)"`               // Indicador de operação (0-Entrada, 1-Saída)
+	IndEmit    string    `gorm:"type:varchar(1)"`               // Indicador do emitente
+	CodPart    string    `gorm:"type:varchar(60);index"`        // Código do participante
+	CodMod     string    `gorm:"type:varchar(2)"`               // Código do modelo do documento fiscal
+	CodSit     string    `gorm:"type:varchar(2)"`               // Código da situação do documento fiscal
+	Ser        string    `gorm:"type:varchar(3)"`               // Série do documento fiscal
+	NumDoc     string    `gorm:"type:varchar(9);index"`         // Número do documento fiscal
+	ChvNfe     string    `gorm:"type:varchar(44);unique_index"` // Chave da NFe
+	DtDoc      time.Time `gorm:"type:date;index"`               // Data da emissão do documento fiscal
+	DtES       time.Time `gorm:"type:date;index"`               // Data da entrada ou saída
+	VlDoc      float64   `gorm:"type:decimal(19,2)"`            // Valor total do documento fiscal
+	IndPgto    string    `gorm:"type:varchar(1)"`               // Indicador do tipo de pagamento
+	VlDesc     float64   `gorm:"type:decimal(19,2)"`            // Valor total do desconto
+	VlAbatNt   float64   `gorm:"type:decimal(19,2)"`            // Valor total do abatimento
+	VlMerc     float64   `gorm:"type:decimal(19,2)"`            // Valor total das mercadorias
+	IndFrt     string    `gorm:"type:varchar(1)"`               // Indicador do tipo do frete
+	VlFrt      float64   `gorm:"type:decimal(19,2)"`            // Valor do frete
+	VlSeg      float64   `gorm:"type:decimal(19,2)"`            // Valor do seguro
+	VlOutDa    float64   `gorm:"type:decimal(19,2)"`            // Valor de outras despesas
+	VlBcIcms   float64   `gorm:"type:decimal(19,2)"`            // Base de cálculo do ICMS
+	VlIcms     float64   `gorm:"type:decimal(19,2)"`            // Valor do ICMS
+	VlBcIcmsSt float64   `gorm:"type:decimal(19,2)"`            // Base de cálculo do ICMS ST
+	VlIcmsSt   float64   `gorm:"type:decimal(19,2)"`            // Valor do ICMS ST
+	VlIpi      float64   `gorm:"type:decimal(19,2)"`            // Valor do IPI
+	VlPis      float64   `gorm:"type:decimal(19,2)"`            // Valor do PIS
+	VlCofins   float64   `gorm:"type:decimal(19,2)"`            // Valor do COFINS
+	VlPisSt    float64   `gorm:"type:decimal(19,2)"`            // Valor do PIS ST
+	VlCofinsSt float64   `gorm:"type:decimal(19,2)"`            // Valor do COFINS ST
+	DtIni      time.Time `gorm:"type:date;index"`               // Data inicial das informações
+	DtFin      time.Time `gorm:"type:date;index"`               // Data final das informações
+	Cnpj       string    `gorm:"type:varchar(14);index"`        // CNPJ do contribuinte
 }
 
-// Metodo do nome da tabela
+// TableName retorna o nome da tabela no banco de dados
 func (RegC100) TableName() string {
 	return "reg_c100"
 }
 
-// Implementando Interface do Sped RegC100
+// Validações dos campos
+func (r *RegC100) Validate() error {
+	if r.Reg != "C100" {
+		return ErrInvalidRegC100
+	}
+	if r.IndOper != "0" && r.IndOper != "1" {
+		return ErrInvalidIndOper
+	}
+	if r.NumDoc == "" {
+		return ErrEmptyNumDoc
+	}
+	if r.DtDoc.After(r.DtFin) {
+		return ErrInvalidDateC100
+	}
+	return nil
+}
+
+// Interface que define o contrato para criar RegC100
+type iRegC100 interface {
+	GetRegC100() RegC100
+}
+
+// RegC100Sped representa a estrutura do arquivo SPED
 type RegC100Sped struct {
 	Ln      []string
 	Reg0000 Bloco0.Reg0000
 }
 
-type iRegC100 interface {
-	GetRegC100() RegC100
-}
-
-// Metodo popula strutura com conteudo do sped fiscal
+// GetRegC100 converte a linha do SPED em struct RegC100
 func (s RegC100Sped) GetRegC100() RegC100 {
 	regC100 := RegC100{
 		Reg:        s.Ln[1],
@@ -100,7 +118,40 @@ func (s RegC100Sped) GetRegC100() RegC100 {
 	return regC100
 }
 
-// Cria estrutura populada
-func CreateRegC100(read iRegC100) RegC100 {
-	return read.GetRegC100()
+// CreateRegC100 cria um novo registro RegC100
+func CreateRegC100(read iRegC100) (RegC100, error) {
+	reg := read.GetRegC100()
+	if err := reg.Validate(); err != nil {
+		return RegC100{}, err
+	}
+	return reg, nil
+}
+
+// Constantes de erro
+var (
+	ErrInvalidRegC100  = errors.New("registro inválido, deve ser C100")
+	ErrInvalidIndOper  = errors.New("indicador de operação inválido")
+	ErrEmptyNumDoc     = errors.New("número do documento não pode ser vazio")
+	ErrInvalidDateC100 = errors.New("data do documento não pode ser posterior à data final")
+)
+
+// Métodos auxiliares
+func (r *RegC100) IsEntrada() bool {
+	return r.IndOper == "0"
+}
+
+func (r *RegC100) IsSaida() bool {
+	return r.IndOper == "1"
+}
+
+func (r *RegC100) IsCancelada() bool {
+	return r.CodSit == "02"
+}
+
+func (r *RegC100) GetValorTotal() float64 {
+	return r.VlDoc
+}
+
+func (r *RegC100) GetValorLiquido() float64 {
+	return r.VlDoc - r.VlDesc - r.VlAbatNt
 }
