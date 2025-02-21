@@ -9,7 +9,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-func Create(db gorm.DB) {
+func Create(db *gorm.DB) {
 
 	// Migrate the schema
 	db.AutoMigrate(&Bloco0.Reg0000{})
@@ -37,7 +37,7 @@ func Create(db gorm.DB) {
 
 }
 
-func Drop(db gorm.DB) {
+func Drop(db *gorm.DB) {
 
 	// Drop the tables
 	db.DropTable(&Bloco0.Reg0000{})

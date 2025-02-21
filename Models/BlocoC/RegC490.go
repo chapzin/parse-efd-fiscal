@@ -1,10 +1,11 @@
 package BlocoC
 
 import (
+	"time"
+
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/tools"
 	"github.com/jinzhu/gorm"
-	"time"
 )
 
 type RegC490 struct {
@@ -29,8 +30,8 @@ func (RegC490) TableName() string {
 
 // Implementando Interface do Sped RegC490
 type RegC490Sped struct {
-	Ln     []string
-	Reg000 Bloco0.Reg0000
+	Ln      []string
+	Reg0000 Bloco0.Reg0000
 }
 
 type iRegC490 interface {
@@ -47,9 +48,9 @@ func (s RegC490Sped) GetRegC490() RegC490 {
 		VlBcIcms: tools.ConvFloat(s.Ln[6]),
 		VlIcms:   tools.ConvFloat(s.Ln[7]),
 		CodObs:   s.Ln[8],
-		DtIni:    s.Reg000.DtIni,
-		DtFin:    s.Reg000.DtFin,
-		Cnpj:     s.Reg000.Cnpj,
+		DtIni:    s.Reg0000.DtIni,
+		DtFin:    s.Reg0000.DtFin,
+		Cnpj:     s.Reg0000.Cnpj,
 	}
 	return regC490
 }

@@ -1,6 +1,10 @@
 package Controllers
 
 import (
+	"strconv"
+	"sync"
+	"time"
+
 	"github.com/chapzin/parse-efd-fiscal/Models"
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
@@ -9,12 +13,30 @@ import (
 	"github.com/fatih/color"
 	"github.com/jinzhu/gorm"
 	"github.com/tealeg/xlsx"
-	"strconv"
-	"sync"
-	"time"
+
+	"github.com/chapzin/parse-efd-fiscal/Controllers/repository"
+	"github.com/chapzin/parse-efd-fiscal/Controllers/service"
 )
 
-func ProcessarFatorConversao(db gorm.DB, wg *sync.WaitGroup) {
+type InventoryController struct {
+	service *service.InventoryService
+}
+
+func NewInventoryController(db *gorm.DB) *InventoryController {
+	repo := repository.NewInventoryRepository(db)
+	svc := service.NewInventoryService(repo)
+	return &InventoryController{service: svc}
+}
+
+func (c *InventoryController) ProcessarFatorConversao(db *gorm.DB) error {
+	return c.service.ProcessConversionFactors()
+}
+
+func (c *InventoryController) DeletarItensNotasCanceladas(db *gorm.DB, dtIni, dtFin string) error {
+	return c.service.DeleteCancelledInvoiceItems(dtIni, dtFin)
+}
+
+func ProcessarFatorConversao(db *gorm.DB, wg *sync.WaitGroup) {
 	time.Sleep(1 * time.Second)
 	color.Green("Começo Processa Fator de Conversao %s", time.Now())
 	db.Exec("DELETE FROM reg_0220 WHERE fat_conv=1")
@@ -37,7 +59,7 @@ func ProcessarFatorConversao(db gorm.DB, wg *sync.WaitGroup) {
 	wg.Done()
 }
 
-func DeletarItensNotasCanceladas(db gorm.DB, dtIni string, dtFin string, wg *sync.WaitGroup) {
+func DeletarItensNotasCanceladas(db *gorm.DB, dtIni string, dtFin string, wg *sync.WaitGroup) {
 	color.Green("Começo Deleta itens notas canceladas %s", time.Now())
 	var c100 []BlocoC.RegC100
 	var nota []NotaFiscal.NotaFiscal
@@ -60,7 +82,7 @@ func DeletarItensNotasCanceladas(db gorm.DB, dtIni string, dtFin string, wg *syn
 	wg.Done()
 }
 
-func PopularReg0200(db gorm.DB, wg *sync.WaitGroup) {
+func PopularReg0200(db *gorm.DB, wg *sync.WaitGroup) {
 	time.Sleep(1 * time.Second)
 	color.Green("Comeco popula reg0200 %s", time.Now())
 	var reg0200 []Bloco0.Reg0200
@@ -81,7 +103,7 @@ func PopularReg0200(db gorm.DB, wg *sync.WaitGroup) {
 	color.Green("Fim popula reg0200 %s", time.Now())
 }
 
-func PopularItensXmls(db gorm.DB, wg *sync.WaitGroup) {
+func PopularItensXmls(db *gorm.DB, wg *sync.WaitGroup) {
 	color.Green("Comeco popula Itens Xmls %s", time.Now())
 	var items []NotaFiscal.Item
 	db.Select("distinct codigo,descricao").Find(&items)
@@ -102,7 +124,7 @@ func PopularItensXmls(db gorm.DB, wg *sync.WaitGroup) {
 
 }
 
-func PopularInventarios(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.DB) {
+func PopularInventarios(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db *gorm.DB) {
 	time.Sleep(1 * time.Second)
 	color.Green("Começo popula Inventario %s", time.Now())
 	qtdAnos := AnoFinal - AnoInicial
@@ -152,7 +174,7 @@ func PopularInventarios(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gor
 	wg.Done()
 }
 
-func PopularEntradas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.DB) {
+func PopularEntradas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db *gorm.DB) {
 	time.Sleep(1 * time.Second)
 	color.Green("Começo popula entradas %s", time.Now())
 	qtdAnos := AnoFinal - AnoInicial
@@ -217,7 +239,7 @@ func PopularEntradas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.D
 	wg.Done()
 }
 
-func PopularSaidas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.DB) {
+func PopularSaidas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db *gorm.DB) {
 	time.Sleep(2 * time.Second)
 	color.Green("Comeco popula saidas %s", time.Now())
 	qtdAnos := AnoFinal - AnoInicial
@@ -291,7 +313,7 @@ func PopularSaidas(AnoInicial int, AnoFinal int, wg *sync.WaitGroup, db gorm.DB)
 }
 
 // fazer uma refactory completo recursive
-func ProcessarDiferencas(db gorm.DB) {
+func ProcessarDiferencas(db *gorm.DB) {
 	db.Exec("Delete from inventarios where inv_inicial=0 and entradas=0 and vl_total_entradas=0 and saidas=0 and vl_total_saidas=0 and inv_final=0")
 	var inv []Models.Inventario
 	var reg0200 []Bloco0.Reg0200
@@ -406,34 +428,6 @@ func ProcessarDiferencas(db gorm.DB) {
 			inv3.VlUnitSaiAno6 = 0
 		}
 
-		//// Criando Sugestao de novo inventário
-		//if diferencas >= 0 {
-		//	// Novo inventario final somando diferencas
-		//	nvInvFin := diferencas + vInv.InvFinal
-		//	inv3.SugInvFinal = nvInvFin
-		//	inv3.SugVlInvFinal = nvInvFin * inv3.VlUnitEnt
-		//} else {
-		//	inv3.SugInvFinal = vInv.InvFinal
-		//	inv3.SugVlInvFinal = inv3.SugInvFinal * inv3.VlUnitEnt
-		//}
-		//if diferencas < 0 {
-		//	// Caso negativo adiciona ao inventario inicial
-		//	nvInvIni := (diferencas * -1) + vInv.InvInicial
-		//	inv3.SugInvInicial = nvInvIni
-		//	inv3.SugVlInvInicial = nvInvIni * inv3.VlUnitEnt
-		//} else {
-		//	// Caso nao seja negativo mantenha o inventario anterior
-		//	inv3.SugInvInicial = vInv.InvInicial
-		//	inv3.SugVlInvInicial = inv3.SugInvInicial * inv3.VlUnitEnt
-		//}
-		//
-		//// Zera o produto quando inventario inicial e final forem iguais
-		//if inv3.SugInvInicial == inv3.SugInvFinal {
-		//	inv3.SugInvFinal = 0
-		//	inv3.SugInvInicial = 0
-		//	inv3.SugVlInvFinal = 0
-		//	inv3.SugVlInvInicial = 0
-		//}
 		// Adicionando Tipo e unidade de medida no inventario
 		for _, v0200 := range reg0200 {
 			if v0200.CodItem == vInv.Codigo {
@@ -453,7 +447,7 @@ func ProcessarDiferencas(db gorm.DB) {
 	db.Exec("Delete from inventarios where tipo <> '00'")
 }
 
-func ExcelAdd(db gorm.DB, sheet *xlsx.Sheet) {
+func ExcelAdd(db *gorm.DB, sheet *xlsx.Sheet) {
 	var inv []Models.Inventario
 	db.Find(&inv)
 	for _, vInv := range inv {

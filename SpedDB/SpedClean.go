@@ -1,12 +1,13 @@
 package SpedDB
 
 import (
-	"github.com/jinzhu/gorm"
 	"time"
+
+	"github.com/jinzhu/gorm"
 )
 
 // Remove todos as tabelas dos registros
-func CleanSpedItems(cnpj string, dtIni time.Time, dtFin time.Time, db gorm.DB) {
+func CleanSpedItems(cnpj string, dtIni time.Time, dtFin time.Time, db *gorm.DB) {
 	// Inicia todos os registros necessários
 	regs := []string{"reg_0000", "reg_0150", "reg_0190", "reg_0200", "reg_0220", "reg_c100",
 		"reg_c170", "reg_c400", "reg_c405",

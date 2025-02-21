@@ -20,12 +20,12 @@ type Regs struct {
 	Digito  string
 }
 
-func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
+func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) {
 
 	switch ln1 {
 	case "0000":
 		ln := strings.Split(linha, "|")
-		reg0000Sped := Bloco0.Reg0000Sped{ln}
+		reg0000Sped := Bloco0.Reg0000Sped{Ln: ln}
 		r.Reg0000 = Bloco0.CreateReg0000(reg0000Sped)
 		// Caso já exista informacoes da movimentacao dos produtos referente ao sped que está sendo importado os dados são deletados
 		SpedDB.CleanSpedItems(r.Reg0000.Cnpj, r.Reg0000.DtIni, r.Reg0000.DtFin, db)
@@ -41,19 +41,19 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		//fmt.Println(linha)
 	case "0150":
 		ln := strings.Split(linha, "|")
-		reg0150sped := Bloco0.Reg0150Sped{ln, r.Reg0000}
+		reg0150sped := Bloco0.Reg0150Sped{Ln: ln, Reg0000: r.Reg0000}
 		reg0150 := Bloco0.CreateReg0150(reg0150sped)
 		db.NewRecord(reg0150)
 		db.Create(&reg0150)
 	case "0190":
 		ln := strings.Split(linha, "|")
-		reg0190sped := Bloco0.Reg0190Sped{ln, r.Reg0000}
+		reg0190sped := Bloco0.Reg0190Sped{Ln: ln, Reg0000: r.Reg0000}
 		reg0190 := Bloco0.CreateReg0190(reg0190sped)
 		db.NewRecord(reg0190)
 		db.Create(&reg0190)
 	case "0200":
 		ln := strings.Split(linha, "|")
-		reg0200Sped := Bloco0.Reg0200Sped{ln, r.Reg0000, r.Digito}
+		reg0200Sped := Bloco0.Reg0200Sped{Ln: ln, Reg0000: r.Reg0000, Digito: r.Digito}
 		r.Reg0200 = Bloco0.CreateReg0200(reg0200Sped)
 		db.NewRecord(r.Reg0200)
 		db.Create(&r.Reg0200)
@@ -65,7 +65,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		//fmt.Println(linha)
 	case "0220":
 		ln := strings.Split(linha, "|")
-		reg0220sped := Bloco0.Reg0220Sped{ln, r.Reg0000, r.Reg0200, r.Digito}
+		reg0220sped := Bloco0.Reg0220Sped{Ln: ln, Reg0000: r.Reg0000, Reg0200: r.Reg0200, Digito: r.Digito}
 		reg0220 := Bloco0.CreateReg0220(reg0220sped)
 		db.NewRecord(reg0220)
 		db.Create(&reg0220)
@@ -89,7 +89,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		//fmt.Println(linha)
 	case "C100":
 		ln := strings.Split(linha, "|")
-		regC100sped := BlocoC.RegC100Sped{ln, r.Reg0000}
+		regC100sped := BlocoC.RegC100Sped{Ln: ln, Reg0000: r.Reg0000}
 		r.RegC100 = BlocoC.CreateRegC100(regC100sped)
 		db.NewRecord(r.RegC100)
 		db.Create(&r.RegC100)
@@ -125,7 +125,7 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		//fmt.Println(linha)
 	case "C170":
 		ln := strings.Split(linha, "|")
-		regC100sped := BlocoC.RegC170Sped{ln, r.Reg0000, r.RegC100, r.Digito}
+		regC100sped := BlocoC.RegC170Sped{Ln: ln, Reg0000: r.Reg0000, RegC100: r.RegC100, Digito: r.Digito}
 		regC170 := BlocoC.CreateRegC170(regC100sped)
 		db.NewRecord(regC170)
 		db.Create(&regC170)
@@ -169,13 +169,13 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		//fmt.Println(linha)
 	case "C400":
 		ln := strings.Split(linha, "|")
-		regC400sped := BlocoC.RegC400Sped{ln, r.Reg0000}
+		regC400sped := BlocoC.RegC400Sped{Ln: ln, Reg0000: r.Reg0000}
 		regC400 := BlocoC.CreateRegC400(regC400sped)
 		db.NewRecord(regC400)
 		db.Create(&regC400)
 	case "C405":
 		ln := strings.Split(linha, "|")
-		regC405sped := BlocoC.RegC405Sped{ln, r.Reg0000}
+		regC405sped := BlocoC.RegC405Sped{Ln: ln, Reg0000: r.Reg0000}
 		regC405 := BlocoC.CreateRegC405(regC405sped)
 		db.NewRecord(regC405)
 		db.Create(&regC405)
@@ -183,37 +183,37 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		//fmt.Println(linha)
 	case "C420":
 		ln := strings.Split(linha, "|")
-		regC420sped := BlocoC.RegC420Sped{ln, r.Reg0000}
+		regC420sped := BlocoC.RegC420Sped{Ln: ln, Reg0000: r.Reg0000}
 		regC420 := BlocoC.CreateRegC420(regC420sped)
 		db.NewRecord(regC420)
 		db.Create(&regC420)
 	case "C425":
 		ln := strings.Split(linha, "|")
-		regC425sped := BlocoC.RegC425Sped{ln, r.Reg0000, r.Digito}
+		regC425sped := BlocoC.RegC425Sped{Ln: ln, Reg0000: r.Reg0000, Digito: r.Digito}
 		regC425 := BlocoC.CreateRegC425(regC425sped)
 		db.NewRecord(regC425)
 		db.Create(&regC425)
 	case "C460":
 		ln := strings.Split(linha, "|")
-		regC460sped := BlocoC.RegC460Sped{ln, r.Reg0000}
+		regC460sped := BlocoC.RegC460Sped{Ln: ln, Reg0000: r.Reg0000}
 		regC460 := BlocoC.CreateRegC460(regC460sped)
 		db.NewRecord(regC460)
 		db.Create(&regC460)
 	case "C465":
 		ln := strings.Split(linha, "|")
-		regC465sped := BlocoC.RegC465Sped{ln, r.Reg0000}
+		regC465sped := BlocoC.RegC465Sped{Ln: ln, Reg0000: r.Reg0000}
 		regC465 := BlocoC.CreateRegC465(regC465sped)
 		db.NewRecord(regC465)
 		db.Create(&regC465)
 	case "C470":
 		ln := strings.Split(linha, "|")
-		regC470sped := BlocoC.RegC470Sped{ln, r.Reg0000, r.Digito}
+		regC470sped := BlocoC.RegC470Sped{Ln: ln, Reg0000: r.Reg0000, Digito: r.Digito}
 		regC470 := BlocoC.CreateRegC470(regC470sped)
 		db.NewRecord(regC470)
 		db.Create(&regC470)
 	case "C490":
 		ln := strings.Split(linha, "|")
-		regC490sped := BlocoC.RegC490Sped{ln, r.Reg0000}
+		regC490sped := BlocoC.RegC490Sped{Ln: ln, Reg0000: r.Reg0000}
 		regC490 := BlocoC.CreateRegC490(regC490sped)
 		db.NewRecord(regC490)
 		db.Create(&regC490)
@@ -395,13 +395,13 @@ func TrataLinha(ln1 string, linha string, r *Regs, db gorm.DB) {
 		//fmt.Println(linha)
 	case "H005":
 		ln := strings.Split(linha, "|")
-		regH005Sped := BlocoH.RegH005Sped{ln, r.Reg0000}
+		regH005Sped := BlocoH.RegH005Sped{Ln: ln, Reg0000: r.Reg0000}
 		regH005 := BlocoH.CreateRegH005(regH005Sped)
 		db.NewRecord(regH005)
 		db.Create(&regH005)
 	case "H010":
 		ln := strings.Split(linha, "|")
-		regH010Sped := BlocoH.RegH010Sped{ln, r.Reg0000, r.RegH005, r.Digito}
+		regH010Sped := BlocoH.RegH010Sped{Ln: ln, Reg0000: r.Reg0000, RegH005: r.RegH005, Digito: r.Digito}
 		regH010 := BlocoH.CreateRegH010(regH010Sped)
 		db.NewRecord(regH010)
 		db.Create(&regH010)

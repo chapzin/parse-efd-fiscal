@@ -2,16 +2,17 @@ package SpedRead
 
 import (
 	"bufio"
-	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
-	"github.com/chapzin/parse-efd-fiscal/SpedExec"
-	"github.com/chapzin/parse-efd-fiscal/tools"
-	"github.com/clbanning/mxj"
-	"github.com/jinzhu/gorm"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
+	"github.com/chapzin/parse-efd-fiscal/SpedExec"
+	"github.com/chapzin/parse-efd-fiscal/tools"
+	"github.com/clbanning/mxj"
+	"github.com/jinzhu/gorm"
 )
 
 var id int
@@ -220,12 +221,12 @@ func InsertSped(sped string, r *SpedExec.Regs, dialect string, conexao string) {
 	scanner := bufio.NewScanner(file)
 	// guarda cada linha em indice diferente do slice
 	for scanner.Scan() {
-		ProcessRows(scanner.Text(), r, *db)
+		ProcessRows(scanner.Text(), r, db)
 	}
 	id--
 }
 
-func ProcessRows(line string, r *SpedExec.Regs, db gorm.DB) {
+func ProcessRows(line string, r *SpedExec.Regs, db *gorm.DB) {
 	if line == "" {
 		return
 	}
