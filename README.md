@@ -1,18 +1,56 @@
-# Analise e Auditoria EFD Fiscal em Go
+# Análise e Auditoria EFD Fiscal em Go
 [![Build Status](https://travis-ci.org/chapzin/parse-efd-fiscal.svg?branch=master)](https://travis-ci.org/chapzin/parse-efd-fiscal)
 [![Go Report Card](https://goreportcard.com/badge/github.com/chapzin/parse-efd-fiscal)](https://goreportcard.com/report/github.com/chapzin/parse-efd-fiscal)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
-[![Join the chat at https://gitter.im/olebedev/go-starter-kit](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000&style=plastic)](https://gitter.im/GoAuditoriaFiscal/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
+[![Join the chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000&style=plastic)](https://gitter.im/GoAuditoriaFiscal/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R673QGW2LQVCJ)
 
-Projeto voltado para fazer o mapeamento e parse do sped fiscal para dentro do banco de dados
+Uma solução moderna e eficiente para análise e auditoria do SPED Fiscal, desenvolvida em Go.
 
 ![Sped](sped-maior.png "Sped")
-## O que é o Sped Fiscal?
-A Escrituração Fiscal Digital - EFD é um arquivo digital, que se constitui de um conjunto de escriturações de documentos fiscais e de outras informações de interesse dos Fiscos das unidades federadas e da Secretaria da Receita Federal do Brasil, bem como de registros de apuração de impostos referentes às operações e prestações praticadas pelo contribuinte.
-Este arquivo deverá ser assinado digitalmente e transmitido, via Internet, ao ambiente Sped.
 
-###### SITE OFICIAL DO SPED: http://sped.rfb.gov.br/
+## O que é o SPED Fiscal?
+A Escrituração Fiscal Digital (EFD) representa uma revolução na forma como as empresas prestam informações ao fisco. É um arquivo digital que reúne a escrituração de documentos fiscais e outras informações de interesse dos fiscos estaduais e da Receita Federal do Brasil, bem como registros de apuração de impostos referentes às operações das empresas.
+
+## Motivação
+
+### O Desafio da Conformidade Fiscal
+No complexo cenário tributário brasileiro, as empresas enfrentam diariamente o desafio de manter-se em conformidade com uma legislação em constante evolução. O calendário fiscal é extenso, com múltiplas obrigações e prazos rigorosos estabelecidos pelo FISCO.
+
+### A Realidade das Empresas
+- **Pressão por Prazos**: Muitas vezes, o cumprimento dos prazos se sobrepõe à qualidade das informações
+- **Complexidade Operacional**: Mudanças frequentes na legislação exigem adaptação constante
+- **Riscos Fiscais**: Erros nas declarações podem resultar em multas significativas
+- **Custo de Conformidade**: Manter uma estrutura para atender todas as exigências fiscais é dispendioso
+
+### Nossa Solução
+Este projeto nasce da necessidade de simplificar e automatizar o processo de análise fiscal, oferecendo:
+
+1. **Prevenção de Problemas**: Identificação proativa de inconsistências antes de auditorias fiscais
+2. **Economia de Tempo**: Automatização de processos que levariam dias para serem feitos manualmente
+3. **Redução de Riscos**: Minimização de erros humanos através de validações automáticas
+4. **Conformidade Contínua**: Monitoramento constante da qualidade das informações fiscais
+
+### Impacto no Negócio
+- **Segurança Fiscal**: Maior confiabilidade nas informações prestadas ao fisco
+- **Eficiência Operacional**: Redução do tempo gasto em análises manuais
+- **Economia**: Prevenção de multas e penalidades através da detecção prévia de inconsistências
+- **Governança**: Melhor controle e visibilidade das obrigações fiscais
+
+## Funcionalidades
+
+### Implementadas
+- Importação e parsing de arquivos SPED e XMLs
+- Análise de movimentação de estoque
+- Geração de relatórios em Excel
+- Validações básicas de consistência
+
+### Em Desenvolvimento
+- Microserviço de processamento de movimentação e correção de estoques
+- Análises baseadas em critérios dos fiscos estaduais
+- Integração com sistema Fix Auditoria
+- Sistema de notificações e alertas
+- Dashboard de acompanhamento fiscal
 
 ## Como compilar 
 ```
@@ -39,15 +77,6 @@ Depois disso sera criado um arquivo com o nome AnaliseInventario.xlsx na pasta q
 - Fazer analise de acordo com os feitos pelo fiscos estaduais e apontar possiveis correções; (microservico)
 - Fazer comunicação com o sistema Fix Auditoria (http://www.fixauditoria.com.br) e importar automaticamente todos os xmls e speds;
 - Enviar relatórios e arquivos dos novos inventários por email;
-
-## Motivação
-Não é segredo que no mundo Fiscal existe uma enorme complexidade, com mudanças e atualizações na legislação. O calendário fiscal das empresas é lotado de obrigações a serem cumpridas, com datas definidas pelo FISCO.
-
-Muitas vezes, as obrigações são entregues com a premissa de cumprimento de prazo e a qualidade da informação acaba ficando em segundo plano. Dessa forma, as necessidades das retificações se acumulam e faz com que o mês inicie com “dias faltando”.
-
-Além de ter o importantíssimo papel de atender todas as exigências estabelecidas pelo FISCO Municipal, Estadual e Federal, muitas vezes o setor fiscal das empresas acaba tendo que corrigir tudo o que saiu ou entrou errado durante o mês.
-
-O principal objetivo do sistema é facilitar que as empresas possam fazer um analise da qualidade das informações enviadas, com isso podendo fazer retificações de forma voluntária evitando receber uma multa muito alta.
 
 ## Dúvidas?
 
