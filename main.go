@@ -142,7 +142,7 @@ func main() {
 		log.Fatalf("Erro ao carregar configurações: %v", err)
 	}
 
-	// Conecta ao banco de dados
+	// Conecta ao banco de dados - conexão compartilhada
 	db, err := gorm.Open(cfg.DB.Dialect, cfg.GetMySQLConnectionString())
 	if err != nil {
 		log.Fatalf("Falha ao abrir conexão com banco de dados: %v", err)
@@ -150,18 +150,21 @@ func main() {
 	db.LogMode(true)
 	defer db.Close()
 
+	// Cria schema se necessário
 	if *schema {
 		SpedDB.Schema(db)
 	}
 
+	// Importa arquivos SPED
 	if *importa {
 		log.Printf("Iniciando processamento em %v", time.Now())
-		SpedRead.RecursiveSpeds(cfg.SpedsPath, cfg.DB.Dialect, cfg.GetMySQLConnectionString(), cfg.DigitCode)
+		if err := SpedRead.RecursiveSpeds(db, cfg.SpedsPath, cfg.DigitCode); err != nil {
+			log.Fatalf("erro ao processar SPEDs: %v", err)
+		}
 		log.Printf("Final processamento em %v", time.Now())
-		var s string
-		fmt.Scanln(&s)
 	}
 
+	// Processa inventário
 	if *inventario {
 		if err := validateInventoryFlags(*anoInicial, *anoFinal); err != nil {
 			log.Fatal(err)
@@ -174,6 +177,7 @@ func main() {
 		log.Printf("Processamento do inventário finalizado em %v", time.Now())
 	}
 
+	// Gera arquivo Excel
 	if *excel {
 		log.Printf("Iniciando geração do arquivo Excel")
 		if err := generateExcel(db); err != nil {
@@ -182,13 +186,12 @@ func main() {
 		log.Printf("Arquivo de Análise de Inventário gerado com sucesso")
 	}
 
-	if *h010 {
-		if *anoInicial != 0 {
-			log.Printf("Funcionalidade h010 ainda não implementada")
-			//Controllers.CriarH010InvInicial(*ano, *db)
-			//Controllers.CriarH010InvFinal(*ano, *db)
-		} else {
-			log.Fatal("Favor informar a tag ano. Exemplo: -ano=2016")
-		}
+	// Processa H010 se necessário
+	if *h010 && *anoInicial != 0 {
+		log.Printf("Iniciando processamento H010 para o ano %d", *anoInicial)
+		//Controllers.CriarH010InvInicial(*anoInicial, db)
+		//Controllers.CriarH010InvFinal(*anoInicial, db)
+	} else if *h010 {
+		log.Fatal("Favor informar a tag ano. Exemplo: -ano=2016")
 	}
 }

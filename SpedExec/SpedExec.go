@@ -19,6 +19,7 @@ type Regs struct {
 	Reg0200 Bloco0.Reg0200
 	RegH005 BlocoH.RegH005
 	Digito  string
+	DB      *gorm.DB
 }
 
 func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) error {
