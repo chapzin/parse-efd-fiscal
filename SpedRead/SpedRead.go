@@ -21,7 +21,7 @@ var maxid = 98
 // Ler todos os arquivos de uma determinada pasta
 func RecursiveSpeds(path string, dialect string, conexao string, digitosCodigo string) {
 	filepath.Walk(path, func(file string, f os.FileInfo, err error) error {
-		if f.IsDir() == false {
+		if !f.IsDir() {
 			ext := filepath.Ext(file)
 			if ext == ".txt" || ext == ".TXT" {
 				tools.CheckErr(err)
@@ -57,6 +57,7 @@ func wait() {
 func InsertXml(xml string, dialect string, conexao string, digitosCodigo string) {
 	digitosCodigo2 := tools.ConvInt(digitosCodigo)
 	db, err := gorm.Open(dialect, conexao)
+	tools.CheckErr(err)
 	// Teste de lista produtos
 	xmlFile, err := ioutil.ReadFile(xml)
 	reader := tools.ConvXml(xml)
@@ -85,14 +86,23 @@ func InsertXml(xml string, dialect string, conexao string, digitosCodigo string)
 
 	// Preenchendo itens
 	codigo, err := nfe.ValuesForKey("cProd")
+	tools.CheckErr(err)
 	ean, err := nfe.ValuesForKey("cEAN")
+	tools.CheckErr(err)
 	descricao, err := nfe.ValuesForKey("xProd")
+	tools.CheckErr(err)
 	ncm, err := nfe.ValuesForKey("NCM")
+	tools.CheckErr(err)
 	cfop, err := nfe.ValuesForKey("CFOP")
+	tools.CheckErr(err)
 	unid, err := nfe.ValuesForKey("uCom")
+	tools.CheckErr(err)
 	qtd, err := nfe.ValuesForKey("qCom")
+	tools.CheckErr(err)
 	vUnit, err := nfe.ValuesForKey("vUnCom")
+	tools.CheckErr(err)
 	vTotal, err := nfe.ValuesForKey("vProd")
+	tools.CheckErr(err)
 	// Preenchendo Destinatario
 	cnpj := reader("dest", "CNPJ")
 	xNome := reader("dest", "xNome")
@@ -160,7 +170,7 @@ func InsertXml(xml string, dialect string, conexao string, digitosCodigo string)
 
 	var itens []NotaFiscal.Item
 
-	for i, _ := range codigo {
+	for i := range codigo {
 		i2 := i + 1
 		codigoi := tools.AdicionaDigitosCodigo(codigo[i].(string), digitosCodigo2)
 		eani := ean[i].(string)
@@ -215,6 +225,7 @@ func InsertXml(xml string, dialect string, conexao string, digitosCodigo string)
 
 func InsertSped(sped string, r *SpedExec.Regs, dialect string, conexao string) {
 	db, err := gorm.Open(dialect, conexao)
+	tools.CheckErr(err)
 	file, err := os.Open(sped)
 	tools.CheckErr(err)
 	defer file.Close()

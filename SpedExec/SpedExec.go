@@ -1,6 +1,7 @@
 package SpedExec
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
@@ -20,13 +21,17 @@ type Regs struct {
 	Digito  string
 }
 
-func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) {
-
+func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) error {
 	switch ln1 {
 	case "0000":
 		ln := strings.Split(linha, "|")
 		reg0000Sped := Bloco0.Reg0000Sped{Ln: ln}
-		r.Reg0000 = Bloco0.CreateReg0000(reg0000Sped)
+		reg0000, err := Bloco0.CreateReg0000(reg0000Sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro 0000: %v", err)
+		}
+		r.Reg0000 = reg0000
+
 		// Caso já exista informacoes da movimentacao dos produtos referente ao sped que está sendo importado os dados são deletados
 		SpedDB.CleanSpedItems(r.Reg0000.Cnpj, r.Reg0000.DtIni, r.Reg0000.DtFin, db)
 		db.NewRecord(r.Reg0000)
@@ -42,19 +47,29 @@ func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) {
 	case "0150":
 		ln := strings.Split(linha, "|")
 		reg0150sped := Bloco0.Reg0150Sped{Ln: ln, Reg0000: r.Reg0000}
-		reg0150 := Bloco0.CreateReg0150(reg0150sped)
+		reg0150, err := Bloco0.CreateReg0150(reg0150sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro 0150: %v", err)
+		}
 		db.NewRecord(reg0150)
 		db.Create(&reg0150)
 	case "0190":
 		ln := strings.Split(linha, "|")
 		reg0190sped := Bloco0.Reg0190Sped{Ln: ln, Reg0000: r.Reg0000}
-		reg0190 := Bloco0.CreateReg0190(reg0190sped)
+		reg0190, err := Bloco0.CreateReg0190(reg0190sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro 0190: %v", err)
+		}
 		db.NewRecord(reg0190)
 		db.Create(&reg0190)
 	case "0200":
 		ln := strings.Split(linha, "|")
 		reg0200Sped := Bloco0.Reg0200Sped{Ln: ln, Reg0000: r.Reg0000, Digito: r.Digito}
-		r.Reg0200 = Bloco0.CreateReg0200(reg0200Sped)
+		reg0200, err := Bloco0.CreateReg0200(reg0200Sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro 0200: %v", err)
+		}
+		r.Reg0200 = reg0200
 		db.NewRecord(r.Reg0200)
 		db.Create(&r.Reg0200)
 	case "0205":
@@ -66,7 +81,10 @@ func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) {
 	case "0220":
 		ln := strings.Split(linha, "|")
 		reg0220sped := Bloco0.Reg0220Sped{Ln: ln, Reg0000: r.Reg0000, Reg0200: r.Reg0200, Digito: r.Digito}
-		reg0220 := Bloco0.CreateReg0220(reg0220sped)
+		reg0220, err := Bloco0.CreateReg0220(reg0220sped)
+		if err != nil {
+			return fmt.Errorf("erro ao criar registro 0220: %v", err)
+		}
 		db.NewRecord(reg0220)
 		db.Create(&reg0220)
 	case "0300":
@@ -514,4 +532,5 @@ func TrataLinha(ln1 string, linha string, r *Regs, db *gorm.DB) {
 	default:
 
 	}
+	return nil
 }
