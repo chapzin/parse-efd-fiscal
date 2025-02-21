@@ -60,7 +60,7 @@ go build
 ```
 
 ## Como utilizar
-- Edite o arquivo cofing/config.cfg e adicione as configurações de conexão do banco de dados mysql
+- Edite o arquivo .env e adicione as configurações de conexão do banco de dados mysql
 - Crie o banco de dados que pretende adicionar as informacoes dos xmls e speds
 - Adicione todos xmls próprios e speds do periodo onde pretende fazer a importação na pasta speds
 Depois de feito esse processo basta executar o programa com a flag -schema que ele cria toda estrutura do banco de dados.
@@ -70,6 +70,12 @@ parse-efd-fiscal -inventario -ano=2016
 parse-efd-fiscal -excel
 ```
 Depois disso sera criado um arquivo com o nome AnaliseInventario.xlsx na pasta que foi executado.
+
+## Utilizando Docker
+Você também pode usar o Docker para subir o banco de dados. Para isso, execute o comando abaixo:
+```
+docker-compose -f docker/docker-compose.yml --env-file .env up -d
+```
 
 ## Funcionalidades que serão desenvolvidas no sistema:
 - Importar todos Speds e Xmls de um determinado CNPJ para um banco de dados relacional;
