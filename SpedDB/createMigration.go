@@ -5,70 +5,54 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/Models/Bloco0"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoH"
+	cupomfiscal "github.com/chapzin/parse-efd-fiscal/Models/CupomFiscal"
 	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
 	"github.com/jinzhu/gorm"
 )
 
+func tables() []interface{} {
+	tables := []interface{}{
+		&Bloco0.Reg0000{},          //nolint:exhaustruct
+		&Bloco0.Reg0150{},          //nolint:exhaustruct
+		&Bloco0.Reg0190{},          //nolint:exhaustruct
+		&Bloco0.Reg0200{},          //nolint:exhaustruct
+		&Bloco0.Reg0220{},          //nolint:exhaustruct
+		&BlocoC.RegC100{},          //nolint:exhaustruct
+		&BlocoC.RegC170{},          //nolint:exhaustruct
+		&BlocoC.RegC400{},          //nolint:exhaustruct
+		&BlocoC.RegC405{},          //nolint:exhaustruct
+		&BlocoC.RegC420{},          //nolint:exhaustruct
+		&BlocoC.RegC425{},          //nolint:exhaustruct
+		&BlocoC.RegC460{},          //nolint:exhaustruct
+		&BlocoC.RegC465{},          //nolint:exhaustruct
+		&BlocoC.RegC470{},          //nolint:exhaustruct
+		&BlocoC.RegC490{},          //nolint:exhaustruct
+		&BlocoC.RegC800{},          //nolint:exhaustruct
+		&BlocoC.RegC860{},          //nolint:exhaustruct
+		&BlocoC.RegC870{},          //nolint:exhaustruct
+		&BlocoC.RegC890{},          //nolint:exhaustruct
+		&BlocoH.RegH005{},          //nolint:exhaustruct
+		&BlocoH.RegH010{},          //nolint:exhaustruct
+		&Models.Inventario{},       //nolint:exhaustruct,misspell
+		&NotaFiscal.Emitente{},     //nolint:exhaustruct
+		&NotaFiscal.Destinatario{}, //nolint:exhaustruct
+		&NotaFiscal.Item{},         //nolint:exhaustruct
+		&NotaFiscal.NotaFiscal{},   //nolint:exhaustruct
+		&cupomfiscal.CfeItem{},     //nolint:exhaustruct
+		&cupomfiscal.CfeHeader{},   //nolint:exhaustruct
+	}
+
+	return tables
+}
+
 func Create(db *gorm.DB) {
-
 	// Migrate the schema
-	db.AutoMigrate(&Bloco0.Reg0000{})
-	db.AutoMigrate(&Bloco0.Reg0150{})
-	db.AutoMigrate(&Bloco0.Reg0190{})
-	db.AutoMigrate(&Bloco0.Reg0200{})
-	db.AutoMigrate(&Bloco0.Reg0220{})
-	db.AutoMigrate(&BlocoC.RegC100{})
-	db.AutoMigrate(&BlocoC.RegC170{})
-	db.AutoMigrate(&BlocoC.RegC400{})
-	db.AutoMigrate(&BlocoC.RegC405{})
-	db.AutoMigrate(&BlocoC.RegC420{})
-	db.AutoMigrate(&BlocoC.RegC425{})
-	db.AutoMigrate(&BlocoC.RegC460{})
-	db.AutoMigrate(&BlocoC.RegC465{})
-	db.AutoMigrate(&BlocoC.RegC470{})
-	db.AutoMigrate(&BlocoC.RegC490{})
-	db.AutoMigrate(&BlocoC.RegC800{})
-	db.AutoMigrate(&BlocoC.RegC860{})
-	db.AutoMigrate(&BlocoC.RegC870{})
-	db.AutoMigrate(&BlocoC.RegC890{})
-	db.AutoMigrate(&BlocoH.RegH005{})
-	db.AutoMigrate(&BlocoH.RegH010{})
-	db.AutoMigrate(&Models.Inventario{})
-	db.AutoMigrate(&NotaFiscal.Emitente{})
-	db.AutoMigrate(&NotaFiscal.Destinatario{})
-	db.AutoMigrate(&NotaFiscal.Item{})
-	db.AutoMigrate(&NotaFiscal.NotaFiscal{})
+	db.AutoMigrate(tables()...)
 
+	db.Model(&cupomfiscal.CfeItem{}).AddForeignKey("id_header", "cfe_headers(id)", "RESTRICT", "RESTRICT") //nolint:exhaustruct
 }
 
 func Drop(db *gorm.DB) {
-
 	// Drop the tables
-	db.DropTable(&Bloco0.Reg0000{})
-	db.DropTable(&Bloco0.Reg0150{})
-	db.DropTable(&Bloco0.Reg0190{})
-	db.DropTable(&Bloco0.Reg0200{})
-	db.DropTable(&Bloco0.Reg0220{})
-	db.DropTable(&BlocoC.RegC100{})
-	db.DropTable(&BlocoC.RegC170{})
-	db.DropTable(&BlocoC.RegC400{})
-	db.DropTable(&BlocoC.RegC405{})
-	db.DropTable(&BlocoC.RegC420{})
-	db.DropTable(&BlocoC.RegC425{})
-	db.DropTable(&BlocoC.RegC460{})
-	db.DropTable(&BlocoC.RegC465{})
-	db.DropTable(&BlocoC.RegC470{})
-	db.DropTable(&BlocoC.RegC490{})
-	db.DropTable(&BlocoC.RegC800{})
-	db.DropTable(&BlocoC.RegC860{})
-	db.DropTable(&BlocoC.RegC870{})
-	db.DropTable(&BlocoC.RegC890{})
-	db.DropTable(&BlocoH.RegH005{})
-	db.DropTable(&BlocoH.RegH010{})
-	db.DropTable(&Models.Inventario{})
-	db.DropTable(&NotaFiscal.Emitente{})
-	db.DropTable(&NotaFiscal.Destinatario{})
-	db.DropTable(&NotaFiscal.Item{})
-	db.DropTable(&NotaFiscal.NotaFiscal{})
-
+	db.DropTable(tables()...)
 }

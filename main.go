@@ -9,22 +9,25 @@ import (
 
 	"github.com/chapzin/parse-efd-fiscal/Controllers"
 	"github.com/chapzin/parse-efd-fiscal/SpedDB"
-	"github.com/chapzin/parse-efd-fiscal/SpedRead"
 	"github.com/chapzin/parse-efd-fiscal/config"
 	"github.com/chapzin/parse-efd-fiscal/pkg/worker"
+	"github.com/chapzin/parse-efd-fiscal/read"
 	"github.com/chapzin/parse-efd-fiscal/tools"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/tealeg/xlsx"
 )
 
-var schema = flag.Bool("schema", false, "Recria as tabelas")
-var importa = flag.Bool("importa", false, "Importa os xmls e speds ")
-var inventario = flag.Bool("inventario", false, "Fazer processamento do inventario")
-var anoInicial = flag.Int("anoInicial", 0, "Ano inicial do processamento do inventário")
-var anoFinal = flag.Int("anoFinal", 0, "Ano inicial do processamento do inventário")
-var excel = flag.Bool("excel", false, "Gera arquivo excel do inventario")
-var h010 = flag.Bool("h010", false, "Gera arquivo h010 e 0200 no layout sped para ser importado")
+var (
+	schema       = flag.Bool("schema", false, "Recria as tabelas")
+	importarSped = flag.Bool("importar-sped", false, "Importa os speds")
+	importarXml  = flag.Bool("importar-xml", false, "Importa os xmls")
+	inventario   = flag.Bool("inventario", false, "Fazer processamento do inventario")
+	anoInicial   = flag.Int("anoInicial", 0, "Ano inicial do processamento do inventário")
+	anoFinal     = flag.Int("anoFinal", 0, "Ano inicial do processamento do inventário")
+	excel        = flag.Bool("excel", false, "Gera arquivo excel do inventario")
+	h010         = flag.Bool("h010", false, "Gera arquivo h010 e 0200 no layout sped para ser importado")
+)
 
 func validateInventoryFlags(anoInicial, anoFinal int) error {
 	if anoInicial == 0 || anoFinal == 0 {
@@ -155,10 +158,21 @@ func main() {
 		SpedDB.Schema(db)
 	}
 
+	// Importa arquivos XML
+	if *importarXml {
+		log.Printf("Iniciando processamento de XML em %v", time.Now())
+
+		if err := read.RecursiveXmls(db, cfg.SpedsPath, cfg.DigitCode); err != nil {
+			log.Fatalf("erro ao processar XMLs: %v", err)
+		}
+		log.Printf("Final processamento em %v", time.Now())
+	}
+
 	// Importa arquivos SPED
-	if *importa {
-		log.Printf("Iniciando processamento em %v", time.Now())
-		if err := SpedRead.RecursiveSpeds(db, cfg.SpedsPath, cfg.DigitCode); err != nil {
+	if *importarSped {
+		log.Printf("Iniciando processamento de Sped em %v", time.Now())
+
+		if err := read.RecursiveSpeds(db, cfg.SpedsPath, cfg.DigitCode); err != nil {
 			log.Fatalf("erro ao processar SPEDs: %v", err)
 		}
 		log.Printf("Final processamento em %v", time.Now())
@@ -189,8 +203,8 @@ func main() {
 	// Processa H010 se necessário
 	if *h010 && *anoInicial != 0 {
 		log.Printf("Iniciando processamento H010 para o ano %d", *anoInicial)
-		//Controllers.CriarH010InvInicial(*anoInicial, db)
-		//Controllers.CriarH010InvFinal(*anoInicial, db)
+		// Controllers.CriarH010InvInicial(*anoInicial, db)
+		// Controllers.CriarH010InvFinal(*anoInicial, db)
 	} else if *h010 {
 		log.Fatal("Favor informar a tag ano. Exemplo: -ano=2016")
 	}

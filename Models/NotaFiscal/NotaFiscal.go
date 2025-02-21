@@ -1,15 +1,16 @@
 package NotaFiscal
 
 import (
-	"github.com/jinzhu/gorm"
 	"time"
+
+	"github.com/jinzhu/gorm"
 )
 
 // Estrutura da nota fiscal eletronica
 type NotaFiscal struct {
 	gorm.Model
 	NNF            string
-	ChNFe          string
+	ChNFe          string `gorm:"unique"`
 	NatOp          string
 	IndPag         string
 	Mod            string
