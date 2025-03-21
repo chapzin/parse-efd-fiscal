@@ -1,0 +1,114 @@
+# Cursor Rules for Parse-EFD-Fiscal
+
+## Padrões de Código
+
+1. **Nomenclatura de Pacotes**
+   - Utilize nomes significativos que reflitam o domínio do problema
+   - Exemplo: `Models/Bloco0`, `Controllers/repository`
+
+2. **Estrutura de Arquivos**
+   - Arquivos modelo devem estar no diretório `Models/`
+   - Controllers principais em `Controllers/`
+   - Repositórios em `Controllers/repository/`
+   - Serviços em `Controllers/service/`
+
+3. **Convenções de Naming**
+   - Structs e interfaces usam PascalCase: `RegC100`, `Inventario`
+   - Métodos e funções usam PascalCase: `ProcessarInventario`
+   - Variáveis locais usam camelCase: `itemNota`, `valorTotal`
+   - Constantes usam UPPER_SNAKE_CASE: `PLANILHA`, `BLOCO_C`
+
+4. **Tratamento de Erros**
+   - Utilizar wrapping de erros com contexto: `fmt.Errorf("erro ao processar: %v", err)`
+   - Logar em pontos estratégicos: `log.Printf("Iniciando processamento em %v", time.Now())`
+   - Retornar erros explícitos em funções públicas
+
+## Padrões Arquiteturais
+
+1. **Processamento em Fases**
+   - Operações complexas são divididas em fases (primeira, segunda, terceira)
+   - Cada fase possui pré-requisitos das fases anteriores
+   - Exemplo: `// Primeira fase`, `// Segunda fase`, etc. no processamento de inventário
+
+2. **Paralelismo com Workers**
+   - Utilizar `pkg/worker` para processamento paralelo
+   - Submeter tarefas independentes: `pool.Submit(func() { ... })`
+   - Aguardar conclusão com: `errs := pool.Wait()`
+
+3. **Dependency Injection**
+   - Passar dependências explicitamente como parâmetros
+   - Exemplo: `func ProcessarDiferencas(db *gorm.DB) {}`
+   - Facilitar testes através de interfaces para abstração de dependências
+
+## Conhecimento Específico do Domínio
+
+1. **Estrutura SPED**
+   - Blocos são separados por letras (Bloco 0, Bloco C, Bloco H)
+   - Registros seguem formato padrão: `REG|CAMPO1|CAMPO2|...|CAMPOn`
+   - Blocos importantes:
+     - Bloco 0: Abertura e identificação
+     - Bloco C: Documentos fiscais
+     - Bloco H: Inventário físico
+
+2. **Inventário**
+   - Processamento envolve cálculo de:
+     - Entradas = Soma de todas as entradas do período
+     - Saídas = Soma de todas as saídas do período
+     - Diferenças = (InventárioFinal) - (InventárioInicial + Entradas - Saídas)
+   - Análise por anos (Ano1, Ano2, ..., Ano6) para avaliação histórica
+
+3. **Notas Fiscais**
+   - XMLs NFe contêm detalhes completos de notas
+   - Itens de notas são mapeados para análise de movimentação
+   - É necessário tratamento para notas canceladas
+
+## Fluxos de Trabalho
+
+1. **Processo de Importação**
+   ```
+   1. Configurar banco de dados (.env)
+   2. Criar schema (parse-efd-fiscal -schema)
+   3. Importar SPEDs (parse-efd-fiscal -importar-sped)
+   4. Importar XMLs (parse-efd-fiscal -importar-xml)
+   ```
+
+2. **Análise de Inventário**
+   ```
+   1. Processar inventário (parse-efd-fiscal -inventario -anoInicial=2012 -anoFinal=2016)
+   2. Gerar Excel (parse-efd-fiscal -excel)
+   3. Analisar resultados (AnaliseInventario.xlsx)
+   ```
+
+## Preferências do Projeto
+
+1. **Logs**
+   - Incluir timestamps em logs de operações demoradas
+   - Logar início e fim de processos principais
+   - Incluir informações relevantes para diagnóstico
+
+2. **Banco de Dados**
+   - Preferência por MySQL
+   - Utilizar índices para campos frequentemente consultados
+   - Campos de valor numérico em DECIMAL(19,3) para precisão
+
+3. **Relatórios**
+   - Estrutura padronizada com cabeçalho e formatação
+   - Valores formatados com precisão de 3 casas decimais
+   - Destaque visual para inconsistências
+
+## Desafios Comuns
+
+1. **Problemas de Memória**
+   - Arquivos SPED podem ser muito grandes (varios MB)
+   - Processamento em lotes para grandes volumes
+   - Utilizar streaming para leitura de arquivos grandes
+
+2. **Performance de Consultas**
+   - Otimizar queries para análises complexas
+   - Utilizar JOINs eficientes
+   - Considerar índices para campos frequentemente filtrados
+
+3. **Consistência de Dados**
+   - Verificar inconsistências em arquivos de entrada
+   - Validar estrutura de registros SPED
+   - Tratar campos numéricos com precisão adequada 
