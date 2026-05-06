@@ -63,6 +63,7 @@ go build
 - Edite o arquivo .env e adicione as configurações de conexão do banco de dados mysql
 - Crie o banco de dados que pretende adicionar as informacoes dos xmls e speds
 - Adicione todos xmls próprios e speds do periodo onde pretende fazer a importação na pasta speds
+- Opcionalmente informe o CNPJ próprio com `CNPJ` no `.env` ou com a flag `-cnpj`. Quando informado, SPEDs/XMLs de outro contribuinte são ignorados na importação.
 
 - Criar estrutura do banco de dados
 ```
@@ -81,12 +82,22 @@ parse-efd-fiscal -importar-xml
 
 - Gerar inventário de um determinado ano (2016)
 ```
-parse-efd-fiscal -inventario -ano=2016
+parse-efd-fiscal -inventario -anoInicial=2016 -anoFinal=2016
+```
+
+- Gerar inventário de mais de um ano
+```
+parse-efd-fiscal -inventario -anoInicial=2012 -anoFinal=2016
 ```
 
 - Gerar relatório de inventário em Excel
 ```
 parse-efd-fiscal -excel
+```
+
+- Gerar arquivo no layout do SPED Fiscal para os inventários sugeridos
+```
+parse-efd-fiscal -h010 -anoInicial=2016
 ```
 
 Depois disso sera criado um arquivo com o nome AnaliseInventario.xlsx na pasta que foi executado.

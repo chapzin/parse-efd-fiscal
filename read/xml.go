@@ -16,7 +16,7 @@ import (
 var ErrInvalidXML = fmt.Errorf("arquivo XML inválido")
 
 // RecursiveXmls processa recursivamente arquivos XML em um diretório
-func RecursiveXmls(db *gorm.DB, path string, digito string) error {
+func RecursiveXmls(db *gorm.DB, path string, digito string, expectedCNPJ string) error {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		return fmt.Errorf("erro ao ler diretório: %v", err)
@@ -38,7 +38,7 @@ func RecursiveXmls(db *gorm.DB, path string, digito string) error {
 				defer pc.wg.Done()
 				defer func() { <-sem }()
 
-				if err := processXMLFile(pc, filepath.Join(path, file.Name())); err != nil {
+				if err := processXMLFile(pc, filepath.Join(path, file.Name()), expectedCNPJ); err != nil {
 					pc.errChan <- err
 				}
 			}(f)
@@ -60,7 +60,7 @@ func RecursiveXmls(db *gorm.DB, path string, digito string) error {
 }
 
 // processXMLFile processa um único arquivo XML
-func processXMLFile(pc *processControl, path string) error {
+func processXMLFile(pc *processControl, path string, expectedCNPJ string) error {
 	file, err := os.Open(path)
 	if err != nil {
 		return fmt.Errorf("erro ao abrir arquivo: %w", err)
@@ -82,6 +82,9 @@ func processXMLFile(pc *processControl, path string) error {
 		if err != nil {
 			return fmt.Errorf("erro ao popular struct: %w", err)
 		}
+		if !nfeBelongsToCNPJ(*nfe, expectedCNPJ) {
+			return nil
+		}
 
 		err = exec.InsertXmlNfe(pc.db, *nfe, pc.digito)
 		if err != nil {
@@ -94,6 +97,9 @@ func processXMLFile(pc *processControl, path string) error {
 		err := cfe.Popula(fileByte)
 		if err != nil {
 			return fmt.Errorf("erro ao popular struct: %w", err)
+		}
+		if !cfeBelongsToCNPJ(*cfe, expectedCNPJ) {
+			return nil
 		}
 
 		err = exec.InsertXmlCfe(pc.db, *cfe)
@@ -108,6 +114,20 @@ func processXMLFile(pc *processControl, path string) error {
 	}
 
 	return nil
+}
+
+func nfeBelongsToCNPJ(nfe NotaFiscal.NfeProc, expectedCNPJ string) bool {
+	if expectedCNPJ == "" {
+		return true
+	}
+	return normalizeCNPJ(nfe.NFe.InfNFe.Emit.CNPJ) == expectedCNPJ || normalizeCNPJ(nfe.NFe.InfNFe.Dest.CNPJ) == expectedCNPJ
+}
+
+func cfeBelongsToCNPJ(cfe cupomfiscal.CFeXML, expectedCNPJ string) bool {
+	if expectedCNPJ == "" {
+		return true
+	}
+	return normalizeCNPJ(cfe.InfCFe.Emit.CNPJ) == expectedCNPJ
 }
 
 // Funções auxiliares

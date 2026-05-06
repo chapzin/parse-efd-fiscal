@@ -1,6 +1,7 @@
 package Controllers
 
 import (
+	"os"
 	"strconv"
 	"sync"
 	"time"
@@ -10,6 +11,7 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoC"
 	"github.com/chapzin/parse-efd-fiscal/Models/BlocoH"
 	"github.com/chapzin/parse-efd-fiscal/Models/NotaFiscal"
+	"github.com/chapzin/parse-efd-fiscal/tools"
 	"github.com/fatih/color"
 	"github.com/jinzhu/gorm"
 	"github.com/tealeg/xlsx"
@@ -616,8 +618,7 @@ func ExcelMenu(sheet *xlsx.Sheet) {
 	ColunaAdd(menu, "DiferencasAno6")
 }
 
-/*
-func CriarH010InvInicial(ano int, db gorm.DB) {
+func CriarH010InvInicial(ano int, db *gorm.DB) {
 	ano = ano - 1
 	anoString := strconv.Itoa(ano)
 	var inv []Models.Inventario
@@ -628,7 +629,7 @@ func CriarH010InvInicial(ano int, db gorm.DB) {
 	}
 	defer f.Close()
 	for _, vInv := range inv {
-		if vInv.SugInvInicial > 0 {
+		if vInv.SugInvAno1 > 0 {
 			r0200 := Bloco0.Reg0200{
 				Reg:       "0200",
 				CodItem:   vInv.Codigo,
@@ -650,15 +651,15 @@ func CriarH010InvInicial(ano int, db gorm.DB) {
 	f.Sync()
 
 	for _, vInv2 := range inv {
-		if vInv2.SugInvInicial > 0 {
-			sugVlUnit := vInv2.SugVlInvInicial / vInv2.SugInvInicial
+		if vInv2.SugInvAno1 > 0 {
+			sugVlUnit := vInv2.SugVlInvAno1 / vInv2.SugInvAno1
 			h010 := BlocoH.RegH010{
 				Reg:     "H010",
 				CodItem: vInv2.Codigo,
 				Unid:    vInv2.UnidInv,
-				Qtd:     vInv2.SugInvInicial,
+				Qtd:     vInv2.SugInvAno1,
 				VlUnit:  sugVlUnit,
-				VlItem:  vInv2.SugVlInvInicial,
+				VlItem:  vInv2.SugVlInvAno1,
 				IndProp: "0",
 			}
 			linha := "|" + h010.Reg + "|" + h010.CodItem + "|" + h010.Unid + "|" +
@@ -671,11 +672,9 @@ func CriarH010InvInicial(ano int, db gorm.DB) {
 
 	}
 
-	w := bufio.NewWriter(f)
-	w.Flush()
 }
 
-func CriarH010InvFinal(ano int, db gorm.DB) {
+func CriarH010InvFinal(ano int, db *gorm.DB) {
 	anoString := strconv.Itoa(ano)
 	var inv []Models.Inventario
 	db.Find(&inv)
@@ -685,7 +684,8 @@ func CriarH010InvFinal(ano int, db gorm.DB) {
 	}
 	defer f.Close()
 	for _, vInv := range inv {
-		if vInv.SugInvFinal > 0 {
+		qtd, _ := sugestaoInventarioFinal(vInv)
+		if qtd > 0 {
 			r0200 := Bloco0.Reg0200{
 				Reg:       "0200",
 				CodItem:   vInv.Codigo,
@@ -707,15 +707,16 @@ func CriarH010InvFinal(ano int, db gorm.DB) {
 	f.Sync()
 
 	for _, vInv2 := range inv {
-		if vInv2.SugInvFinal > 0 {
-			sugVlUnit := vInv2.SugVlInvFinal / vInv2.SugInvFinal
+		qtd, valor := sugestaoInventarioFinal(vInv2)
+		if qtd > 0 {
+			sugVlUnit := valor / qtd
 			h010 := BlocoH.RegH010{
 				Reg:     "H010",
 				CodItem: vInv2.Codigo,
 				Unid:    vInv2.UnidInv,
-				Qtd:     vInv2.SugInvFinal,
+				Qtd:     qtd,
 				VlUnit:  sugVlUnit,
-				VlItem:  vInv2.SugVlInvFinal,
+				VlItem:  valor,
 				IndProp: "0",
 			}
 			linha := "|" + h010.Reg + "|" + h010.CodItem + "|" + h010.Unid + "|" +
@@ -728,8 +729,24 @@ func CriarH010InvFinal(ano int, db gorm.DB) {
 
 	}
 
-	w := bufio.NewWriter(f)
-	w.Flush()
 }
 
-*/
+func sugestaoInventarioFinal(inv Models.Inventario) (qtd, valor float64) {
+	sugestoes := []struct {
+		qtd   float64
+		valor float64
+	}{
+		{inv.SugInvAno6, inv.SugVlInvAno6},
+		{inv.SugInvAno5, inv.SugVlInvAno5},
+		{inv.SugInvAno4, inv.SugVlInvAno4},
+		{inv.SugInvAno3, inv.SugVlInvAno3},
+		{inv.SugInvAno2, inv.SugVlInvAno2},
+		{inv.SugInvAno1, inv.SugVlInvAno1},
+	}
+	for _, sugestao := range sugestoes {
+		if sugestao.qtd > 0 {
+			return sugestao.qtd, sugestao.valor
+		}
+	}
+	return 0, 0
+}

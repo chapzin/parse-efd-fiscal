@@ -27,6 +27,7 @@ type Config struct {
 	Worker    WorkerConfig
 	DigitCode string
 	SpedsPath string
+	CNPJ      string
 }
 
 // Valores padrão
@@ -56,7 +57,18 @@ func LoadConfig() (*Config, error) {
 		},
 		DigitCode: env.GetEnvOrDefault("DIGIT_CODE", "10"),
 		SpedsPath: env.GetEnvOrDefault("SPEDS_PATH", "./speds"),
+		CNPJ:      onlyDigits(env.GetEnvOrDefault("CNPJ", "")),
 	}, nil
+}
+
+func onlyDigits(value string) string {
+	digits := make([]rune, 0, len(value))
+	for _, r := range value {
+		if r >= '0' && r <= '9' {
+			digits = append(digits, r)
+		}
+	}
+	return string(digits)
 }
 
 func (c *Config) GetMySQLConnectionString() string {

@@ -27,6 +27,7 @@ var (
 	anoFinal     = flag.Int("anoFinal", 0, "Ano inicial do processamento do inventário")
 	excel        = flag.Bool("excel", false, "Gera arquivo excel do inventario")
 	h010         = flag.Bool("h010", false, "Gera arquivo h010 e 0200 no layout sped para ser importado")
+	cnpj         = flag.String("cnpj", "", "CNPJ do contribuinte para filtrar SPEDs/XMLs próprios")
 )
 
 func validateInventoryFlags(anoInicial, anoFinal int) error {
@@ -144,6 +145,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("Erro ao carregar configurações: %v", err)
 	}
+	expectedCNPJ := normalizeCNPJ(*cnpj)
+	if expectedCNPJ == "" {
+		expectedCNPJ = cfg.CNPJ
+	}
 
 	// Conecta ao banco de dados - conexão compartilhada
 	db, err := gorm.Open(cfg.DB.Dialect, cfg.GetMySQLConnectionString())
@@ -162,7 +167,7 @@ func main() {
 	if *importarXml {
 		log.Printf("Iniciando processamento de XML em %v", time.Now())
 
-		if err := read.RecursiveXmls(db, cfg.SpedsPath, cfg.DigitCode); err != nil {
+		if err := read.RecursiveXmls(db, cfg.SpedsPath, cfg.DigitCode, expectedCNPJ); err != nil {
 			log.Fatalf("erro ao processar XMLs: %v", err)
 		}
 		log.Printf("Final processamento em %v", time.Now())
@@ -172,7 +177,7 @@ func main() {
 	if *importarSped {
 		log.Printf("Iniciando processamento de Sped em %v", time.Now())
 
-		if err := read.RecursiveSpeds(db, cfg.SpedsPath, cfg.DigitCode); err != nil {
+		if err := read.RecursiveSpeds(db, cfg.SpedsPath, cfg.DigitCode, expectedCNPJ); err != nil {
 			log.Fatalf("erro ao processar SPEDs: %v", err)
 		}
 		log.Printf("Final processamento em %v", time.Now())
@@ -185,6 +190,8 @@ func main() {
 		}
 
 		log.Printf("Iniciando processamento do inventário em %v", time.Now())
+		warnMissingSpedPeriods(db, *anoInicial, *anoFinal)
+		warnNotaFiscalDivergences(db)
 		if err := processInventory(db, *anoInicial, *anoFinal); err != nil {
 			log.Fatalf("Erro no processamento do inventário: %v", err)
 		}
@@ -203,9 +210,75 @@ func main() {
 	// Processa H010 se necessário
 	if *h010 && *anoInicial != 0 {
 		log.Printf("Iniciando processamento H010 para o ano %d", *anoInicial)
-		// Controllers.CriarH010InvInicial(*anoInicial, db)
-		// Controllers.CriarH010InvFinal(*anoInicial, db)
+		Controllers.CriarH010InvInicial(*anoInicial, db)
+		Controllers.CriarH010InvFinal(*anoInicial, db)
 	} else if *h010 {
-		log.Fatal("Favor informar a tag ano. Exemplo: -ano=2016")
+		log.Fatal("Favor informar a tag anoInicial. Exemplo: -anoInicial=2016")
+	}
+}
+
+func normalizeCNPJ(value string) string {
+	digits := make([]rune, 0, len(value))
+	for _, r := range value {
+		if r >= '0' && r <= '9' {
+			digits = append(digits, r)
+		}
+	}
+	return string(digits)
+}
+
+func warnMissingSpedPeriods(db *gorm.DB, anoInicial, anoFinal int) {
+	for ano := anoInicial; ano <= anoFinal; ano++ {
+		for mes := 1; mes <= 12; mes++ {
+			if !spedPeriodExists(db, ano, mes) {
+				log.Printf("ATENÇÃO: não foi encontrado SPED importado para %04d-%02d", ano, mes)
+			}
+		}
+	}
+	anoInventarioFinal := anoFinal + 1
+	if !spedPeriodExists(db, anoInventarioFinal, 2) {
+		log.Printf("ATENÇÃO: não foi encontrado SPED de fevereiro/%04d para inventário final", anoInventarioFinal)
+	}
+}
+
+func spedPeriodExists(db *gorm.DB, ano, mes int) bool {
+	var count int
+	start := fmt.Sprintf("%04d-%02d-01", ano, mes)
+	end := fmt.Sprintf("%04d-%02d-31", ano, mes)
+	err := db.Table("reg_0000").Where("dt_ini >= ? AND dt_ini <= ?", start, end).Count(&count).Error
+	if err != nil {
+		log.Printf("ATENÇÃO: não foi possível validar período SPED %04d-%02d: %v", ano, mes, err)
+		return true
+	}
+	return count > 0
+}
+
+func warnNotaFiscalDivergences(db *gorm.DB) {
+	var missingXML int
+	if err := db.Raw(`
+		SELECT COUNT(*)
+		FROM reg_c100 c
+		LEFT JOIN nota_fiscals n ON n.ch_n_fe = c.chv_nfe
+		WHERE c.chv_nfe <> '' AND n.id IS NULL
+	`).Row().Scan(&missingXML); err != nil {
+		log.Printf("ATENÇÃO: não foi possível validar notas SPED x XML: %v", err)
+		return
+	}
+	if missingXML > 0 {
+		log.Printf("ATENÇÃO: existem %d notas no SPED sem XML importado correspondente", missingXML)
+	}
+
+	var missingSPED int
+	if err := db.Raw(`
+		SELECT COUNT(*)
+		FROM nota_fiscals n
+		LEFT JOIN reg_c100 c ON c.chv_nfe = n.ch_n_fe
+		WHERE n.ch_n_fe <> '' AND c.id IS NULL
+	`).Row().Scan(&missingSPED); err != nil {
+		log.Printf("ATENÇÃO: não foi possível validar notas XML x SPED: %v", err)
+		return
+	}
+	if missingSPED > 0 {
+		log.Printf("ATENÇÃO: existem %d XMLs importados sem nota correspondente no SPED", missingSPED)
 	}
 }
