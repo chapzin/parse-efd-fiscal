@@ -14,8 +14,8 @@ func TestConvInt(t *testing.T) {
 
 func TestFloatToString(t *testing.T) {
 	v := FloatToString(3.5)
-	if v != "3.5" {
-		t.Error("Esperado um retorno string ", v)
+	if v != "3.50" {
+		t.Error("Esperado um retorno string com duas casas decimais ", v)
 	}
 }
 
