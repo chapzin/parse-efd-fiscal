@@ -1,4 +1,44 @@
 .idea/
 .vscode/
+
+# Ambiente e segredos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+
+# Dados fiscais sensíveis e entradas locais
 speds/
 testes/
+xmls/
+sped/
+*.xml
+*.XML
+*.txt
+!SpedInvInicial.txt
+!SpedInvFinal.txt
+
+# Bancos e dumps locais
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+*.dump
+
+# Relatórios/planilhas geradas localmente
+AnaliseInventario*.xlsx
+NovoModeloAnaliseInventario.xlsx
+*.xls
+*.xlsx
+!docs/**/*.xlsx
+
+# Binários e artefatos Go
+/parse-efd-fiscal
+*.test
+coverage.out
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

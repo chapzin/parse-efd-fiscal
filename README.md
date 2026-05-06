@@ -59,6 +59,18 @@ Acessar pasta do projeto
 go build
 ```
 
+## Validação para desenvolvimento
+
+Antes de enviar alterações, execute:
+
+```
+go test ./...
+go build ./...
+go test -race ./...
+```
+
+O repositório também possui GitHub Actions para testes, build, race detector e `govulncheck`.
+
 ## Como utilizar
 - Edite o arquivo .env e adicione as configurações de conexão do banco de dados mysql
 - Crie o banco de dados que pretende adicionar as informacoes dos xmls e speds
@@ -107,6 +119,13 @@ Você também pode usar o Docker para subir o banco de dados. Para isso, execute
 ```
 docker-compose -f docker/docker-compose.yml --env-file .env up -d
 ```
+
+## Segurança e dados fiscais
+
+- Copie `.env.example` para `.env` e nunca commite `.env` real.
+- Não commite SPEDs, XMLs, planilhas, dumps de banco ou logs com dados fiscais reais.
+- Use apenas fixtures sintéticas em testes e issues públicos.
+- Consulte `SECURITY.md` para a política completa.
 
 ## Funcionalidades que serão desenvolvidas no sistema:
 - Importar todos Speds e Xmls de um determinado CNPJ para um banco de dados relacional;
