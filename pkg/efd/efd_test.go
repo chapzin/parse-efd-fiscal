@@ -1,6 +1,7 @@
 package efd
 
 import (
+	"bytes"
 	"context"
 	"strings"
 	"testing"
@@ -37,5 +38,19 @@ func TestParseAndValidateCanceledContext(t *testing.T) {
 	_, _, err := ParseAndValidate(ctx, strings.NewReader(""), ParseOptions{}, ValidateOptions{})
 	if err == nil {
 		t.Fatal("esperava erro de contexto cancelado")
+	}
+}
+
+func TestSerializePublicAPI(t *testing.T) {
+	doc, err := Parse(strings.NewReader("|0000|019|0|\n"), ParseOptions{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	var out bytes.Buffer
+	if err := Serialize(&out, doc, SerializeOptions{}); err != nil {
+		t.Fatal(err)
+	}
+	if out.String() != "|0000|019|0|\n" {
+		t.Fatalf("Serialize API = %q", out.String())
 	}
 }

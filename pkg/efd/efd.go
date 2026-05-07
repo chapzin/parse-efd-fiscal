@@ -8,6 +8,7 @@ import (
 	"github.com/chapzin/parse-efd-fiscal/pkg/efd/diagnostic"
 	"github.com/chapzin/parse-efd-fiscal/pkg/efd/layout"
 	"github.com/chapzin/parse-efd-fiscal/pkg/efd/parser"
+	"github.com/chapzin/parse-efd-fiscal/pkg/efd/serializer"
 	"github.com/chapzin/parse-efd-fiscal/pkg/efd/validator"
 )
 
@@ -16,6 +17,9 @@ type ParseOptions = parser.Options
 
 // ValidateOptions configura validações estruturais e de catálogo.
 type ValidateOptions = validator.Options
+
+// SerializeOptions configura a escrita de documentos EFD.
+type SerializeOptions = serializer.Options
 
 // Document representa um arquivo EFD parseado sem dependência de banco de dados.
 type Document = parser.Document
@@ -45,6 +49,11 @@ func Parse(r io.Reader, opts ParseOptions) (*Document, error) {
 // Validate valida um documento parseado usando as opções informadas.
 func Validate(doc *Document, opts ValidateOptions) Report {
 	return validator.Validate(doc, opts)
+}
+
+// Serialize escreve um documento EFD. Opcionalmente reconstrói o Bloco 9.
+func Serialize(w io.Writer, doc *Document, opts SerializeOptions) error {
+	return serializer.Serialize(w, doc, opts)
 }
 
 // ParseAndValidate lê e valida um arquivo EFD em uma única chamada.

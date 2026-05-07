@@ -47,6 +47,18 @@ A API já integra:
 - detecção UTF-8/Latin-1;
 - catálogo mínimo de registros essenciais;
 - validação estrutural de campos, tipos e Bloco 9 inicial.
+- serialização de documentos EFD, com opção de reconstruir o Bloco 9.
+
+## Serialização com reconstrução do Bloco 9
+
+```go
+err := efd.Serialize(out, doc, efd.SerializeOptions{RebuildBlock9: true})
+if err != nil {
+    panic(err)
+}
+```
+
+Quando `RebuildBlock9` está ativo, o serializer remove registros do Bloco 9 existentes e gera novos registros `9001`, `9900`, `9990` e `9999` com as contagens atuais do documento.
 
 Próximos passos do roadmap:
 
