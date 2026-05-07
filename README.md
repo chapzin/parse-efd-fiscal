@@ -71,6 +71,16 @@ go test -race ./...
 
 O repositório também possui GitHub Actions para testes, build, race detector e `govulncheck`.
 
+## Uso como biblioteca Go
+
+Além do CLI legado, o projeto agora começa a expor uma API pública em `pkg/efd` para parse e validação sem dependência de banco de dados:
+
+```go
+doc, report, err := efd.ParseAndValidate(ctx, reader, efd.ParseOptions{}, efd.ValidateOptions{ValidateBlock9: true})
+```
+
+Veja `docs/roadmap/LIBRARY_USAGE.md` para um exemplo completo.
+
 ## Como utilizar
 - Edite o arquivo .env e adicione as configurações de conexão do banco de dados mysql
 - Crie o banco de dados que pretende adicionar as informacoes dos xmls e speds
